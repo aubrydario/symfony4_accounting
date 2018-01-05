@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="content">
+        <h1>Kunden Liste</h1>
+        <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
+
+        <table class="table table-striped" id="searchTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Geschlecht</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Email</th>
+                <th>Telefon Privat</th>
+                <th>Telefon Mobile</th>
+                <th>Strasse</th>
+                <th>Ort</th>
+                <th>PLZ</th>
+                <th>Start Datum</th>
+                <th>End Datum</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.gender }}</td>
+                    <td>{{ customer.firstname }}</td>
+                    <td>{{ customer.surname }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.telPrivat }}</td>
+                    <td>{{ customer.telMobile }}</td>
+                    <td>{{ customer.street }} {{ customer.streetNr }}</td>
+                    <td>{{ customer.city }}</td>
+                    <td>{{ customer.plz }}</td>
+                    <td>{{ customer.startDate|date('d-m-Y') }}</td>
+                    <td>{{ customer.endDate|date('d-m-Y') }}</td>
+                    <td><a href=""><i class="fa fa-pencil"></i></a></td>
+                    <td><a href=""><i class="fa fa-trash red"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addCustomerModal">Kunde hinzufügen</button>
+
+        <!-- Modal -->
+        <div id="addCustomerModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Kunde hinzufügen</h4>
+                    </div>
+                    <div class="modal-body">
+                        {#
+                        {{ form_start(newCustomerForm, {'attr': {'id': 'addCustomerForm'}}) }}
+                        {{ form_widget(newCustomerForm) }}
+                        {{ form_end(newCustomerForm) }}#}
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-default" name="submit" type="submit" form="addCustomerForm" value="Hinzufügen"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <script src="{{ asset('build/search.js') }}" async defer></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{
+  "name": "symfony4_accounting",
+  "version": "1.0.0",
+  "description": "Symfony Standard Edition",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/encore dev --watch"
+  },
+  "author": "Dario Aubry",
+  "license": "ISC",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.17.0",
+    "bootstrap-sass": "^3.3.7",
+    "jquery": "^3.2.1",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.1",
+    "font-awesome": "^4.7.0"
+  }
+}
