@@ -58,10 +58,9 @@
                         <h4 class="modal-title">Kunde hinzufügen</h4>
                     </div>
                     <div class="modal-body">
-                        {#
                         {{ form_start(newCustomerForm, {'attr': {'id': 'addCustomerForm'}}) }}
                         {{ form_widget(newCustomerForm) }}
-                        {{ form_end(newCustomerForm) }}#}
+                        {{ form_end(newCustomerForm) }}
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-default" name="submit" type="submit" form="addCustomerForm" value="Hinzufügen"/>

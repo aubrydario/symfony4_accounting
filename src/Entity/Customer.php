@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity
  */
@@ -117,7 +118,7 @@ class Customer
     /**
      * @return string
      */
-    public function getGender(): string {
+    public function getGender(): ?string {
         return $this->gender;
     }
 
@@ -131,7 +132,7 @@ class Customer
     /**
      * @return string
      */
-    public function getFirstname(): string {
+    public function getFirstname(): ?string {
         return $this->firstname;
     }
 
@@ -145,7 +146,7 @@ class Customer
     /**
      * @return string
      */
-    public function getSurname(): string {
+    public function getSurname(): ?string {
         return $this->surname;
     }
 
@@ -159,7 +160,7 @@ class Customer
     /**
      * @return string
      */
-    public function getEmail(): string {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
@@ -173,7 +174,7 @@ class Customer
     /**
      * @return string
      */
-    public function getTelprivat(): string {
+    public function getTelprivat(): ?string {
         return $this->telprivat;
     }
 
@@ -187,7 +188,7 @@ class Customer
     /**
      * @return string
      */
-    public function getTelmobile(): string {
+    public function getTelmobile(): ?string {
         return $this->telmobile;
     }
 
@@ -201,7 +202,7 @@ class Customer
     /**
      * @return string
      */
-    public function getStreet(): string {
+    public function getStreet(): ?string {
         return $this->street;
     }
 
@@ -215,7 +216,7 @@ class Customer
     /**
      * @return int
      */
-    public function getStreetnr(): int {
+    public function getStreetnr(): ?int {
         return $this->streetnr;
     }
 
@@ -229,7 +230,7 @@ class Customer
     /**
      * @return string
      */
-    public function getCity(): string {
+    public function getCity(): ?string {
         return $this->city;
     }
 
@@ -243,7 +244,7 @@ class Customer
     /**
      * @return int
      */
-    public function getPlz(): int {
+    public function getPlz(): ?int {
         return $this->plz;
     }
 
@@ -257,7 +258,7 @@ class Customer
     /**
      * @return \DateTime
      */
-    public function getStartdate(): \DateTime {
+    public function getStartdate(): ?\DateTime {
         return $this->startdate;
     }
 
@@ -271,7 +272,7 @@ class Customer
     /**
      * @return \DateTime
      */
-    public function getEnddate(): \DateTime {
+    public function getEnddate(): ?\DateTime {
         return $this->enddate;
     }
 
