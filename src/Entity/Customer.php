@@ -104,17 +104,17 @@ class Customer
     private $enddate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="customer", fetch="EAGER")
      */
     private $transactions;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     /**
-     * @return Collection|Product[]
+     * @return Collection|Transaction[]
      */
     public function getTransactions() {
         return $this->transactions;
