@@ -26,9 +26,15 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="transactions", fetch="EAGER")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn
      */
     private $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="transactions", fetch="EAGER")
+     * @ORM\JoinColumn
+     */
+    private $abo;
 
     /**
      * @return mixed
@@ -70,5 +76,19 @@ class Transaction
      */
     public function setCustomer($customer): void {
         $this->customer = $customer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAbo() {
+        return $this->abo;
+    }
+
+    /**
+     * @param mixed $abo
+     */
+    public function setAbo($abo): void {
+        $this->abo = $abo;
     }
 }
