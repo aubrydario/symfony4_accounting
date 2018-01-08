@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 
 /**
@@ -100,6 +102,30 @@ class Customer
      * @ORM\Column(name="endDate", type="date", nullable=true)
      */
     private $enddate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="customer")
+     */
+    private $transactions;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getTransactions() {
+        return $this->transactions;
+    }
+
+    /**
+     * @param mixed $transactions
+     */
+    public function setTransactions($transactions): void {
+        $this->transactions = $transactions;
+    }
 
     /**
      * @return mixed
