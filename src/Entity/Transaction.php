@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
  */
 class Transaction
 {
@@ -25,13 +25,13 @@ class Transaction
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="transactions", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="transactions")
      * @ORM\JoinColumn
      */
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="transactions", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="transactions")
      * @ORM\JoinColumn
      */
     private $abo;

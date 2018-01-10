@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Transaction;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DashboardController extends Controller
 {
@@ -14,14 +17,18 @@ class DashboardController extends Controller
      */
     public function dashboardAction()
     {
-        $transaction = $this->getDoctrine()
+        $transactions = $this->getDoctrine()
             ->getRepository(Transaction::class)
-            ->find(1);
+            ->findAllTransactions();
 
-        dump($transaction);
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
 
-        return $this->render('default/dashboard.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonTransactions = $serializer->serialize($transactions, 'json');
+
+        dump($jsonTransactions);
+
+        return $this->render('default/dashboard.html.twig');
     }
 }

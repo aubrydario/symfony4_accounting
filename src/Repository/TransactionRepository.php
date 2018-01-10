@@ -13,16 +13,13 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
-    /*
-    public function findBySomething($value)
+    public function findAllTransactions(): array
     {
         return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('t.date', 'c.firstname', 'c.surname', 'a.name', 'a.price')
+            ->innerjoin('t.customer', 'c')
+            ->innerjoin('t.abo', 'a')
             ->getQuery()
-            ->getResult()
-        ;
+            ->execute();
     }
-    */
 }
