@@ -16,14 +16,16 @@ class BillFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add('date', DateType::class, [
-                'label' => 'Datum:',
+                'label' => 'Datum: ',
                 'widget' => 'single_text'
             ])
             ->add('customer', EntityType::class, [
+                'label' => 'Kunde: ',
                 'class' => Customer::class,
                 'choice_label' => 'firstname'
             ])
             ->add('abo', EntityType::class, [
+                'label' => 'Abo: ',
                 'class' => Abo::class,
                 'choice_label' => 'name'
             ]);
