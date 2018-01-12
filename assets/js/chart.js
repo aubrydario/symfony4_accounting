@@ -2,18 +2,18 @@ import Chart from 'chart.js';
 
 let sumedUpDates = [];
 let prices = [];
-/*
+
 const request = new XMLHttpRequest();
-request.open('GET', 'http://localhost:3000/accounting/transactions.json');
+request.open('GET', 'http://localhost:8000/api/transactions');
 request.responseType = 'json';
 request.send();
 request.onload = function() {
-    const transactions = request.response.transactions;
+    const transactions = request.response;
 
     // sort array by date
     transactions.sort((a, b) => {
-        let c = new Date(a.date);
-        let d = new Date(b.date);
+        let c = new Date(a.date.date);
+        let d = new Date(b.date.date);
         return c-d;
     });
 
@@ -25,8 +25,8 @@ request.onload = function() {
         let sum = 0;
 
         transactions.forEach(t => {
-            if(t.date.substring(0, 7) === date.substring(0, 7)) {
-                sum += parseInt(t.aboPrice);
+            if(t.date.date.substring(0, 7) === date.substring(0, 7)) {
+                sum += parseInt(t.price);
             }
         });
 
@@ -35,10 +35,12 @@ request.onload = function() {
     }
 
     transactions.forEach(t => {
-        if(!isDateSumedUp(t.date)) {
-            sumUpDate(t.date);
+        if(!isDateSumedUp(t.date.date)) {
+            sumUpDate(t.date.date);
         }
     });
+
+    console.log(prices);
 
     chart.update();
 };
@@ -90,4 +92,3 @@ const chart = new Chart(ctx, {
         }
     }
 });
-*/
