@@ -51,12 +51,22 @@ const chart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: sumedUpDates,
-        datasets: [{
-            label: 'Einnahmen in Fr.',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            data: prices
-        }]
+        datasets: [
+            {
+                label: 'Einnahmen in Fr.',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                data: prices
+            },
+            {
+                label: 'Ausgaben in Fr.',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                borderColor: 'rgba(255, 0, 0, 1)',
+                data: [
+                    234, 500, 134, 50
+                ]
+            }
+        ]
     },
     options: {
         responsive: true,
