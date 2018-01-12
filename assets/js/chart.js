@@ -1,4 +1,7 @@
 import Chart from 'chart.js';
+import moment from 'moment';
+
+moment.locale('de-ch');
 
 let sumedUpDates = [];
 let prices = [];
@@ -18,19 +21,19 @@ request.onload = function() {
     });
 
     function isDateSumedUp(date) {
-        return sumedUpDates.indexOf(date.substring(0, 7)) !== -1;
+        return sumedUpDates.indexOf(moment(date).format('MMMM YY')) !== -1;
     }
 
     function sumUpDate(date) {
         let sum = 0;
 
         transactions.forEach(t => {
-            if(t.date.date.substring(0, 7) === date.substring(0, 7)) {
+            if(moment(t.date.date).format('MMMM YY') === moment(date).format('MMMM YY')) {
                 sum += parseInt(t.price);
             }
         });
 
-        sumedUpDates.push(date.substring(0, 7));
+        sumedUpDates.push(moment(date).format('MMMM YY'));
         prices.push(sum);
     }
 
@@ -39,8 +42,6 @@ request.onload = function() {
             sumUpDate(t.date.date);
         }
     });
-
-    console.log(prices);
 
     chart.update();
 };
