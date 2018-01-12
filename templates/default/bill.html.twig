@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="content">
+        <h1>Rechnungen</h1>
+        <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
+
+        <table class="table table-striped" id="searchTable" style="width: 500px">
+            <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Name</th>
+                <th>Betrag</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bill in bills %}
+                <tr>
+                    <td>{{ bill.date|date('d-m-Y') }}</td>
+                    <td>{{ bill.firstname }} {{ bill.surname }}</td>
+                    <td>{{ bill.name }}: {{ bill.price }}Fr.</td>
+                    <td><a href=""><i class="fa fa-pencil"></i></a></td>
+                    <td><a href=""><i class="fa fa-trash red"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBillModal">Neue Rechnung erstellen</button>
+
+        <!-- Modal -->
+        <div id="addBillModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Rechnung erstellen</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(newBillForm, {'attr': {'id': 'addBillForm'}}) }}
+                        {{ form_widget(newBillForm) }}
+                        {{ form_end(newBillForm) }}
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-default" name="submit" type="submit" form="addBillForm" value="Hinzufügen"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <script src="{{ asset('build/search.js') }}" async defer></script>
+{% endblock %}
