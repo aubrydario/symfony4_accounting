@@ -15,21 +15,18 @@ class BillController extends Controller
      */
     public function billAction(Request $request)
     {
-        $bills = $this->getDoctrine()
-            ->getRepository(Transaction::class)
-            ->findAllTransactions();
-
         $form = $this->createForm(BillFormType::class);
-
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $bill = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($bill);
             $em->flush();
-
-            //return $this->redirectToRoute('dashboard');
         }
+
+        $bills = $this->getDoctrine()
+            ->getRepository(Transaction::class)
+            ->findAllTransactions();
 
         return $this->render('default/bill.html.twig', [
             'bills' => $bills,
