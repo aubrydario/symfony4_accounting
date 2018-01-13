@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
 class Customer
 {
