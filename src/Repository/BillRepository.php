@@ -16,7 +16,7 @@ class BillRepository extends ServiceEntityRepository
     public function findAllBills(): array
     {
         return $this->createQueryBuilder('b')
-            ->select('b.id, b.date', 'c.firstname', 'c.surname', 'a.name', 'a.price')
+            ->select('b.id, b.date', 'c.firstname', 'c.surname', 'a.name', 'a.price AS amount')
             ->innerjoin('b.customer', 'c')
             ->innerjoin('b.abo', 'a')
             ->orderBy('b.date', 'desc')

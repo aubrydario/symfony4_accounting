@@ -56,7 +56,7 @@ class Payment
     /**
      * @return \DateTime
      */
-    public function getDate(): \DateTime
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
@@ -72,7 +72,7 @@ class Payment
     /**
      * @return int
      */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
@@ -88,7 +88,7 @@ class Payment
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

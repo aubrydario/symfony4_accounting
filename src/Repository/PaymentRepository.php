@@ -13,16 +13,13 @@ class PaymentRepository extends ServiceEntityRepository
         parent::__construct($registry, Payment::class);
     }
 
-    /*
-    public function findBySomething($value)
+
+    public function findAllPayments()
     {
         return $this->createQueryBuilder('p')
-            ->where('p.something = :value')->setParameter('value', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('p.id, p.date, p.amount, p.description')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 }

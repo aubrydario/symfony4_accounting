@@ -6,15 +6,9 @@ moment.locale('de-ch');
 let sumedUpDates = [];
 let prices = [];
 
-const request = new XMLHttpRequest();
-request.open('GET', 'http://localhost:8000/api/bills');
-request.responseType = 'json';
-request.send();
-request.onload = function() {
-    const transactions = request.response;
-
-    // sort array by date
-    transactions.sort((a, b) => {
+function getSortedData(bills) {
+// sort array by date
+    bills.sort((a, b) => {
         let c = new Date(a.date.date);
         let d = new Date(b.date.date);
         return c-d;
@@ -27,9 +21,9 @@ request.onload = function() {
     function sumUpDate(date) {
         let sum = 0;
 
-        transactions.forEach(t => {
+        bills.forEach(t => {
             if(moment(t.date.date).format('MMMM YYYY') === moment(date).format('MMMM YYYY')) {
-                sum += parseInt(t.price);
+                sum += parseInt(t.amount);
             }
         });
 
@@ -37,13 +31,22 @@ request.onload = function() {
         prices.push(sum);
     }
 
-    transactions.forEach(t => {
+    bills.forEach(t => {
         if(!isDateSumedUp(t.date.date)) {
             sumUpDate(t.date.date);
         }
     });
 
     chart.update();
+}
+
+const requestBills = new XMLHttpRequest();
+requestBills.open('GET', 'http://localhost:8000/api/bills');
+requestBills.responseType = 'json';
+requestBills.send();
+requestBills.onload = () => {
+    const bills = requestBills.response;
+    getSortedData(bills);
 };
 
 const ctx = document.getElementById('chart').getContext('2d');
