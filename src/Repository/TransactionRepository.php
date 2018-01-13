@@ -16,9 +16,10 @@ class TransactionRepository extends ServiceEntityRepository
     public function findAllTransactions(): array
     {
         return $this->createQueryBuilder('t')
-            ->select('t.date', 'c.firstname', 'c.surname', 'a.name', 'a.price')
+            ->select('t.id, t.date', 'c.firstname', 'c.surname', 'a.name', 'a.price')
             ->innerjoin('t.customer', 'c')
             ->innerjoin('t.abo', 'a')
+            ->orderBy('t.date', 'desc')
             ->getQuery()
             ->execute();
     }

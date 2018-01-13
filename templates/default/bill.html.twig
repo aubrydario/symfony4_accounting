@@ -8,6 +8,7 @@
         <table class="table table-striped" id="searchTable" style="width: 500px">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Datum</th>
                 <th>Name</th>
                 <th>Betrag</th>
@@ -16,20 +17,41 @@
             <tbody>
             {% for bill in bills %}
                 <tr>
-                    <td>{{ bill.date|date('d-m-Y') }}</td>
+                    <td>{{ bill.id }}</td>
+                    <td>{{ bill.date|date('d.m.Y') }}</td>
                     <td>{{ bill.firstname }} {{ bill.surname }}</td>
                     <td>{{ bill.name }}: {{ bill.price }}Fr.</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href=""><i class="fa fa-trash red"></i></a></td>
+                    <td><a href="" data-toggle="modal" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        <!-- Delete Bill Modal -->
+        <div id="deleteBillModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Rechnung löschen</h4>
+                    </div>
+                    <div class="modal-body">
+                        Wollen Sie diese Rechnung löschen?
+
+                        <button type="button" class="btn btn-default">Ja</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBillModal">Neue Rechnung erstellen</button>
 
-        <!-- Modal -->
+        <!-- Create Bill Modal -->
         <div id="addBillModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
