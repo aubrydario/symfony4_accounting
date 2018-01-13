@@ -7,7 +7,7 @@ let sumedUpDates = [];
 let prices = [];
 
 const request = new XMLHttpRequest();
-request.open('GET', 'http://localhost:8000/api/transactions');
+request.open('GET', 'http://localhost:8000/api/bills');
 request.responseType = 'json';
 request.send();
 request.onload = function() {

@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Abo;
 use App\Entity\Customer;
-use App\Entity\Transaction;
+use App\Entity\Bill;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -33,7 +33,7 @@ class BillFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
-            'data_class' => Transaction::class
+            'data_class' => Bill::class
         ]);
     }
 

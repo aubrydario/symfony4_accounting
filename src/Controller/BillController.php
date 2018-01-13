@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Transaction;
+use App\Entity\Bill;
 use App\Form\BillFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,8 +25,8 @@ class BillController extends Controller
         }
 
         $bills = $this->getDoctrine()
-            ->getRepository(Transaction::class)
-            ->findAllTransactions();
+            ->getRepository(Bill::class)
+            ->findAllBills();
 
         return $this->render('default/bill.html.twig', [
             'bills' => $bills,

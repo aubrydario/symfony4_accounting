@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Transaction;
+use App\Entity\Bill;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,14 +20,14 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/api/transactions")
+     * @Route("/api/bills")
      * @Method("GET")
      */
-    public function getTransactionsAction()
+    public function getBillsAction()
     {
         $transactions = $this->getDoctrine()
-            ->getRepository(Transaction::class)
-            ->findAllTransactions();
+            ->getRepository(Bill::class)
+            ->findAllBills();
 
         return new JsonResponse($transactions);
     }
