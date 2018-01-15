@@ -3,71 +3,97 @@ import moment from 'moment';
 
 moment.locale('de-ch');
 
-let sumedUpDates = [];
-let prices = [];
-
-function getSortedData(bills) {
-// sort array by date
-    bills.sort((a, b) => {
-        let c = new Date(a.date.date);
-        let d = new Date(b.date.date);
-        return c-d;
+function getBills() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/bills",
+        async: true,
+        contentType: "application/json; charset=utf-8"
     });
+}
 
-    function isDateSumedUp(date) {
-        return sumedUpDates.indexOf(moment(date).format('MMMM YYYY')) !== -1;
+function getPayments() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/payments",
+        async: true,
+        contentType: "application/json; charset=utf-8"
+    });
+}
+
+let monthCount = 12;
+let billsAmountPerMonth = [];
+let paymentsAmountPerMonth = [];
+
+for(let i = 0 ; i < monthCount ; i++) {
+    billsAmountPerMonth.push(0);
+    paymentsAmountPerMonth.push(0);
+}
+
+//GET LABELS FOR THE LAST SIX MONTHS
+function getLables() {
+    const today = new Date();
+    let d;
+    let months = [];
+
+    for(let i = monthCount - 1 ; i >= 0; i -= 1) {
+        d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        months.push(moment().month(d.getMonth()).format('MMMM'));
     }
 
-    function sumUpDate(date) {
-        let sum = 0;
+    return months;
+}
 
-        bills.forEach(t => {
-            if(moment(t.date.date).format('MMMM YYYY') === moment(date).format('MMMM YYYY')) {
-                sum += parseInt(t.amount);
+// Trigger when both Ajax requests are done
+$.when(getBills(), getPayments()).done((bills, payments) => {
+
+    const today = new Date();
+    let monthBefore = new Date(today.getFullYear(), today.getMonth() - monthCount, 1).getMonth();
+
+    bills[0].forEach(b => {
+        if(parseInt(moment(b.date.date).format('M')) - 1 <= today.getMonth() || parseInt(moment(b.date.date).format('M')) - 1 > monthBefore) {
+            if(parseInt(moment(b.date.date).format('M')) - monthCount - 2 < 0) {
+                let diff = parseInt(moment(b.date.date).format('M')) - monthCount - 2;
+                billsAmountPerMonth[12 + diff] += b.amount;
+            } else {
+                billsAmountPerMonth[parseInt(moment(b.date.date).format('M')) - monthCount - 2] += b.amount;
             }
-        });
-
-        sumedUpDates.push(moment(date).format('MMMM YYYY'));
-        prices.push(sum);
-    }
-
-    bills.forEach(t => {
-        if(!isDateSumedUp(t.date.date)) {
-            sumUpDate(t.date.date);
         }
     });
 
-    chart.update();
-}
+    payments[0].forEach(p => {
+        if(parseInt(moment(p.date.date).format('M')) - 1 <= today.getMonth() || parseInt(moment(p.date.date).format('M')) - 1 > monthBefore) {
+            if(parseInt(moment(p.date.date).format('M')) - monthCount - 2 < 0) {
+                let diff = parseInt(moment(p.date.date).format('M')) - monthCount - 2;
+                paymentsAmountPerMonth[12 + diff] += p.amount;
+            } else {
+                paymentsAmountPerMonth[parseInt(moment(p.date.date).format('M')) - monthCount - 2] += p.amount;
+            }
+        }
+    });
 
-const requestBills = new XMLHttpRequest();
-requestBills.open('GET', 'http://localhost:8000/api/bills');
-requestBills.responseType = 'json';
-requestBills.send();
-requestBills.onload = () => {
-    const bills = requestBills.response;
-    getSortedData(bills);
-};
+    billsAndPaymentsChart.update();
+});
 
-const ctx = document.getElementById('chart').getContext('2d');
-const chart = new Chart(ctx, {
+const billsAndPaymentsChartCtx = document.getElementById('billsAndPaymentsChart').getContext('2d');
+const billsAndPaymentsChart = new Chart(billsAndPaymentsChartCtx, {
     type: 'line',
     data: {
-        labels: sumedUpDates,
+        labels: getLables(),
         datasets: [
             {
                 label: 'Einnahmen in Fr.',
                 backgroundColor: 'rgba(36, 147, 11, 0.2)',
                 borderColor: 'rgba(36, 147, 11, 1)',
-                data: prices
+                data: billsAmountPerMonth
             },
             {
                 label: 'Ausgaben in Fr.',
                 backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 borderColor: 'rgba(255, 0, 0, 1)',
-                data: [
-                    234, 500, 134, 50, 0
-                ]
+                data: paymentsAmountPerMonth
             }
         ]
     },

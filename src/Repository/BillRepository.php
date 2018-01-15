@@ -19,7 +19,7 @@ class BillRepository extends ServiceEntityRepository
             ->select('b.id, b.date', 'c.firstname', 'c.surname', 'a.name', 'a.price AS amount')
             ->innerjoin('b.customer', 'c')
             ->innerjoin('b.abo', 'a')
-            ->orderBy('b.date', 'desc')
+            ->orderBy('b.date', 'asc')
             ->getQuery()
             ->execute();
     }
