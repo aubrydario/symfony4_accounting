@@ -3,71 +3,76 @@ import moment from 'moment';
 
 moment.locale('de-ch');
 
-let sumedUpDates = [];
-let prices = [];
+let billsAmountPerMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let paymentsAmountPerMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-function getSortedData(bills) {
-// sort array by date
-    bills.sort((a, b) => {
-        let c = new Date(a.date.date);
-        let d = new Date(b.date.date);
-        return c-d;
+function getBills() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/bills",
+        async: true,
+        contentType: "application/json; charset=utf-8"
     });
-
-    function isDateSumedUp(date) {
-        return sumedUpDates.indexOf(moment(date).format('MMMM YYYY')) !== -1;
-    }
-
-    function sumUpDate(date) {
-        let sum = 0;
-
-        bills.forEach(t => {
-            if(moment(t.date.date).format('MMMM YYYY') === moment(date).format('MMMM YYYY')) {
-                sum += parseInt(t.amount);
-            }
-        });
-
-        sumedUpDates.push(moment(date).format('MMMM YYYY'));
-        prices.push(sum);
-    }
-
-    bills.forEach(t => {
-        if(!isDateSumedUp(t.date.date)) {
-            sumUpDate(t.date.date);
-        }
-    });
-
-    chart.update();
 }
 
-const requestBills = new XMLHttpRequest();
-requestBills.open('GET', 'http://localhost:8000/api/bills');
-requestBills.responseType = 'json';
-requestBills.send();
-requestBills.onload = () => {
-    const bills = requestBills.response;
-    getSortedData(bills);
-};
+function getPayments() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/payments",
+        async: true,
+        contentType: "application/json; charset=utf-8"
+    });
+}
 
-const ctx = document.getElementById('chart').getContext('2d');
-const chart = new Chart(ctx, {
+/*
+    GET LABELS FOR THE LAST SIX MONTHS
+
+function getLables() {
+    const today = new Date();
+    let d;
+    let months = [];
+
+    for(let i = 6; i >= 0; i -= 1) {
+        d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        months.push(moment().month(d.getMonth()).format('MMMM'));
+    }
+
+    return months;
+}
+*/
+
+// Trigger when both Ajax requests are done
+$.when(getBills(), getPayments()).done((bills, payments) => {
+    bills[0].forEach(b => {
+        billsAmountPerMonth[parseInt(moment(b.date.date).format('M')) - 1] += b.amount;
+    });
+
+    payments[0].forEach(p => {
+        paymentsAmountPerMonth[parseInt(moment(p.date.date).format('M')) - 1] += p.amount;
+    });
+
+    billsAndPaymentsChart.update();
+});
+
+const billsAndPaymentsChartCtx = document.getElementById('billsAndPaymentsChart').getContext('2d');
+const billsAndPaymentsChart = new Chart(billsAndPaymentsChartCtx, {
     type: 'line',
     data: {
-        labels: sumedUpDates,
+        labels: moment.months(),
         datasets: [
             {
                 label: 'Einnahmen in Fr.',
                 backgroundColor: 'rgba(36, 147, 11, 0.2)',
                 borderColor: 'rgba(36, 147, 11, 1)',
-                data: prices
+                data: billsAmountPerMonth
             },
             {
                 label: 'Ausgaben in Fr.',
                 backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 borderColor: 'rgba(255, 0, 0, 1)',
-                data: [
-                    234, 500, 134, 50, 0
-                ]
+                data: paymentsAmountPerMonth
             }
         ]
     },
