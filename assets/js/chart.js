@@ -3,9 +3,6 @@ import moment from 'moment';
 
 moment.locale('de-ch');
 
-let billsAmountPerMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let paymentsAmountPerMonth = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
 function getBills() {
     return $.ajax({
         type: "GET",
@@ -26,31 +23,55 @@ function getPayments() {
     });
 }
 
-/*
-    GET LABELS FOR THE LAST SIX MONTHS
+let monthCount = 12;
+let billsAmountPerMonth = [];
+let paymentsAmountPerMonth = [];
 
+for(let i = 0 ; i < monthCount ; i++) {
+    billsAmountPerMonth.push(0);
+    paymentsAmountPerMonth.push(0);
+}
+
+//GET LABELS FOR THE LAST SIX MONTHS
 function getLables() {
     const today = new Date();
     let d;
     let months = [];
 
-    for(let i = 6; i >= 0; i -= 1) {
+    for(let i = monthCount - 1 ; i >= 0; i -= 1) {
         d = new Date(today.getFullYear(), today.getMonth() - i, 1);
         months.push(moment().month(d.getMonth()).format('MMMM'));
     }
 
     return months;
 }
-*/
 
 // Trigger when both Ajax requests are done
 $.when(getBills(), getPayments()).done((bills, payments) => {
+
+    const today = new Date();
+    let monthBefore = new Date(today.getFullYear(), today.getMonth() - monthCount, 1).getMonth();
+
     bills[0].forEach(b => {
-        billsAmountPerMonth[parseInt(moment(b.date.date).format('M')) - 1] += b.amount;
+        if(parseInt(moment(b.date.date).format('M')) - 1 <= today.getMonth() || parseInt(moment(b.date.date).format('M')) - 1 > monthBefore) {
+            if(parseInt(moment(b.date.date).format('M')) - monthCount - 2 < 0) {
+                let diff = parseInt(moment(b.date.date).format('M')) - monthCount - 2;
+                billsAmountPerMonth[12 + diff] += b.amount;
+            } else {
+                billsAmountPerMonth[parseInt(moment(b.date.date).format('M')) - monthCount - 2] += b.amount;
+            }
+        }
     });
 
     payments[0].forEach(p => {
-        paymentsAmountPerMonth[parseInt(moment(p.date.date).format('M')) - 1] += p.amount;
+        if(parseInt(moment(p.date.date).format('M')) - 1 <= today.getMonth() || parseInt(moment(p.date.date).format('M')) - 1 > monthBefore) {
+            if(parseInt(moment(p.date.date).format('M')) - monthCount - 2 < 0) {
+                let diff = parseInt(moment(p.date.date).format('M')) - monthCount - 2;
+                paymentsAmountPerMonth[12 + diff] += p.amount;
+            } else {
+                paymentsAmountPerMonth[parseInt(moment(p.date.date).format('M')) - monthCount - 2] += p.amount;
+            }
+        }
     });
 
     billsAndPaymentsChart.update();
@@ -60,7 +81,7 @@ const billsAndPaymentsChartCtx = document.getElementById('billsAndPaymentsChart'
 const billsAndPaymentsChart = new Chart(billsAndPaymentsChartCtx, {
     type: 'line',
     data: {
-        labels: moment.months(),
+        labels: getLables(),
         datasets: [
             {
                 label: 'Einnahmen in Fr.',

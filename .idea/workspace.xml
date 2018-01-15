@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5777e66d-3f6a-4cdc-8543-1b7254c7e9cd" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/assets/js/chart.js" afterPath="$PROJECT_DIR$/assets/js/chart.js" />
-      <change beforePath="$PROJECT_DIR$/templates/default/dashboard.html.twig" afterPath="$PROJECT_DIR$/templates/default/dashboard.html.twig" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/BillRepository.php" afterPath="$PROJECT_DIR$/src/Repository/BillRepository.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,11 +67,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="chart.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="chart.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/chart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="62" column="31" lean-forward="false" selection-start-line="62" selection-start-column="31" selection-end-line="62" selection-end-column="31" />
+            <state relative-caret-position="68">
+              <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -78,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboard.html.twig" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dashboard.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/default/dashboard.html.twig">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -138,10 +139,10 @@
         <option value="$PROJECT_DIR$/templates/default/payment.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/DashboardController.php" />
         <option value="$PROJECT_DIR$/src/Repository/PaymentRepository.php" />
-        <option value="$PROJECT_DIR$/src/Repository/BillRepository.php" />
         <option value="$PROJECT_DIR$/templates/default/bill.html.twig" />
-        <option value="$PROJECT_DIR$/assets/js/chart.js" />
         <option value="$PROJECT_DIR$/templates/default/dashboard.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/BillRepository.php" />
+        <option value="$PROJECT_DIR$/assets/js/chart.js" />
       </list>
     </option>
   </component>
@@ -291,6 +292,12 @@
             <path>
               <item name="symfony4_accounting" type="b2602c69:ProjectViewProjectNode" />
               <item name="symfony4_accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Repository" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="symfony4_accounting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="symfony4_accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -357,7 +364,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76070000" />
+    <option name="totallyTimeSpent" value="82907000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -435,7 +442,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -546,6 +555,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="46" lean-forward="true" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
+          <folding>
+            <element signature="e#34#58#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -570,6 +582,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -680,13 +693,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/BillRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="18" column="93" lean-forward="false" selection-start-line="18" selection-start-column="93" selection-end-line="18" selection-end-column="93" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -717,22 +724,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/chart.js">
+    <entry file="file://$PROJECT_DIR$/templates/default/dashboard.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="62" column="31" lean-forward="false" selection-start-line="62" selection-start-column="31" selection-end-line="62" selection-end-column="31" />
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/default/dashboard.html.twig">
+    <entry file="file://$PROJECT_DIR$/src/Repository/BillRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/chart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
