@@ -2,20 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Bill;
-use App\Form\BillFormType;
+use App\Entity\Payment;
+use App\Form\PaymentFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class BillController extends Controller
+class PaymentController extends Controller
 {
     /**
-     * @Route("/bill")
+     * @Route("/payment")
      */
     public function billAction(Request $request)
     {
-        $form = $this->createForm(BillFormType::class);
+        $form = $this->createForm(PaymentFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $bill = $form->getData();
@@ -24,13 +24,12 @@ class BillController extends Controller
             $em->flush();
         }
 
-        $bills = $this->getDoctrine()
-            ->getRepository(Bill::class)
-            ->findAllBills();
+        $em = $this->getDoctrine()->getManager();
+        $payments = $em->getRepository(Payment::class)->findAll();
 
-        return $this->render('default/bill.html.twig', [
-            'bills' => $bills,
-            'newBillForm' => $form->createView()
+        return $this->render('default/payment.html.twig', [
+            'payments' => $payments,
+            'newPaymentForm' => $form->createView()
         ]);
     }
 }

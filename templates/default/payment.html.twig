@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="content">
-        <h1>Rechnungen</h1>
+        <h1>Zahlungen</h1>
         <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
 
         <table class="table table-striped" id="searchTable" style="width: 500px">
@@ -10,35 +10,35 @@
             <tr>
                 <th>ID</th>
                 <th>Datum</th>
-                <th>Name</th>
+                <th>Beschreibung</th>
                 <th>Betrag</th>
             </tr>
             </thead>
             <tbody>
-            {% for bill in bills %}
+            {% for payment in payments %}
                 <tr>
-                    <td>{{ bill.id }}</td>
-                    <td>{{ bill.date|date('d.m.Y') }}</td>
-                    <td>{{ bill.firstname }} {{ bill.surname }}</td>
-                    <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
+                    <td>{{ payment.id }}</td>
+                    <td>{{ payment.date|date('d.m.Y') }}</td>
+                    <td>{{ payment.description }}</td>
+                    <td>{{ payment.amount }}Fr.</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href="" data-toggle="modal" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
+                    <td><a href="" data-toggle="modal" data-target="#deletePaymentModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <!-- Delete Bill Modal -->
-        <div id="deleteBillModal" class="modal fade" role="dialog">
+        <!-- Delete Payment Modal -->
+        <div id="deletePaymentModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Rechnung löschen</h4>
+                        <h4 class="modal-title">Zahlung löschen</h4>
                     </div>
                     <div class="modal-body">
-                        Wollen Sie diese Rechnung löschen?
+                        Wollen Sie diese Zahlung löschen?
 
                         <button type="button" class="btn btn-default">Ja</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
@@ -49,25 +49,25 @@
         </div>
 
         <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBillModal">Neue Rechnung erstellen</button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPaymentModal">Neue Zahlung erstellen</button>
 
-        <!-- Create Bill Modal -->
-        <div id="addBillModal" class="modal fade" role="dialog">
+        <!-- Create Payment Modal -->
+        <div id="addPaymentModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Rechnung erstellen</h4>
+                        <h4 class="modal-title">Zahlung erstellen</h4>
                     </div>
                     <div class="modal-body">
-                        {{ form_start(newBillForm, {'attr': {'id': 'addBillForm'}}) }}
-                        {{ form_widget(newBillForm) }}
-                        {{ form_end(newBillForm) }}
+                        {{ form_start(newPaymentForm, {'attr': {'id': 'addPaymentForm'}}) }}
+                        {{ form_widget(newPaymentForm) }}
+                        {{ form_end(newPaymentForm) }}
                     </div>
                     <div class="modal-footer">
-                        <input class="btn btn-default" name="submit" type="submit" form="addBillForm" value="Hinzufügen"/>
+                        <input class="btn btn-default" name="submit" type="submit" form="addPaymentForm" value="Hinzufügen"/>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>

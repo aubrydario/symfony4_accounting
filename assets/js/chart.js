@@ -6,44 +6,47 @@ moment.locale('de-ch');
 let sumedUpDates = [];
 let prices = [];
 
-const request = new XMLHttpRequest();
-request.open('GET', 'http://localhost:8000/api/transactions');
-request.responseType = 'json';
-request.send();
-request.onload = function() {
-    const transactions = request.response;
-
-    // sort array by date
-    transactions.sort((a, b) => {
+function getSortedData(bills) {
+// sort array by date
+    bills.sort((a, b) => {
         let c = new Date(a.date.date);
         let d = new Date(b.date.date);
         return c-d;
     });
 
     function isDateSumedUp(date) {
-        return sumedUpDates.indexOf(moment(date).format('MMMM YY')) !== -1;
+        return sumedUpDates.indexOf(moment(date).format('MMMM YYYY')) !== -1;
     }
 
     function sumUpDate(date) {
         let sum = 0;
 
-        transactions.forEach(t => {
-            if(moment(t.date.date).format('MMMM YY') === moment(date).format('MMMM YY')) {
-                sum += parseInt(t.price);
+        bills.forEach(t => {
+            if(moment(t.date.date).format('MMMM YYYY') === moment(date).format('MMMM YYYY')) {
+                sum += parseInt(t.amount);
             }
         });
 
-        sumedUpDates.push(moment(date).format('MMMM YY'));
+        sumedUpDates.push(moment(date).format('MMMM YYYY'));
         prices.push(sum);
     }
 
-    transactions.forEach(t => {
+    bills.forEach(t => {
         if(!isDateSumedUp(t.date.date)) {
             sumUpDate(t.date.date);
         }
     });
 
     chart.update();
+}
+
+const requestBills = new XMLHttpRequest();
+requestBills.open('GET', 'http://localhost:8000/api/bills');
+requestBills.responseType = 'json';
+requestBills.send();
+requestBills.onload = () => {
+    const bills = requestBills.response;
+    getSortedData(bills);
 };
 
 const ctx = document.getElementById('chart').getContext('2d');
@@ -54,8 +57,8 @@ const chart = new Chart(ctx, {
         datasets: [
             {
                 label: 'Einnahmen in Fr.',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(36, 147, 11, 0.2)',
+                borderColor: 'rgba(36, 147, 11, 1)',
                 data: prices
             },
             {
@@ -63,7 +66,7 @@ const chart = new Chart(ctx, {
                 backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 borderColor: 'rgba(255, 0, 0, 1)',
                 data: [
-                    234, 500, 134, 50
+                    234, 500, 134, 50, 0
                 ]
             }
         ]

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
 class Customer
 {
@@ -104,27 +104,27 @@ class Customer
     private $enddate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="customer", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer", fetch="EAGER")
      */
-    private $transactions;
+    private $bills;
 
     public function __construct()
     {
-        $this->transactions = new ArrayCollection();
+        $this->bills = new ArrayCollection();
     }
 
     /**
-     * @return Collection|Transaction[]
+     * @return Collection|Bill[]
      */
-    public function getTransactions() {
-        return $this->transactions;
+    public function getBills() {
+        return $this->bills;
     }
 
     /**
-     * @param mixed $transactions
+     * @param mixed $bills
      */
-    public function setTransactions($transactions): void {
-        $this->transactions = $transactions;
+    public function setBills($bills): void {
+        $this->bills = $bills;
     }
 
     /**

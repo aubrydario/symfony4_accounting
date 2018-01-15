@@ -2,16 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Abo;
-use App\Entity\Customer;
-use App\Entity\Bill;
+use App\Entity\Payment;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BillFormType extends AbstractType
+class PaymentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
@@ -19,25 +18,27 @@ class BillFormType extends AbstractType
                 'label' => 'Datum: ',
                 'widget' => 'single_text'
             ])
-            ->add('customer', EntityType::class, [
-                'label' => 'Kunde: ',
-                'class' => Customer::class,
-                'choice_label' => 'firstname'
+            ->add('amount', NumberType::class, [
+                'attr' => [
+                    'placeholder' => 'Betrag'
+                ],
+                'label' => false
             ])
-            ->add('abo', EntityType::class, [
-                'label' => 'Abo: ',
-                'class' => Abo::class,
-                'choice_label' => 'name'
+            ->add('description', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'Beschreibung'
+                ],
+                'label' => false
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
-            'data_class' => Bill::class
+            'data_class' => Payment::class
         ]);
     }
 
     public function getBlockPrefix() {
-        return 'app_bundle_bill_form_type';
+        return 'app_bundle_payment_form_type';
     }
 }

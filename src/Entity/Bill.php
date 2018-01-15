@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BillRepository")
  */
-class Transaction
+class Bill
 {
     /**
      * @ORM\Id
@@ -25,13 +25,13 @@ class Transaction
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="transactions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bills")
      * @ORM\JoinColumn
      */
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="transactions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="bills")
      * @ORM\JoinColumn
      */
     private $abo;
