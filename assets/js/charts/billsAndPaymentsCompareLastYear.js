@@ -3,7 +3,6 @@ import moment from 'moment';
 
 export default function getBillsAndPaymentsLastSixMonthsChart() {
     moment.locale('de-ch');
-    let billsAndPaymentsChart;
 
     function getBills() {
         return $.ajax({
@@ -34,7 +33,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
         paymentsAmountPerMonth.push(0);
     }
 
-    //GET LABELS FOR THE LAST SIX MONTHS
+//GET LABELS FOR THE LAST SIX MONTHS
     function getLables() {
         const today = new Date();
         let d;
@@ -48,67 +47,8 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
         return months;
     }
 
-    // Trigger when both Ajax requests are done
+// Trigger when both Ajax requests are done
     $.when(getBills(), getPayments()).done((bills, payments) => {
-
-        // Remove Spinner
-        document.getElementsByClassName('spinner')[0].style.display = 'none';
-
-        const billsAndPaymentsChartCtx = document.getElementById('billsAndPaymentsChart').getContext('2d');
-        billsAndPaymentsChart = new Chart(billsAndPaymentsChartCtx, {
-            type: 'line',
-            data: {
-                labels: getLables(),
-                datasets: [
-                    {
-                        label: 'Einnahmen in Fr.',
-                        backgroundColor: 'rgba(36, 147, 11, 0.2)',
-                        borderColor: 'rgba(36, 147, 11, 1)',
-                        data: billsAmountPerMonth
-                    },
-                    {
-                        label: 'Ausgaben in Fr.',
-                        backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                        borderColor: 'rgba(255, 0, 0, 1)',
-                        data: paymentsAmountPerMonth
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                title:{
-                    display:true,
-                    text:'Einnahmen und Ausgaben für die letzten 6 Monate'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Monat'
-                        }
-                    }],
-                    yAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Wert (Fr.)'
-                        },
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
 
         const today = new Date();
         let monthBefore = new Date(today.getFullYear(), today.getMonth() - monthCount, 1).getMonth();
@@ -136,5 +76,61 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
         });
 
         billsAndPaymentsChart.update();
+    });
+
+    const billsAndPaymentsChartCtx = document.getElementById('billsAndPaymentsChart').getContext('2d');
+    const billsAndPaymentsChart = new Chart(billsAndPaymentsChartCtx, {
+        type: 'line',
+        data: {
+            labels: getLables(),
+            datasets: [
+                {
+                    label: 'Einnahmen in Fr.',
+                    backgroundColor: 'rgba(36, 147, 11, 0.2)',
+                    borderColor: 'rgba(36, 147, 11, 1)',
+                    data: billsAmountPerMonth
+                },
+                {
+                    label: 'Ausgaben in Fr.',
+                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                    borderColor: 'rgba(255, 0, 0, 1)',
+                    data: paymentsAmountPerMonth
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                text:'Einnahmen und Ausgaben für die letzten 6 Monate'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Monat'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Wert (Fr.)'
+                    },
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
     });
 }
