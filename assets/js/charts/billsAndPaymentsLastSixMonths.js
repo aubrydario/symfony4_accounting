@@ -78,7 +78,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
                 responsive: true,
                 title:{
                     display:true,
-                    text:'Einnahmen und Ausgaben für die letzten 6 Monate'
+                    text:'Einnahmen und Ausgaben der letzten 6 Monate'
                 },
                 tooltips: {
                     mode: 'index',
