@@ -19,7 +19,14 @@ class PaymentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->select('p.id, p.date, p.amount, p.description')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
+
+    public function deletePayment($id) {
+        $this->createQueryBuilder('p')
+            ->delete()
+            ->where('p.id = :id')->setParameter(':id', $id)
+            ->getQuery()
+            ->execute();
     }
 }

@@ -38,7 +38,7 @@
                     <td>{{ customer.startDate|date('d-m-Y') }}</td>
                     <td>{{ customer.endDate|date('d-m-Y') }}</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href="" data-toggle="modal" data-customer-id="{{ customer.id }}" data-target="#deleteCustomerModal"><i class="fa fa-trash red deactiveCustomerLink"></i></a></td>
+                    <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ customer.id }}" data-target="#deleteCustomerModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -57,7 +57,7 @@
                     <div class="modal-body">
                         Wollen Sie den Kunden entfernen?
 
-                        <a href="" id="modalDeactiveCustomerLink" class="btn btn-default">Ja</a>
+                        <a href="" id="modalDeleteLink" class="btn btn-default">Ja</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
                     </div>
                 </div>
@@ -95,5 +95,5 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <script src="{{ asset('build/customer.js') }}" async defer></script>
+    <script src="{{ asset('build/table.js') }}" async defer></script>
 {% endblock %}

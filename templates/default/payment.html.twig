@@ -22,11 +22,12 @@
                     <td>{{ payment.description }}</td>
                     <td>{{ payment.amount }}Fr.</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href="" data-toggle="modal" data-target="#deletePaymentModal"><i class="fa fa-trash red"></i></a></td>
+                    <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ payment.id }}" data-target="#deletePaymentModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
         <!-- Delete Payment Modal -->
         <div id="deletePaymentModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -40,7 +41,7 @@
                     <div class="modal-body">
                         Wollen Sie diese Zahlung löschen?
 
-                        <button type="button" class="btn btn-default">Ja</button>
+                        <a href="" id="modalDeleteLink" class="btn btn-default">Ja</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
                     </div>
                 </div>
@@ -78,5 +79,5 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <script src="{{ asset('build/search.js') }}" async defer></script>
+    <script src="{{ asset('build/table.js') }}" async defer></script>
 {% endblock %}
