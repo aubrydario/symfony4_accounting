@@ -23,4 +23,12 @@ class BillRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function deleteBill($id) {
+        $this->createQueryBuilder('b')
+            ->delete()
+            ->where('b.id = :id')->setParameter(':id', $id)
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -22,7 +22,7 @@
                     <td>{{ bill.firstname }} {{ bill.surname }}</td>
                     <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href="" data-toggle="modal" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
+                    <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ bill.id }}" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -40,7 +40,7 @@
                     <div class="modal-body">
                         Wollen Sie diese Rechnung löschen?
 
-                        <button type="button" class="btn btn-default">Ja</button>
+                        <a href="" id="modalDeleteLink" class="btn btn-default">Ja</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
                     </div>
                 </div>
@@ -78,5 +78,5 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <script src="{{ asset('build/search.js') }}" async defer></script>
+    <script src="{{ asset('build/table.js') }}" async defer></script>
 {% endblock %}
