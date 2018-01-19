@@ -10,7 +10,7 @@ Encore
 
     // will create web/build/app.js and web/build/app.css
     .addEntry('app', './assets/js/app.js')
-    .addEntry('dashboard', './assets/js/chart.js')
+    .addEntry('dashboard', './assets/js/dashboard.js')
     .addEntry('search', './assets/js/search.js')
 
     // allow sass/scss files to be processed
