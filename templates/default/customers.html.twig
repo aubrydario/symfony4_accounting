@@ -38,16 +38,37 @@
                     <td>{{ customer.startDate|date('d-m-Y') }}</td>
                     <td>{{ customer.endDate|date('d-m-Y') }}</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href=""><i class="fa fa-trash red"></i></a></td>
+                    <td><a href="" data-toggle="modal" data-customer-id="{{ customer.id }}" data-target="#deleteCustomerModal"><i class="fa fa-trash red deactiveCustomerLink"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
+        <!-- Delete Customer Modal -->
+        <div id="deleteCustomerModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Kunde entfernen</h4>
+                    </div>
+                    <div class="modal-body">
+                        Wollen Sie den Kunden entfernen?
+
+                        <a href="" id="modalDeactiveCustomerLink" class="btn btn-default">Ja</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addCustomerModal">Kunde hinzufügen</button>
 
-        <!-- Modal -->
+        <!-- Create Customer Modal -->
         <div id="addCustomerModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
@@ -74,5 +95,5 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <script src="{{ asset('build/search.js') }}" async defer></script>
+    <script src="{{ asset('build/customer.js') }}" async defer></script>
 {% endblock %}

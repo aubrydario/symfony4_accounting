@@ -1,20 +1,20 @@
-(() => {
+export default function search() {
     const searchField = document.getElementById('searchField');
     const table = document.getElementById('searchTable');
     const tableRows = table.childNodes[3].getElementsByTagName('tr');
     let found = false;
 
     searchField.addEventListener('keyup', () => {
-        for(const tableRow of tableRows) {
+        for (const tableRow of tableRows) {
             const tableDataElements = tableRow.getElementsByTagName('td');
 
-            for(const tableData of tableDataElements) {
-                if(tableData.innerHTML.toUpperCase().includes(searchField.value.toUpperCase())) {
+            for (const tableData of tableDataElements) {
+                if (tableData.innerHTML.toUpperCase().includes(searchField.value.toUpperCase())) {
                     found = true;
                 }
             }
 
-            if(found) {
+            if (found) {
                 tableRow.style.display = '';
                 found = false;
             } else {
@@ -22,4 +22,4 @@
             }
         }
     });
-})();
+}

@@ -108,6 +108,13 @@ class Customer
      */
     private $bills;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="active", type="integer", nullable=false)
+     */
+    private $active;
+
     public function __construct()
     {
         $this->bills = new ArrayCollection();
@@ -307,5 +314,19 @@ class Customer
      */
     public function setEnddate(\DateTime $enddate): void {
         $this->enddate = $enddate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getActive(): ?int {
+        return $this->active;
+    }
+
+    /**
+     * @param int $active
+     */
+    public function setActive(int $active): void {
+        $this->active = $active;
     }
 }
