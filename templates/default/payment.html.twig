@@ -29,25 +29,7 @@
         </table>
 
         <!-- Delete Payment Modal -->
-        <div id="deletePaymentModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Zahlung löschen</h4>
-                    </div>
-                    <div class="modal-body">
-                        Wollen Sie diese Zahlung löschen?
-
-                        <a href="" id="modalDeleteLink" class="btn btn-default">Ja</a>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {% include 'components/modals.html.twig' with {'id': 'deletePaymentModal', 'title': 'Zahlung löschen', 'text': 'Wollen Sie diese Zahlung löschen?'} %}
 
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPaymentModal">Neue Zahlung erstellen</button>
