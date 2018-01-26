@@ -28,34 +28,10 @@
             </tbody>
         </table>
         <!-- Delete Bill Modal -->
-        {% include 'components/modals.html.twig' with {'id': 'deleteBillModal', 'title': 'Rechnung löschen', 'text': 'Wollen Sie diese Rechnung löschen?'} %}
-
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBillModal">Neue Rechnung erstellen</button>
+        {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Rechnung löschen', 'text': 'Wollen Sie diese Rechnung löschen?'} %}
 
         <!-- Create Bill Modal -->
-        <div id="addBillModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Rechnung erstellen</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(newBillForm, {'attr': {'id': 'addBillForm'}}) }}
-                        {{ form_widget(newBillForm) }}
-                        {{ form_end(newBillForm) }}
-                    </div>
-                    <div class="modal-footer">
-                        <input class="btn btn-default" name="submit" type="submit" form="addBillForm" value="Hinzufügen"/>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {% include 'components/createModal.html.twig' with {'title': 'Rechnung erstellen'} %}
     </div>
 {% endblock %}
 

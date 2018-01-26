@@ -41,7 +41,7 @@ class BillController extends Controller
 
         return $this->render('default/bill.html.twig', [
             'bills' => $bills,
-            'newBillForm' => $form->createView()
+            'newForm' => $form->createView()
         ]);
     }
 }

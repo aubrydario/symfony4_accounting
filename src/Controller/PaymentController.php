@@ -40,7 +40,7 @@ class PaymentController extends Controller
 
         return $this->render('default/payment.html.twig', [
             'payments' => $payments,
-            'newPaymentForm' => $form->createView()
+            'newForm' => $form->createView()
         ]);
     }
 }

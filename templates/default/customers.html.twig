@@ -45,34 +45,11 @@
         </table>
 
         <!-- Delete Customer Modal -->
-        {% include 'components/modals.html.twig' with {'id': 'deleteCustomerModal', 'title': 'Kunde entfernen', 'text': 'Wollen Sie den Kunden entfernen?'} %}
-
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addCustomerModal">Kunde hinzufügen</button>
+        {% include 'components/deleteModal.html.twig' with {'id': 'deleteCustomerModal', 'title': 'Kunde entfernen', 'text': 'Wollen Sie den Kunden entfernen?'} %}
 
         <!-- Create Customer Modal -->
-        <div id="addCustomerModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+        {% include 'components/createModal.html.twig' with {'title': 'Kunde hinzufügen'} %}
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Kunde hinzufügen</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(newCustomerForm, {'attr': {'id': 'addCustomerForm'}}) }}
-                        {{ form_widget(newCustomerForm) }}
-                        {{ form_end(newCustomerForm) }}
-                    </div>
-                    <div class="modal-footer">
-                        <input class="btn btn-default" name="submit" type="submit" form="addCustomerForm" value="Hinzufügen"/>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </div>
 {% endblock %}
 

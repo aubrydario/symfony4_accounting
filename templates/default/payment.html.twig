@@ -29,34 +29,11 @@
         </table>
 
         <!-- Delete Payment Modal -->
-        {% include 'components/modals.html.twig' with {'id': 'deletePaymentModal', 'title': 'Zahlung löschen', 'text': 'Wollen Sie diese Zahlung löschen?'} %}
-
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPaymentModal">Neue Zahlung erstellen</button>
+        {% include 'components/deleteModal.html.twig' with {'id': 'deletePaymentModal', 'title': 'Zahlung löschen', 'text': 'Wollen Sie diese Zahlung löschen?'} %}
 
         <!-- Create Payment Modal -->
-        <div id="addPaymentModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+        {% include 'components/createModal.html.twig' with {'title': 'Zahlung erstellen'} %}
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Zahlung erstellen</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(newPaymentForm, {'attr': {'id': 'addPaymentForm'}}) }}
-                        {{ form_widget(newPaymentForm) }}
-                        {{ form_end(newPaymentForm) }}
-                    </div>
-                    <div class="modal-footer">
-                        <input class="btn btn-default" name="submit" type="submit" form="addPaymentForm" value="Hinzufügen"/>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </div>
 {% endblock %}
 

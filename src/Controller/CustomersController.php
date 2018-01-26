@@ -25,11 +25,7 @@ class CustomersController extends Controller
      * @Route("/customers", name="customers")
      */
     public function customersAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $customers = $em->getRepository('App:Customer')->findBy(['active' => 1]);
-
         $form = $this->createForm(CustomerFormType::class);
-
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $customer = $form->getData();
@@ -38,9 +34,12 @@ class CustomersController extends Controller
             $em->flush();
         }
 
+        $em = $this->getDoctrine()->getManager();
+        $customers = $em->getRepository('App:Customer')->findBy(['active' => 1]);
+
         return $this->render('default/customers.html.twig', [
             'customers' => $customers,
-            'newCustomerForm' => $form->createView()
+            'newForm' => $form->createView()
         ]);
     }
 }
