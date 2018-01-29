@@ -3,30 +3,49 @@
 {% block content %}
     <div class="content">
         <h1>Rechnungen</h1>
-        <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
-
-        <table class="table table-striped" id="searchTable" style="width: 500px">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Datum</th>
-                <th>Name</th>
-                <th>Betrag</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for bill in bills %}
+        <div class="table-wrapper">
+            <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default"><i class="fa fa-chevron-left"></i> Zurück</button>
+                    <button class="btn btn-primary">1</button>
+                    <button class="btn btn-default">2</button>
+                    <button class="btn btn-default">3</button>
+                    <button class="btn btn-default">Nächste <i class="fa fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <table class="table table-striped" id="searchTable">
+                <thead>
                 <tr>
-                    <td>{{ bill.id }}</td>
-                    <td>{{ bill.date|date('d.m.Y') }}</td>
-                    <td>{{ bill.firstname }} {{ bill.surname }}</td>
-                    <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
-                    <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ bill.id }}" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
+                    <th>ID</th>
+                    <th>Datum</th>
+                    <th>Name</th>
+                    <th>Betrag</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.id }}</td>
+                        <td>{{ bill.date|date('d.m.Y') }}</td>
+                        <td>{{ bill.firstname }} {{ bill.surname }}</td>
+                        <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
+                        <td><a href=""><i class="fa fa-pencil"></i></a></td>
+                        <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ bill.id }}" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default"><i class="fa fa-chevron-left"></i> Zurück</button>
+                    <button class="btn btn-primary">1</button>
+                    <button class="btn btn-default">2</button>
+                    <button class="btn btn-default">3</button>
+                    <button class="btn btn-default">Nächste <i class="fa fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
         <!-- Delete Bill Modal -->
         {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Rechnung löschen', 'text': 'Wollen Sie diese Rechnung löschen?'} %}
 
