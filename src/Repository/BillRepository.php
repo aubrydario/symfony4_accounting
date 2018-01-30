@@ -13,7 +13,7 @@ class BillRepository extends ServiceEntityRepository
         parent::__construct($registry, Bill::class);
     }
 
-    public function findAllBills(): array
+    public function findAllBills()
     {
         return $this->createQueryBuilder('b')
             ->select('b.id, b.date', 'c.firstname', 'c.surname', 'a.name', 'a.price AS amount')
@@ -22,6 +22,21 @@ class BillRepository extends ServiceEntityRepository
             ->orderBy('b.date', 'asc')
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * Gibt die Query zum laden aller Entities zurück
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    public function findAllBillQuerys()
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id, b.date', 'c.firstname', 'c.surname', 'a.name', 'a.price AS amount')
+            ->innerjoin('b.customer', 'c')
+            ->innerjoin('b.abo', 'a')
+            ->orderBy('b.date', 'asc')
+            ->getQuery();
     }
 
     public function deleteBill($id) {

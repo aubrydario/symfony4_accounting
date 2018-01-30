@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Doctrine\PaginationHelper;
 use App\Entity\Customer;
 use App\Form\CustomerFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,8 +24,9 @@ class CustomersController extends Controller
 
     /**
      * @Route("/customers", name="customers")
+     * @Route("/customers/page/{page}", name="customers_page")
      */
-    public function customersAction(Request $request) {
+    public function customersAction(Request $request, $page = 1) {
         $form = $this->createForm(CustomerFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -34,11 +36,20 @@ class CustomersController extends Controller
             $em->flush();
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $customers = $em->getRepository('App:Customer')->findBy(['active' => 1]);
+        //$em = $this->getDoctrine()->getManager();
+        //$customers = $em->getRepository('App:Customer')->findBy(['active' => 1]);
+
+        $query = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findAllCustomerQuerys();
+
+        $pages = PaginationHelper::getPagesCount($query, 5);
+        $customers = PaginationHelper::paginate($query, 5, $page);
 
         return $this->render('default/customers.html.twig', [
             'customers' => $customers,
+            'page' => $page,
+            'pages' => $pages,
             'newForm' => $form->createView()
         ]);
     }

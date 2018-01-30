@@ -24,4 +24,12 @@ class CustomerRepository extends ServiceEntityRepository
             ->execute()
         ;
     }
+
+    public function findAllCustomerQuerys()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.active = 1')
+            ->orderBy('c.surname', 'asc')
+            ->getQuery();
+    }
 }

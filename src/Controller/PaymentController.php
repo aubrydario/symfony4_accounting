@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Doctrine\PaginationHelper;
 use App\Entity\Payment;
 use App\Form\PaymentFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,8 +24,9 @@ class PaymentController extends Controller
 
     /**
      * @Route("/payment", name="payment")
+     * @Route("/payment/page/{page}", name="payment_page")
      */
-    public function billAction(Request $request)
+    public function billAction(Request $request, $page = 1)
     {
         $form = $this->createForm(PaymentFormType::class);
         $form->handleRequest($request);
@@ -35,11 +37,17 @@ class PaymentController extends Controller
             $em->flush();
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $payments = $em->getRepository(Payment::class)->findAll();
+        $query = $this->getDoctrine()
+            ->getRepository(Payment::class)
+            ->findAllPaymentQuerys();
+
+        $pages = PaginationHelper::getPagesCount($query, 5);
+        $payments = PaginationHelper::paginate($query, 5, $page);
 
         return $this->render('default/payment.html.twig', [
             'payments' => $payments,
+            'page' => $page,
+            'pages' => $pages,
             'newForm' => $form->createView()
         ]);
     }
