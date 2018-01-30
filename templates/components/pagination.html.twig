@@ -13,11 +13,11 @@
 {% set end_page = min(pages, end_page + ( delta <= additional ? additional - delta : 0)) %}
 {% set start_page = max(1, start_page - ( delta <= additional ? additional - delta : 0)) %}
 
-<nav aria-label="Page navigation">
+<nav aria-label="Page navigation" class="pagination-wrapper">
     <ul class="pagination">
         {%  set class = page <= 1 ? 'disabled' : '' %}
         <li class="{{ class }}">
-            <a href="{{ path(route, first_parameters) }}" aria-label="Previous">
+            <a href="{{ path(route, first_parameters) }}" aria-label="First Page">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -41,7 +41,7 @@
             </a>
         </li>
         <li class="{{ class }}">
-            <a href="{{ path(route, last_parameters) }}" aria-label="Next">
+            <a href="{{ path(route, last_parameters) }}" aria-label="Last Page">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
