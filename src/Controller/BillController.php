@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Doctrine\PaginationHelper;
 use App\Entity\Bill;
 use App\Form\BillFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,9 +12,21 @@ use Symfony\Component\HttpFoundation\Request;
 class BillController extends Controller
 {
     /**
-     * @Route("/bill")
+     * @Route("/bill/delete/{id}")
      */
-    public function billAction(Request $request)
+    public function deactivateCustomerAction($id) {
+        $this->getDoctrine()
+            ->getRepository(Bill::class)
+            ->deleteBill($id);
+
+        return $this->redirectToRoute('bill');
+    }
+
+    /**
+     * @Route("/bill", name="bill")
+     * @Route("/bill/page/{page}", name="bill_page")
+     */
+    public function billAction(Request $request, $page = 1)
     {
         $form = $this->createForm(BillFormType::class);
         $form->handleRequest($request);
@@ -24,13 +37,18 @@ class BillController extends Controller
             $em->flush();
         }
 
-        $bills = $this->getDoctrine()
+        $query = $this->getDoctrine()
             ->getRepository(Bill::class)
-            ->findAllBills();
+            ->findAllBillQuerys();
+
+        $pages = PaginationHelper::getPagesCount($query, 5);
+        $bills = PaginationHelper::paginate($query, 5, $page);
 
         return $this->render('default/bill.html.twig', [
             'bills' => $bills,
-            'newBillForm' => $form->createView()
+            'page' => $page,
+            'pages' => $pages,
+            'newForm' => $form->createView()
         ]);
     }
 }

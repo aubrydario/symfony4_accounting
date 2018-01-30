@@ -1,0 +1,50 @@
+{% set parameters = parameters is defined ? parameters : {} %}
+{% set first_parameters = parameters|merge({'page': 1 }) %}
+{% set prev_parameters = parameters|merge({'page': page - 1}) %}
+{% set next_parameters = parameters|merge({'page': page + 1}) %}
+{% set last_parameters = parameters|merge({'page': pages }) %}
+
+{% set additional = 3 %}
+
+{% set start_page = max(1, page - additional) %}
+{% set end_page = min(pages, page + additional) %}
+
+{% set delta = end_page - start_page - additional %}
+{% set end_page = min(pages, end_page + ( delta <= additional ? additional - delta : 0)) %}
+{% set start_page = max(1, start_page - ( delta <= additional ? additional - delta : 0)) %}
+
+<nav aria-label="Page navigation" class="pagination-wrapper">
+    <ul class="pagination">
+        {%  set class = page <= 1 ? 'disabled' : '' %}
+        <li class="{{ class }}">
+            <a href="{{ path(route, first_parameters) }}" aria-label="First Page">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {%  set class = page <= 1 ? 'disabled' : '' %}
+        <li class="{{ class }}">
+            <a href="{{ path(route, prev_parameters) }}" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+
+        {% for x in start_page..end_page %}
+            {% set current_parameters = parameters|merge({'page': x }) %}
+            {% set class = page == x ? 'active' : '' %}
+            {% set classLink = page == x ? 'anthrazit' : '' %}
+            <li class="{{ class }}"><a class="{{ classLink }}" href="{{ path(route, current_parameters) }}">{{ x }}</a></li>
+        {% endfor %}
+
+        {%  set class = page >= pages ? 'disabled' : '' %}
+        <li class="{{ class }}">
+            <a href="{{ path(route, next_parameters) }}" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li class="{{ class }}">
+            <a href="{{ path(route, last_parameters) }}" aria-label="Last Page">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

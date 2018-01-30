@@ -3,80 +3,53 @@
 {% block content %}
     <div class="content">
         <h1>Rechnungen</h1>
-        <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
 
-        <table class="table table-striped" id="searchTable" style="width: 500px">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Datum</th>
-                <th>Name</th>
-                <th>Betrag</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for bill in bills %}
-                <tr>
-                    <td>{{ bill.id }}</td>
-                    <td>{{ bill.date|date('d.m.Y') }}</td>
-                    <td>{{ bill.firstname }} {{ bill.surname }}</td>
-                    <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
-                    <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                    <td><a href="" data-toggle="modal" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <!-- Delete Bill Modal -->
-        <div id="deleteBillModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Rechnung löschen</h4>
-                    </div>
-                    <div class="modal-body">
-                        Wollen Sie diese Rechnung löschen?
-
-                        <button type="button" class="btn btn-default">Ja</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
-                    </div>
-                </div>
-
+        <div class="table-wrapper">
+            <div class="filter-options">
+                <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
+                {% include 'components/triggerModalButton.html.twig' with {
+                    'dataTarget': 'addModal',
+                    'text': 'Rechnung erstellen'
+                } %}
             </div>
-        </div>
 
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addBillModal">Neue Rechnung erstellen</button>
+            <table class="table table-striped" id="searchTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Datum</th>
+                    <th>Name</th>
+                    <th>Betrag</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.id }}</td>
+                        <td>{{ bill.date|date('d.m.Y') }}</td>
+                        <td>{{ bill.firstname }} {{ bill.surname }}</td>
+                        <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
+                        <td><a href=""><i class="fa fa-pencil"></i></a></td>
+                        <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ bill.id }}" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include 'components/pagination.html.twig' with {
+                'route': 'bill_page',
+                'parameters': {},
+                'page': page,
+                'pages': pages
+            } %}
+        </div>
+        <!-- Delete Bill Modal -->
+        {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Rechnung löschen', 'text': 'Wollen Sie diese Rechnung löschen?'} %}
 
         <!-- Create Bill Modal -->
-        <div id="addBillModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Rechnung erstellen</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(newBillForm, {'attr': {'id': 'addBillForm'}}) }}
-                        {{ form_widget(newBillForm) }}
-                        {{ form_end(newBillForm) }}
-                    </div>
-                    <div class="modal-footer">
-                        <input class="btn btn-default" name="submit" type="submit" form="addBillForm" value="Hinzufügen"/>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {% include 'components/createModal.html.twig' with {'title': 'Rechnung erstellen'} %}
     </div>
 {% endblock %}
 
 {% block stylesheets %}
-    <script src="{{ asset('build/search.js') }}" async defer></script>
+    <script src="{{ asset('build/table.js') }}" async defer></script>
 {% endblock %}

@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
 
 class BillFormType extends AbstractType
 {
@@ -22,7 +23,13 @@ class BillFormType extends AbstractType
             ->add('customer', EntityType::class, [
                 'label' => 'Kunde: ',
                 'class' => Customer::class,
-                'choice_label' => 'firstname'
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.active = 1');
+                },
+                'choice_label' => function (Customer $customer) {
+                    return $customer->getFirstname().' '.$customer->getSurname();
+                }
             ])
             ->add('abo', EntityType::class, [
                 'label' => 'Abo: ',

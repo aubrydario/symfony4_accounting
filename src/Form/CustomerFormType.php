@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -86,6 +87,9 @@ class CustomerFormType extends AbstractType
             ->add('enddate', DateType::class, [
                 'label' => 'End Datum:',
                 'widget' => 'single_text'
+            ])
+            ->add('active', HiddenType::class, [
+                'data' => 1
             ]);
     }
 
