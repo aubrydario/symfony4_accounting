@@ -23,6 +23,10 @@ class BillFormType extends AbstractType
             ->add('customer', EntityType::class, [
                 'label' => 'Kunde: ',
                 'class' => Customer::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.active = 1');
+                },
                 'choice_label' => function (Customer $customer) {
                     return $customer->getFirstname().' '.$customer->getSurname();
                 }
