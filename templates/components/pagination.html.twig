@@ -31,7 +31,8 @@
         {% for x in start_page..end_page %}
             {% set current_parameters = parameters|merge({'page': x }) %}
             {% set class = page == x ? 'active' : '' %}
-            <li class="{{ class }}"><a href="{{ path(route, current_parameters) }}">{{ x }}</a></li>
+            {% set classLink = page == x ? 'anthrazit' : '' %}
+            <li class="{{ class }}"><a class="{{ classLink }}" href="{{ path(route, current_parameters) }}">{{ x }}</a></li>
         {% endfor %}
 
         {%  set class = page >= pages ? 'disabled' : '' %}
