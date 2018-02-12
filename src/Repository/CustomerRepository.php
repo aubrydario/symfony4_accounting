@@ -32,4 +32,17 @@ class CustomerRepository extends ServiceEntityRepository
             ->orderBy('c.surname', 'asc')
             ->getQuery();
     }
+
+    public function findAllCustomerNameJoinBill() {
+        return $this->getEntityManager()->getConnection()->executeQuery('
+            SELECT c.firstname, c.surname, b.date, b.abo_id
+            FROM customer c
+            LEFT JOIN bill b ON c.id = b.customer_id
+            UNION
+                SELECT c.firstname, c.surname, b.date, b.abo_id
+                FROM customer c
+                RIGHT JOIN bill b ON c.id = b.customer_id
+            WHERE c.active = 1;
+        ')->fetchAll();
+    }
 }
