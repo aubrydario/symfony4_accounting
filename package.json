@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "chart.js": "^2.7.1",
+    "d3": "^3.5.17",
     "font-awesome": "^4.7.0",
     "moment": "^2.20.1"
   }
