@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class AttendanceController extends Controller
 {
@@ -33,9 +34,9 @@ class AttendanceController extends Controller
 
     /**
      * @Route("/api/attendanceDetails")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function getAttendanceDetails()
+    public function getAttendanceDetails(Request $request)
     {
         $bills = $this->getDoctrine()
             ->getRepository(Attendance::class)

@@ -16,7 +16,14 @@ class AttendanceRepository extends ServiceEntityRepository
     public function findAllAttendancesJoinBillJoinCustomer()
     {
         return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT date, bill_id FROM attendance;
+            SELECT name, date
+            FROM (
+                SELECT CONCAT(c.firstname, " ", c.surname) AS name, a.date
+                FROM attendance a
+                LEFT JOIN bill b ON a.bill_id = b.id
+                INNER JOIN customer c ON b.customer_id = c.id
+                WHERE c.active = 1
+            ) t
         ')->fetchAll();
     }
 }
