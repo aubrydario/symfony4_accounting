@@ -44,16 +44,5 @@ class CustomerRepository extends ServiceEntityRepository
                 GROUP BY name
             ) t
         ')->fetchAll();
-
-        /*return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT CONCAT(c.firstname, " ", c.surname) AS name, b.date, b.abo_id
-            FROM customer c
-            LEFT JOIN bill b ON c.id = b.customer_id
-            UNION
-                SELECT CONCAT(c.firstname, " ", c.surname) AS name, b.date, b.abo_id
-                FROM customer c
-                RIGHT JOIN bill b ON c.id = b.customer_id
-            WHERE c.active = 1;
-        ')->fetchAll();*/
     }
 }
