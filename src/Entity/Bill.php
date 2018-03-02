@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 
 /**
@@ -35,6 +37,30 @@ class Bill
      * @ORM\JoinColumn
      */
     private $abo;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="attendance", fetch="EAGER")
+     */
+    private $attendances;
+
+    public function __construct()
+    {
+        $this->attendances = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Attendance[]
+     */
+    public function getAttendances() {
+        return $this->attendances;
+    }
+
+    /**
+     * @param mixed $attendances
+     */
+    public function setAttendances($attendances): void {
+        $this->attendances = $attendances;
+    }
 
     /**
      * @return mixed

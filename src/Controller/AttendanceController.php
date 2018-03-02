@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Attendance;
 use App\Entity\Customer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,7 +14,7 @@ class AttendanceController extends Controller
     /**
      * @Route("/attendance", name="attendance")
      */
-    public function attendanceAction() {
+    public function attendance() {
         return $this->render('default/attendance.html.twig');
     }
 
@@ -21,11 +22,24 @@ class AttendanceController extends Controller
      * @Route("/api/attendance")
      * @Method("GET")
      */
-    public function getAttendanceAction()
+    public function getAttendance()
     {
         $bills = $this->getDoctrine()
             ->getRepository(Customer::class)
             ->findAllCustomerNameJoinBill();
+
+        return new JsonResponse($bills);
+    }
+
+    /**
+     * @Route("/api/attendanceDetails")
+     * @Method("GET")
+     */
+    public function getAttendanceDetails()
+    {
+        $bills = $this->getDoctrine()
+            ->getRepository(Attendance::class)
+            ->findAllAttendancesJoinBillJoinCustomer();
 
         return new JsonResponse($bills);
     }
