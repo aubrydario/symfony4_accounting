@@ -38,10 +38,10 @@ class AttendanceController extends Controller
      */
     public function getAttendanceDetails(Request $request)
     {
-        $bills = $this->getDoctrine()
+        $attendance = $this->getDoctrine()
             ->getRepository(Attendance::class)
             ->findAllAttendancesJoinBillJoinCustomer();
 
-        return new JsonResponse($bills);
+        return new JsonResponse($attendance);
     }
 }

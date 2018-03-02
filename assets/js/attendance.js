@@ -122,7 +122,7 @@ function showInfo(date) {
 
         fetch('http://localhost:8000/api/attendanceDetails', {
             method: 'POST',
-            body: JSON.stringify(response),
+            body: response,
             headers: new Headers({
                 'Content-Type': 'application/json'
             })
