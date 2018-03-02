@@ -56,48 +56,52 @@ function createTable(data) {// append the header row
         .append('tr');
 
     data.forEach((item, i) => {
-        const row = tbody.select(`tr:nth-child(${i})`);
-        let itemDate = moment(item.date).format('YYYY-MM-DD');
+        const row = tbody.select(`tr:nth-child(${++i})`);
+        let itemDateArray = item.date ? item.date.split(',') : [];
+        let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
 
         row.append('td')
-            .text(`${item.firstname} ${item.surname}`);
+            .text(item.name);
 
         for (let j = 1; j <= 15; j++) {
             let theadDate = moment(thead.selectAll('th')[0][j].innerHTML, 'D.M.YY').format('YYYY-MM-DD');
 
             row.append('td');
 
-            switch(item.abo_id) {
-                //Einzelstunde
-                case '1':
-                    if (itemDate === theadDate) {
-                        let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
-                            .attr('class', 'einzelstunde');
+            itemDateArray.forEach((date, index) => {
+                let itemDate = moment(date).format('YYYY-MM-DD');
+                switch(aboIdArray[index]) {
+                    //Einzelstunde
+                    case '1':
+                        if (itemDate === theadDate) {
+                            let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
+                                .attr('class', 'einzelstunde');
 
-                        field.on('click', () => { showInfo(theadDate, 'Einzelstunde'); });
-                    }
-                    break;
+                            field.on('click', () => { showInfo(theadDate, 'Einzelstunde'); });
+                        }
+                        break;
 
-                //Schnupperstunde
-                case '2':
-                    console.log('Schnupperstunde');
-                    break;
+                    //Schnupperstunde
+                    case '2':
+                        console.log('Schnupperstunde');
+                        break;
 
-                //10er-Abo
-                case '3':
-                    if (itemDate <= theadDate && moment(item.date).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
-                        let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
-                            .attr('class', 'zehnerabo');
+                    //10er-Abo
+                    case '3':
+                        if (itemDate <= theadDate && moment(itemDate).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
+                            let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
+                                .attr('class', 'zehnerabo');
 
-                        field.on('click', () => { showInfo(theadDate, '10er-Abo'); });
-                    }
-                    break;
+                            field.on('click', () => { showInfo(theadDate, '10er-Abo'); });
+                        }
+                        break;
 
-                //Jahresabo
-                case '4':
-                    console.log('Jahresabo');
-                    break;
-            }
+                    //Jahresabo
+                    case '4':
+                        console.log('Jahresabo');
+                        break;
+                }
+            });
         }
     });
 }
