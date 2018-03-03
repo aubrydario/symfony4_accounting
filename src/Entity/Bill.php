@@ -39,7 +39,7 @@ class Bill
     private $abo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="attendance", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="bill", fetch="EAGER")
      */
     private $attendances;
 

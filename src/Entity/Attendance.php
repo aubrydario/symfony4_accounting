@@ -24,7 +24,7 @@ class Attendance
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Bill", inversedBy="bills")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Bill", inversedBy="attendances")
      * @ORM\JoinColumn
      */
     private $bill;

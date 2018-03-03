@@ -1,6 +1,8 @@
 import moment from 'moment';
 import d3 from 'd3';
 
+moment.locale('de');
+
 function getBills() {
     return $.ajax({
         type: "GET",
@@ -38,7 +40,7 @@ function createTable(data, attendances) {
     for (let i = 0; i < 15; i++) {
         thead.select('tr')
             .append('th')
-            .text(moment().add(i, 'days').format('D.M.YY'));
+            .text(moment().add(i, 'days').format('dd D.M.YY'));
     }
 
     // create a row for each object in the data
