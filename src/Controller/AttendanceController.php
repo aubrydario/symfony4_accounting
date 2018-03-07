@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Attendance;
+use App\Entity\Bill;
 use App\Entity\Customer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -36,12 +37,28 @@ class AttendanceController extends Controller
      * @Route("/api/attendanceDetails")
      * @Method({"GET", "POST"})
      */
-    public function getAttendanceDetails(Request $request)
+    public function attendanceDetails(Request $request)
     {
-        $attendance = $this->getDoctrine()
-            ->getRepository(Attendance::class)
-            ->findAllAttendancesJoinBillJoinCustomer();
+        if($request->getMethod() === 'GET') {
+            $attendance = $this->getDoctrine()
+                ->getRepository(Attendance::class)
+                ->findAllAttendancesJoinBillJoinCustomer();
 
-        return new JsonResponse($attendance);
+            return new JsonResponse($attendance);
+        } else {
+            $data = (array)json_decode($request->getContent());
+
+            $em = $this->getDoctrine()->getManager();
+
+            $bill = $em->getRepository(Bill::class)->find($data['bill_id']);
+            $newAttendance = new Attendance();
+            $newAttendance->setBill($bill);
+            $newAttendance->setDate(new \DateTime($data['date']));
+
+            $em->persist($newAttendance);
+            $em->flush();
+
+            return new JsonResponse($newAttendance);
+        }
     }
 }

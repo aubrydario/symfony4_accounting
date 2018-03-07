@@ -53,6 +53,7 @@ function createTable(data, attendances) {
         const row = tbody.select(`tr:nth-child(${++i})`);
         let itemDateArray = item.date ? item.date.split(',') : [];
         let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
+        let billIdArray = item.bill_id ? item.bill_id.split(',') : [];
 
         row.append('td')
             .text(item.name);
@@ -79,7 +80,8 @@ function createTable(data, attendances) {
                     case '1':
                         if (itemDate === theadDate) {
                             let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
-                                .attr('class', 'einzelstunde');
+                                .attr('class', 'einzelstunde')
+                                .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(theadDate); });
                         }
@@ -94,7 +96,8 @@ function createTable(data, attendances) {
                     case '3':
                         if (itemDate <= theadDate && moment(itemDate).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
                             let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
-                                .attr('class', 'zehnerabo');
+                                .attr('class', 'zehnerabo')
+                                .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(theadDate); });
                         }
@@ -118,18 +121,16 @@ function showInfo(date) {
 
         let response = {
             date: date,
-            name: d3.event.target.parentNode.firstChild.innerHTML
+            bill_id: d3.event.target.dataset.billid
         };
         console.log(response);
 
-        fetch('http://localhost:8000/api/attendanceDetails', {
-            method: 'POST',
-            body: response,
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8000/api/attendanceDetails',
+            data: JSON.stringify(response),
+            success: () => { console.log('success'); },
+            dataType: 'application/json; charset=utf-8'
+        });
     }
 }
