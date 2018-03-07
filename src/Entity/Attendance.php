@@ -30,6 +30,12 @@ class Attendance
     private $bill;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Hour", inversedBy="attendances")
+     * @ORM\JoinColumn
+     */
+    private $hour;
+
+    /**
      * @return mixed
      */
     public function getId() {
@@ -69,5 +75,19 @@ class Attendance
      */
     public function setBill($bill): void {
         $this->bill = $bill;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHour() {
+        return $this->hour;
+    }
+
+    /**
+     * @param mixed $hour
+     */
+    public function setHour($hour): void {
+        $this->hour = $hour;
     }
 }
