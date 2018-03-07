@@ -29,7 +29,7 @@ class Hour
     private $day;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="attendances", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="hour", fetch="EAGER")
      */
     private $attendances;
 

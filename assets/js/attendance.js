@@ -13,6 +13,16 @@ function getBills() {
     });
 }
 
+function getHour() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/hour",
+        async: true,
+        contentType: "application/json; charset=utf-8"
+    });
+}
+
 function getAttendance() {
     return $.ajax({
         type: "GET",
@@ -24,23 +34,37 @@ function getAttendance() {
 }
 
 // Trigger when both Ajax requests are done
-$.when(getBills(), getAttendance()).done((bills, attendances) => {
-    createTable(bills[0], attendances[0]);
+$.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
+    createTable(bills[0], attendances[0], hours[0]);
 });
 const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
 const thead = table.append('thead');
 const tbody = table.append('tbody');
 
-function createTable(data, attendances) {
+function createTable(data, attendances, hours) {
     // append the header row
     thead.append('tr')
         .append('th')
         .text('Name');
 
+    const timeRow = thead.append('tr');
+    timeRow.append('th');
+
     for (let i = 0; i < 15; i++) {
-        thead.select('tr')
-            .append('th')
-            .text(moment().add(i, 'days').format('dd D.M.YY'));
+        hours.forEach((hour, index) => {
+            let hourTimeArray = hour.time ? hour.time.split(',') : [];
+            if(moment().add(i, 'days').format('E') === hour.day.toString()) {
+                let timeField = thead.select('tr')
+                    .append('th')
+                    .text(moment().add(i, 'days').format('dd D.M.YY'));
+
+                if(hourTimeArray.length > 1) {
+                    timeField.attr('colspan', 2)
+                }
+                timeRow.append('th')
+                    .text(hourTimeArray[index]);
+            }
+        });
     }
 
     // create a row for each object in the data

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Attendance;
 use App\Entity\Bill;
 use App\Entity\Customer;
+use App\Entity\Hour;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -60,5 +61,17 @@ class AttendanceController extends Controller
 
             return new JsonResponse($newAttendance);
         }
+    }
+
+    /**
+     * @Route("/api/hour")
+     * @Method("GET")
+     */
+    public function getHour()
+    {
+        $hours = $this->getDoctrine()
+            ->getRepository(Hour::class)
+            ->findAllHours();
+        return new JsonResponse($hours);
     }
 }

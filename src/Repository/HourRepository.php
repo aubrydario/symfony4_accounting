@@ -13,16 +13,11 @@ class HourRepository extends ServiceEntityRepository
         parent::__construct($registry, Hour::class);
     }
 
-    /*
-    public function findBySomething($value)
+    public function findAllHours()
     {
-        return $this->createQueryBuilder('h')
-            ->where('h.something = :value')->setParameter('value', $value)
-            ->orderBy('h.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->getEntityManager()->getConnection()->executeQuery('
+            SELECT GROUP_CONCAT(time) AS time, day FROM hour
+            GROUP BY day
+        ')->fetchAll();
     }
-    */
 }
