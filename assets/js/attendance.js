@@ -43,28 +43,30 @@ const tbody = table.append('tbody');
 
 function createTable(data, attendances, hours) {
     // append the header row
-    thead.append('tr')
-        .append('th')
-        .text('Name');
+    const dateRow = thead.append('tr');
+    dateRow.append('th');
 
     const timeRow = thead.append('tr');
     timeRow.append('th');
 
-    for (let i = 0; i < 15; i++) {
-        hours.forEach((hour, index) => {
+    //if(moment().startOf('week').isoWeekday(hour.day).format('E') === hour.day) {
+    let week = 0;
+    for(let i = 0; i < 4; i++) {
+        hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
-            if(moment().add(i, 'days').format('E') === hour.day.toString()) {
-                let timeField = thead.select('tr')
-                    .append('th')
-                    .text(moment().add(i, 'days').format('dd D.M.YY'));
+            let addDays = hour.day - 1 + week;
 
-                if(hourTimeArray.length > 1) {
-                    timeField.attr('colspan', 2)
-                }
+            dateRow.append('th')
+                .text(moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'))
+                .attr('colspan', hourTimeArray.length);
+
+            hourTimeArray.forEach(time => {
                 timeRow.append('th')
-                    .text(hourTimeArray[index]);
-            }
+                    .text(moment(time, 'HH:mm:ss').format('HH:mm'))
+                    .attr('data-date', moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'));
+            });
         });
+        week += 7;
     }
 
     // create a row for each object in the data
@@ -73,8 +75,8 @@ function createTable(data, attendances, hours) {
         .enter()
         .append('tr');
 
-    data.forEach((item, i) => {
-        const row = tbody.select(`tr:nth-child(${++i})`);
+    data.forEach((item, index1) => {
+        const row = tbody.select(`tr:nth-child(${++index1})`);
         let itemDateArray = item.date ? item.date.split(',') : [];
         let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
         let billIdArray = item.bill_id ? item.bill_id.split(',') : [];
@@ -82,13 +84,16 @@ function createTable(data, attendances, hours) {
         row.append('td')
             .text(item.name);
 
-        for (let j = 1; j <= 15; j++) {
-            let theadDate = moment(thead.selectAll('th')[0][j].innerHTML, 'D.M.YY').format('YYYY-MM-DD');
+        let size = timeRow.selectAll('th').size() - 1;
+
+        for(let i = 1; i <= size; i++) {
+            let theadDate = moment(timeRow.selectAll('th')[0][i].dataset.date, 'D.M.YY').format('YYYY-MM-DD');
 
             row.append('td');
 
             attendances.forEach(attendance => {
-                let currentField = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)[0][0];
+                let currentField = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)[0][0];
+
                 if(moment(attendance.date).format('YYYY-MM-DD') === theadDate && currentField.parentNode.firstChild.innerHTML === attendance.name) {
                     let icon = currentField.appendChild(document.createElement('i'));
                     icon.classList.add('fa');
@@ -103,7 +108,7 @@ function createTable(data, attendances, hours) {
                     //Einzelstunde
                     case '1':
                         if (itemDate === theadDate) {
-                            let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
+                            let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)
                                 .attr('class', 'einzelstunde')
                                 .attr('data-billId', billIdArray[index]);
 
@@ -113,13 +118,13 @@ function createTable(data, attendances, hours) {
 
                     //Schnupperstunde
                     case '2':
-                        console.log('Schnupperstunde');
+                        //console.log('Schnupperstunde');
                         break;
 
                     //10er-Abo
                     case '3':
                         if (itemDate <= theadDate && moment(itemDate).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
-                            let field = row.select(`td:nth-child(${thead.selectAll('th')[0][j].cellIndex + 1})`)
+                            let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)
                                 .attr('class', 'zehnerabo')
                                 .attr('data-billId', billIdArray[index]);
 
@@ -129,7 +134,7 @@ function createTable(data, attendances, hours) {
 
                     //Jahresabo
                     case '4':
-                        console.log('Jahresabo');
+                        //console.log('Jahresabo');
                         break;
                 }
             });
