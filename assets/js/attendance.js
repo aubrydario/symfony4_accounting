@@ -49,21 +49,22 @@ function createTable(data, attendances, hours) {
     const timeRow = thead.append('tr');
     timeRow.append('th');
 
-    //if(moment().startOf('week').isoWeekday(hour.day).format('E') === hour.day) {
     let week = 0;
     for(let i = 0; i < 4; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
+            let hourIdArray = hour.id ? hour.id.split(',') : [];
             let addDays = hour.day - 1 + week;
 
             dateRow.append('th')
                 .text(moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'))
                 .attr('colspan', hourTimeArray.length);
 
-            hourTimeArray.forEach(time => {
+            hourTimeArray.forEach((time, index) => {
                 timeRow.append('th')
                     .text(moment(time, 'HH:mm:ss').format('HH:mm'))
-                    .attr('data-date', moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'));
+                    .attr('data-date', moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'))
+                    .attr('data-id', hourIdArray[index]);
             });
         });
         week += 7;
@@ -88,16 +89,19 @@ function createTable(data, attendances, hours) {
 
         for(let i = 1; i <= size; i++) {
             let theadDate = moment(timeRow.selectAll('th')[0][i].dataset.date, 'D.M.YY').format('YYYY-MM-DD');
+            let theadTime = moment(timeRow.selectAll('th')[0][i].innerText, 'HH:mm').format('HH:mm:ss');
 
             row.append('td');
 
             attendances.forEach(attendance => {
                 let currentField = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)[0][0];
 
-                if(moment(attendance.date).format('YYYY-MM-DD') === theadDate && currentField.parentNode.firstChild.innerHTML === attendance.name) {
-                    let icon = currentField.appendChild(document.createElement('i'));
-                    icon.classList.add('fa');
-                    icon.classList.add('fa-check');
+                if(moment(attendance.date).format('YYYY-MM-DD') === theadDate
+                    && attendance.time === theadTime
+                    && currentField.parentNode.firstChild.innerHTML === attendance.name) {
+                        let icon = currentField.appendChild(document.createElement('i'));
+                        icon.classList.add('fa');
+                        icon.classList.add('fa-check');
                 }
             });
 
@@ -150,7 +154,8 @@ function showInfo(date) {
 
         let response = {
             date: date,
-            bill_id: d3.event.target.dataset.billid
+            bill_id: d3.event.target.dataset.billid,
+            hour_id: d3.select('thead tr:nth-child(2)').select(`th:nth-child(${d3.event.target.cellIndex + 1})`)[0][0].dataset.id
         };
         console.log(response);
 

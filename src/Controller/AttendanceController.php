@@ -52,9 +52,12 @@ class AttendanceController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $bill = $em->getRepository(Bill::class)->find($data['bill_id']);
+            $hour = $em->getRepository(Hour::class)->find($data['hour_id']);
+
             $newAttendance = new Attendance();
             $newAttendance->setBill($bill);
             $newAttendance->setDate(new \DateTime($data['date']));
+            $newAttendance->setHour($hour);
 
             $em->persist($newAttendance);
             $em->flush();
