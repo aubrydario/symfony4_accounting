@@ -1,0 +1,63 @@
+@import "../variables"
+
+.abolegend
+  float: right
+  display: flex
+  position: relative
+  margin: -50px 50px 20px 50px
+
+  .abos
+    margin: 10px 40px 0 0
+
+  .colors
+    span
+      display: block
+      width: 25px
+      height: 25px
+      border-radius: 50%
+      margin: 5px 10px
+
+      &.einzelstunde
+        background-color: $einzelstunde
+
+      &.schnupperstunde
+        background-color: $schnupperstunde
+
+      &.zehnerabo
+        background-color: $zehnerabo
+
+      &.jahresabo
+        background-color: $jahresabo
+
+
+#attendance-table
+  table
+    thead tr:nth-child(2) th
+      min-width: 90px
+
+    td
+      &:first-child
+        font-weight: bold
+        min-width: 120px
+
+      &:not(:first-child)
+        text-align: center
+
+      i
+        color: #ffffff
+
+    .einzelstunde
+      background: $einzelstunde
+      cursor: pointer
+
+    .schnupperstunde
+      background: $schnupperstunde
+      cursor: pointer
+
+    .zehnerabo
+      background: $zehnerabo
+      cursor: pointer
+
+    .jahresabo
+      background: $jahresabo
+      cursor: pointer
