@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Abo;
 use App\Entity\Attendance;
 use App\Entity\Bill;
 use App\Entity\Customer;
@@ -64,6 +65,18 @@ class AttendanceController extends Controller
 
             return new JsonResponse($newAttendance);
         }
+    }
+
+    /**
+     * @Route("/api/attendanceCount")
+     * @Method("GET")
+     */
+    public function getAttendanceCount()
+    {
+        $abos = $this->getDoctrine()
+            ->getRepository(Attendance::class)
+            ->findAllAttendanceCountJoinAbo();
+        return new JsonResponse($abos);
     }
 
     /**

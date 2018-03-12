@@ -33,6 +33,11 @@ class Abo
     private $price;
 
     /**
+     * @ORM\Column(name="maxVisits", type="integer", nullable=true)
+     */
+    private $maxVisits;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo", fetch="EAGER")
      */
     private $bills;
@@ -96,5 +101,19 @@ class Abo
      */
     public function setPrice(int $price): void {
         $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaxVisits() {
+        return $this->maxVisits;
+    }
+
+    /**
+     * @param mixed $maxVisits
+     */
+    public function setMaxVisits($maxVisits): void {
+        $this->maxVisits = $maxVisits;
     }
 }

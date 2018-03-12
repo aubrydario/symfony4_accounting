@@ -33,23 +33,32 @@ function getAttendance() {
     });
 }
 
+function getAttendanceCount() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/attendanceCount",
+        async: true,
+        contentType: "application/json; charset=utf-8"
+    });
+}
+
 // Trigger when both Ajax requests are done
-$.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
-    createTable(bills[0], attendances[0], hours[0]);
+$.when(getBills(), getAttendance(), getHour(), getAttendanceCount()).done((bills, attendances, hours, attendanceCount) => {
+    createTable(bills[0], attendances[0], hours[0], attendanceCount[0]);
 });
 const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
 const thead = table.append('thead');
 const tbody = table.append('tbody');
 
-function createTable(data, attendances, hours) {
-    // append the header row
+function createTable(data, attendances, hours, attendanceCounts) {
     const dateRow = thead.append('tr');
-    dateRow.append('th');
-
     const timeRow = thead.append('tr');
+    let week = 0;
+
+    dateRow.append('th');
     timeRow.append('th');
 
-    let week = 0;
     for(let i = 0; i < 4; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
@@ -93,18 +102,6 @@ function createTable(data, attendances, hours) {
 
             row.append('td');
 
-            attendances.forEach(attendance => {
-                let currentField = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)[0][0];
-
-                if(moment(attendance.date).format('YYYY-MM-DD') === theadDate
-                    && attendance.time === theadTime
-                    && currentField.parentNode.firstChild.innerHTML === attendance.name) {
-                        let icon = currentField.appendChild(document.createElement('i'));
-                        icon.classList.add('fa');
-                        icon.classList.add('fa-check');
-                }
-            });
-
             itemDateArray.forEach((date, index) => {
                 let itemDate = moment(date).format('YYYY-MM-DD');
                 let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
@@ -116,7 +113,7 @@ function createTable(data, attendances, hours) {
                             field.attr('class', 'einzelstunde')
                                 .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(theadDate); });
+                            field.on('click', () => { showInfo(timeRow); });
                         }
                         break;
 
@@ -126,7 +123,7 @@ function createTable(data, attendances, hours) {
                             field.attr('class', 'schnupperstunde')
                                 .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(theadDate); });
+                            field.on('click', () => { showInfo(timeRow); });
                         }
                         break;
 
@@ -136,7 +133,7 @@ function createTable(data, attendances, hours) {
                             field.attr('class', 'zehnerabo')
                                 .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(theadDate); });
+                            field.on('click', () => { showInfo(timeRow); });
                         }
                         break;
 
@@ -146,33 +143,45 @@ function createTable(data, attendances, hours) {
                             field.attr('class', 'jahresabo')
                                 .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(theadDate); });
+                            field.on('click', () => { showInfo(timeRow); });
                         }
                         break;
+                }
+            });
+
+            attendances.forEach(attendance => {
+                let currentField = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)[0][0];
+
+                if(moment(attendance.date).format('YYYY-MM-DD') === theadDate
+                    && attendance.time === theadTime
+                    && attendance.id === currentField.dataset.billid) {
+                        let icon = currentField.appendChild(document.createElement('i'));
+                        icon.classList.add('fa');
+                        icon.classList.add('fa-check');
                 }
             });
         }
     });
 }
 
-function showInfo(date) {
+function showInfo(timeRow) {
     if(!d3.event.target.hasChildNodes()) {
         let icon = d3.event.target.appendChild(document.createElement('i'));
         icon.classList.add('fa');
         icon.classList.add('fa-check');
 
         let response = {
-            date: date,
+            date: moment(timeRow.select(`th:nth-child(${d3.event.target.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
             bill_id: d3.event.target.dataset.billid,
-            hour_id: d3.select('thead tr:nth-child(2)').select(`th:nth-child(${d3.event.target.cellIndex + 1})`)[0][0].dataset.id
+            hour_id: timeRow.select(`th:nth-child(${d3.event.target.cellIndex + 1})`)[0][0].dataset.id
         };
         console.log(response);
 
-        $.ajax({
+        /*$.ajax({
             type: 'POST',
             url: 'http://localhost:8000/api/attendanceDetails',
             data: JSON.stringify(response),
             dataType: 'application/json; charset=utf-8'
-        });
+        });*/
     }
 }
