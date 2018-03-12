@@ -107,13 +107,13 @@ function createTable(data, attendances, hours) {
 
             itemDateArray.forEach((date, index) => {
                 let itemDate = moment(date).format('YYYY-MM-DD');
+                let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
 
                 switch(aboIdArray[index]) {
                     //Einzelstunde
                     case '1':
                         if (itemDate === theadDate) {
-                            let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)
-                                .attr('class', 'einzelstunde')
+                            field.attr('class', 'einzelstunde')
                                 .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(theadDate); });
@@ -122,14 +122,18 @@ function createTable(data, attendances, hours) {
 
                     //Schnupperstunde
                     case '2':
-                        //console.log('Schnupperstunde');
+                        if (itemDate === theadDate) {
+                            field.attr('class', 'schnupperstunde')
+                                .attr('data-billId', billIdArray[index]);
+
+                            field.on('click', () => { showInfo(theadDate); });
+                        }
                         break;
 
                     //10er-Abo
                     case '3':
                         if (itemDate <= theadDate && moment(itemDate).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
-                            let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`)
-                                .attr('class', 'zehnerabo')
+                            field.attr('class', 'zehnerabo')
                                 .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(theadDate); });
@@ -138,7 +142,12 @@ function createTable(data, attendances, hours) {
 
                     //Jahresabo
                     case '4':
-                        //console.log('Jahresabo');
+                        if (itemDate <= theadDate && moment(itemDate).add(1, 'year').format('YYYY-MM-DD') >= theadDate) {
+                            field.attr('class', 'jahresabo')
+                                .attr('data-billId', billIdArray[index]);
+
+                            field.on('click', () => { showInfo(theadDate); });
+                        }
                         break;
                 }
             });
@@ -163,7 +172,6 @@ function showInfo(date) {
             type: 'POST',
             url: 'http://localhost:8000/api/attendanceDetails',
             data: JSON.stringify(response),
-            success: () => { console.log('success'); },
             dataType: 'application/json; charset=utf-8'
         });
     }
