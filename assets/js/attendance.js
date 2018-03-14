@@ -33,16 +33,26 @@ function getAttendance() {
     });
 }
 
+function getAttendanceCount() {
+    return $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/attendanceCount",
+        async: true,
+        contentType: "application/json; charset=utf-8"
+    });
+}
+
 // Trigger when both Ajax requests are done
-$.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
-    createTable(bills[0], attendances[0], hours[0]);
+$.when(getBills(), getAttendance(), getHour(), getAttendanceCount()).done((bills, attendances, hours, attendanceCount) => {
+    createTable(bills[0], attendances[0], hours[0], attendanceCount[0]);
 });
 
 const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
 const thead = table.append('thead');
 const tbody = table.append('tbody');
 
-function createTable(data, attendances, hours) {
+function createTable(data, attendances, hours, attendanceCount) {
     const dateRow = thead.append('tr');
     const timeRow = thead.append('tr');
     let week = 0;
@@ -101,7 +111,7 @@ function createTable(data, attendances, hours) {
                     //Einzelstunde
                     case '1':
                         if (itemDate === theadDate) {
-                            field.attr('class', 'einzelstunde')
+                            field.attr('class', 'abo einzelstunde')
                                 .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(timeRow); });
@@ -111,7 +121,7 @@ function createTable(data, attendances, hours) {
                     //Schnupperstunde
                     case '2':
                         if (itemDate === theadDate) {
-                            field.attr('class', 'schnupperstunde')
+                            field.attr('class', 'abo schnupperstunde')
                                 .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(timeRow); });
@@ -121,7 +131,7 @@ function createTable(data, attendances, hours) {
                     //10er-Abo
                     case '3':
                         if (itemDate <= theadDate && moment(itemDate).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
-                            field.attr('class', 'zehnerabo')
+                            field.attr('class', 'abo zehnerabo')
                                 .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(timeRow); });
@@ -131,7 +141,7 @@ function createTable(data, attendances, hours) {
                     //Jahresabo
                     case '4':
                         if (itemDate <= theadDate && moment(itemDate).add(1, 'year').format('YYYY-MM-DD') >= theadDate) {
-                            field.attr('class', 'jahresabo')
+                            field.attr('class', 'abo jahresabo')
                                 .attr('data-billId', billIdArray[index]);
 
                             field.on('click', () => { showInfo(timeRow); });
