@@ -33,25 +33,16 @@ function getAttendance() {
     });
 }
 
-function getAttendanceCount() {
-    return $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: "http://localhost:8000/api/attendanceCount",
-        async: true,
-        contentType: "application/json; charset=utf-8"
-    });
-}
-
 // Trigger when both Ajax requests are done
-$.when(getBills(), getAttendance(), getHour(), getAttendanceCount()).done((bills, attendances, hours, attendanceCount) => {
-    createTable(bills[0], attendances[0], hours[0], attendanceCount[0]);
+$.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
+    createTable(bills[0], attendances[0], hours[0]);
 });
+
 const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
 const thead = table.append('thead');
 const tbody = table.append('tbody');
 
-function createTable(data, attendances, hours, attendanceCounts) {
+function createTable(data, attendances, hours) {
     const dateRow = thead.append('tr');
     const timeRow = thead.append('tr');
     let week = 0;
@@ -165,23 +156,45 @@ function createTable(data, attendances, hours, attendanceCounts) {
 }
 
 function showInfo(timeRow) {
-    if(!d3.event.target.hasChildNodes()) {
-        let icon = d3.event.target.appendChild(document.createElement('i'));
+    const element = d3.event.target;
+    const data = $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: "http://localhost:8000/api/attendanceCount/" + d3.event.target.dataset.billid,
+        async: true,
+        contentType: "application/json; charset=utf-8"
+    }).done(() => {
+        const attendanceCount = JSON.parse(data.responseText)[0];
+
+        attendanceCount.maxVisits = !attendanceCount.maxVisits ? '10000' : attendanceCount.maxVisits;
+
+        if(!attendanceCount) {
+            postAttendance(element, timeRow);
+        } else if(parseInt(attendanceCount.attendanceCount) < parseInt(attendanceCount.maxVisits)) {
+            postAttendance(element, timeRow);
+        } else {
+            alert('Max erreicht');
+        }
+    });
+}
+
+function postAttendance(element, timeRow) {
+    if(!element.hasChildNodes()) {
+        let icon = element.appendChild(document.createElement('i'));
         icon.classList.add('fa');
         icon.classList.add('fa-check');
 
         let response = {
-            date: moment(timeRow.select(`th:nth-child(${d3.event.target.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
-            bill_id: d3.event.target.dataset.billid,
-            hour_id: timeRow.select(`th:nth-child(${d3.event.target.cellIndex + 1})`)[0][0].dataset.id
+            date: moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
+            bill_id: element.dataset.billid,
+            hour_id: timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
         };
-        console.log(response);
 
-        /*$.ajax({
+        $.ajax({
             type: 'POST',
             url: 'http://localhost:8000/api/attendanceDetails',
             data: JSON.stringify(response),
             dataType: 'application/json; charset=utf-8'
-        });*/
+        });
     }
 }

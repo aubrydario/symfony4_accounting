@@ -68,15 +68,23 @@ class AttendanceController extends Controller
     }
 
     /**
-     * @Route("/api/attendanceCount")
+     * @Route("/api/attendanceCount/{id}", name="attendanceCountById")
+     * @Route("/api/attendanceCount", name="attendanceCount")
      * @Method("GET")
      */
-    public function getAttendanceCount()
+    public function getAttendanceCount($id = null)
     {
-        $abos = $this->getDoctrine()
-            ->getRepository(Attendance::class)
-            ->findAllAttendanceCountJoinAbo();
-        return new JsonResponse($abos);
+        if(!$id) {
+            $abos = $this->getDoctrine()
+                ->getRepository(Attendance::class)
+                ->findAllAttendanceCountJoinAbo();
+            return new JsonResponse($abos);
+        } else {
+            $abos = $this->getDoctrine()
+                ->getRepository(Attendance::class)
+                ->findByBillIdAttendanceCountJoinAbo($id);
+            return new JsonResponse($abos);
+        }
     }
 
     /**

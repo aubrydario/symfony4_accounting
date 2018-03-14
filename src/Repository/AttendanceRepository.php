@@ -35,4 +35,17 @@ class AttendanceRepository extends ServiceEntityRepository
             GROUP BY a.bill_id
         ')->fetchAll();
     }
+
+    public function findByBillIdAttendanceCountJoinAbo($id)
+    {
+        return $this->getEntityManager()->getConnection()->executeQuery('
+            SELECT a.bill_id, COUNT(a.bill_id) AS attendanceCount, a2.maxVisits
+            FROM attendance a
+            LEFT JOIN bill b ON a.bill_id = b.id
+            INNER JOIN abo a2 ON b.abo_id = a2.id
+            WHERE a.bill_id = '. $id .'
+            GROUP BY a.bill_id
+        ')
+        ->fetchAll();
+    }
 }
