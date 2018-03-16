@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Abo;
 use App\Entity\Attendance;
 use App\Entity\Bill;
 use App\Entity\Customer;
@@ -41,13 +40,11 @@ class AttendanceController extends Controller
      */
     public function attendanceDetails(Request $request)
     {
-        if($request->getMethod() === 'GET') {
-            $attendance = $this->getDoctrine()
-                ->getRepository(Attendance::class)
-                ->findAllAttendancesJoinBillJoinCustomer();
+        $attendance = $this->getDoctrine()
+            ->getRepository(Attendance::class)
+            ->findAllAttendancesJoinBillJoinCustomer();
 
-            return new JsonResponse($attendance);
-        } else if($request->getMethod() === 'POST'){
+        if($request->getMethod() === 'POST'){
             $data = (array)json_decode($request->getContent());
 
             $em = $this->getDoctrine()->getManager();
@@ -63,14 +60,14 @@ class AttendanceController extends Controller
             $em->persist($newAttendance);
             $em->flush();
 
-            return new JsonResponse($newAttendance);
+            return new JsonResponse($newAttendance->getId());
         } else if($request->getMethod() === 'DELETE') {
             $data = (array)json_decode($request->getContent());
 
             $this->getDoctrine()->getRepository(Attendance::class)->deleteAttendance($data['id']);
-
-            return new JsonResponse('he');
         }
+
+        return new JsonResponse($attendance);
     }
 
     /**

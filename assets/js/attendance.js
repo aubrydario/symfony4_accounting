@@ -177,8 +177,7 @@ function showInfo(timeRow) {
             async: true,
             contentType: "application/json; charset=utf-8"
         }).done(() => {
-            const attendanceCount = JSON.parse(data.responseText)[0];
-            attendanceCount.maxVisits = !attendanceCount.maxVisits ? '10000' : attendanceCount.maxVisits;
+            let attendanceCount = JSON.parse(data.responseText)[0];
 
             if(!attendanceCount || parseInt(attendanceCount.attendanceCount) < parseInt(attendanceCount.maxVisits)) {
                 let icon = element.appendChild(document.createElement('i'));
@@ -186,17 +185,21 @@ function showInfo(timeRow) {
                 icon.classList.add('fa-check');
 
                 let response = {
-                    date: moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
-                    bill_id: element.dataset.billid,
-                    hour_id: timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
+                    'date': moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
+                    'bill_id': element.dataset.billid,
+                    'hour_id': timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
                 };
 
-                $.ajax({
+                const postAttendance = $.ajax({
                     type: 'POST',
                     url: 'http://localhost:8000/api/attendanceDetails',
                     data: JSON.stringify(response),
-                    dataType: 'application/json; charset=utf-8'
+                    dataType: 'application/json; charset=utf-8',
+                    complete: () => {
+                        icon.dataset.id = postAttendance.responseText;
+                    }
                 });
+
             } else {
                 alert('Max erreicht');
             }
