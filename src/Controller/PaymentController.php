@@ -30,6 +30,7 @@ class PaymentController extends Controller
 
     /**
      * @Route("/payment/delete/{id}")
+     * @Route("/payment/page/{page}/delete/{id}")
      */
     public function deactivateCustomerAction($id) {
         $this->getDoctrine()

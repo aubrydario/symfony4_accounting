@@ -30,6 +30,7 @@ class BillController extends Controller
 
     /**
      * @Route("/bill/delete/{id}")
+     * @Route("/bill/page/{page}/delete/{id}")
      */
     public function deactivateCustomerAction($id) {
         $this->getDoctrine()
