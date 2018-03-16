@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Attendance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class AttendanceRepository extends ServiceEntityRepository
@@ -15,38 +16,49 @@ class AttendanceRepository extends ServiceEntityRepository
 
     public function findAllAttendancesJoinBillJoinCustomer()
     {
-        return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT a.id, a.date, b.id AS billId, h.time
-            FROM attendance a
-            LEFT JOIN bill b ON a.bill_id = b.id
-            INNER JOIN customer c ON b.customer_id = c.id
-            INNER JOIN hour h ON a.hour_id = h.id
-            WHERE c.active = 1
-        ')->fetchAll();
+        try {
+            return $this->getEntityManager()->getConnection()->executeQuery('
+                SELECT a.id, a.date, b.id AS billId, h.time
+                FROM attendance a
+                LEFT JOIN bill b ON a.bill_id = b.id
+                INNER JOIN customer c ON b.customer_id = c.id
+                INNER JOIN hour h ON a.hour_id = h.id
+                WHERE c.active = 1
+            ')->fetchAll();
+        } catch(DBALException $e) {
+            return $e->getMessage();
+        }
     }
 
     public function findAllAttendanceCountJoinAbo()
     {
-        return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT a.bill_id, COUNT(a.bill_id) AS attendanceCount, a2.maxVisits
-            FROM attendance a
-            LEFT JOIN bill b ON a.bill_id = b.id
-            INNER JOIN abo a2 ON b.abo_id = a2.id
-            GROUP BY a.bill_id
-        ')->fetchAll();
+        try {
+            return $this->getEntityManager()->getConnection()->executeQuery('
+                SELECT a.bill_id, COUNT(a.bill_id) AS attendanceCount, a2.maxVisits
+                FROM attendance a
+                LEFT JOIN bill b ON a.bill_id = b.id
+                INNER JOIN abo a2 ON b.abo_id = a2.id
+                GROUP BY a.bill_id
+            ')->fetchAll();
+        } catch(DBALException $e) {
+            return $e->getMessage();
+        }
     }
 
     public function findByBillIdAttendanceCountJoinAbo($id)
     {
-        return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT a.bill_id, COUNT(a.bill_id) AS attendanceCount, a2.maxVisits
-            FROM attendance a
-            LEFT JOIN bill b ON a.bill_id = b.id
-            INNER JOIN abo a2 ON b.abo_id = a2.id
-            WHERE a.bill_id = '. $id .'
-            GROUP BY a.bill_id
-        ')
-        ->fetchAll();
+        try {
+            return $this->getEntityManager()->getConnection()->executeQuery('
+                SELECT a.bill_id, COUNT(a.bill_id) AS attendanceCount, a2.maxVisits
+                FROM attendance a
+                LEFT JOIN bill b ON a.bill_id = b.id
+                INNER JOIN abo a2 ON b.abo_id = a2.id
+                WHERE a.bill_id = '. $id .'
+                GROUP BY a.bill_id
+            ')->fetchAll();
+        } catch(DBALException $e) {
+            return $e->getMessage();
+        }
     }
 
     public function deleteAttendance($id) {

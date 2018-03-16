@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Hour;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class HourRepository extends ServiceEntityRepository
@@ -15,10 +16,14 @@ class HourRepository extends ServiceEntityRepository
 
     public function findAllHours()
     {
-        return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT GROUP_CONCAT(id) AS id, GROUP_CONCAT(time) AS time, day 
-            FROM hour
-            GROUP BY day
-        ')->fetchAll();
+        try {
+            return $this->getEntityManager()->getConnection()->executeQuery('
+                SELECT GROUP_CONCAT(id) AS id, GROUP_CONCAT(time) AS time, day 
+                FROM hour
+                GROUP BY day
+            ')->fetchAll();
+        } catch(DBALException $e) {
+            return $e->getMessage();
+        }
     }
 }
