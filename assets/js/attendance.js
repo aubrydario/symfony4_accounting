@@ -155,10 +155,11 @@ function createTable(data, attendances, hours, attendanceCount) {
 
                 if(moment(attendance.date).format('YYYY-MM-DD') === theadDate
                     && attendance.time === theadTime
-                    && attendance.id === currentField.dataset.billid) {
+                    && attendance.billId === currentField.dataset.billid) {
                         let icon = currentField.appendChild(document.createElement('i'));
                         icon.classList.add('fa');
                         icon.classList.add('fa-check');
+                        icon.dataset.id = attendance.id;
                 }
             });
         }
@@ -167,43 +168,50 @@ function createTable(data, attendances, hours, attendanceCount) {
 
 function showInfo(timeRow) {
     const element = d3.event.target;
-    const data = $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: "http://localhost:8000/api/attendanceCount/" + d3.event.target.dataset.billid,
-        async: true,
-        contentType: "application/json; charset=utf-8"
-    }).done(() => {
-        const attendanceCount = JSON.parse(data.responseText)[0];
 
-        attendanceCount.maxVisits = !attendanceCount.maxVisits ? '10000' : attendanceCount.maxVisits;
-
-        if(!attendanceCount) {
-            postAttendance(element, timeRow);
-        } else if(parseInt(attendanceCount.attendanceCount) < parseInt(attendanceCount.maxVisits)) {
-            postAttendance(element, timeRow);
-        } else {
-            alert('Max erreicht');
-        }
-    });
-}
-
-function postAttendance(element, timeRow) {
     if(!element.hasChildNodes()) {
-        let icon = element.appendChild(document.createElement('i'));
-        icon.classList.add('fa');
-        icon.classList.add('fa-check');
+        const data = $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: "http://localhost:8000/api/attendanceCount/" + d3.event.target.dataset.billid,
+            async: true,
+            contentType: "application/json; charset=utf-8"
+        }).done(() => {
+            const attendanceCount = JSON.parse(data.responseText)[0];
+            attendanceCount.maxVisits = !attendanceCount.maxVisits ? '10000' : attendanceCount.maxVisits;
 
-        let response = {
-            date: moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
-            bill_id: element.dataset.billid,
-            hour_id: timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
-        };
+            if(!attendanceCount || parseInt(attendanceCount.attendanceCount) < parseInt(attendanceCount.maxVisits)) {
+                let icon = element.appendChild(document.createElement('i'));
+                icon.classList.add('fa');
+                icon.classList.add('fa-check');
+
+                let response = {
+                    date: moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
+                    bill_id: element.dataset.billid,
+                    hour_id: timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8000/api/attendanceDetails',
+                    data: JSON.stringify(response),
+                    dataType: 'application/json; charset=utf-8'
+                });
+            } else {
+                alert('Max erreicht');
+            }
+
+        });
+
+    } else {
+        let icon = element.getElementsByTagName('i')[0];
+        let id = icon.dataset.id;
+        icon.remove();
 
         $.ajax({
-            type: 'POST',
+            type: 'DELETE',
             url: 'http://localhost:8000/api/attendanceDetails',
-            data: JSON.stringify(response),
+            data: JSON.stringify({id: id}),
             dataType: 'application/json; charset=utf-8'
         });
     }

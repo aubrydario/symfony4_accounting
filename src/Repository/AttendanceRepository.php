@@ -16,7 +16,7 @@ class AttendanceRepository extends ServiceEntityRepository
     public function findAllAttendancesJoinBillJoinCustomer()
     {
         return $this->getEntityManager()->getConnection()->executeQuery('
-            SELECT a.date, b.id, h.time
+            SELECT a.id, a.date, b.id AS billId, h.time
             FROM attendance a
             LEFT JOIN bill b ON a.bill_id = b.id
             INNER JOIN customer c ON b.customer_id = c.id
@@ -47,5 +47,13 @@ class AttendanceRepository extends ServiceEntityRepository
             GROUP BY a.bill_id
         ')
         ->fetchAll();
+    }
+
+    public function deleteAttendance($id) {
+        $this->createQueryBuilder('a')
+            ->delete()
+            ->where('a.id = :id')->setParameter(':id', $id)
+            ->getQuery()
+            ->execute();
     }
 }

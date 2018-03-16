@@ -37,7 +37,7 @@ class AttendanceController extends Controller
 
     /**
      * @Route("/api/attendanceDetails")
-     * @Method({"GET", "POST"})
+     * @Method({"GET", "POST", "DELETE"})
      */
     public function attendanceDetails(Request $request)
     {
@@ -47,7 +47,7 @@ class AttendanceController extends Controller
                 ->findAllAttendancesJoinBillJoinCustomer();
 
             return new JsonResponse($attendance);
-        } else {
+        } else if($request->getMethod() === 'POST'){
             $data = (array)json_decode($request->getContent());
 
             $em = $this->getDoctrine()->getManager();
@@ -64,6 +64,12 @@ class AttendanceController extends Controller
             $em->flush();
 
             return new JsonResponse($newAttendance);
+        } else if($request->getMethod() === 'DELETE') {
+            $data = (array)json_decode($request->getContent());
+
+            $this->getDoctrine()->getRepository(Attendance::class)->deleteAttendance($data['id']);
+
+            return new JsonResponse('he');
         }
     }
 
