@@ -12,9 +12,27 @@ use Symfony\Component\HttpFoundation\Request;
 class CustomersController extends Controller
 {
     /**
-     * @Route("/customers/delete/{id}")
+     * @Route("/customers/edit/{id}")
      */
-    public function deactivateCustomerAction($id) {
+   public function editCustomer(Request $request, $id) {
+       $user = $this->getDoctrine()->getRepository(Customer::class)->find($id);
+       $editForm = $this->createForm(CustomerFormType::class, $user);
+       $editForm->handleRequest($request);
+       if($editForm->isSubmitted() && $editForm->isValid()) {
+           $em = $this->getDoctrine()->getManager();
+           $em->flush();
+       }
+
+       return $this->render('default/editForm.html.twig', [
+           'editForm' => $editForm->createView()
+       ]);
+    }
+
+    /**
+     * @Route("/customers/delete/{id}")
+     * @Route("/customers/page/{page}/delete/{id}")
+     */
+    public function deactivateCustomer($id) {
         $this->getDoctrine()
             ->getRepository(Customer::class)
             ->deactivateCustomer($id);
@@ -25,8 +43,9 @@ class CustomersController extends Controller
     /**
      * @Route("/customers", name="customers")
      * @Route("/customers/page/{page}", name="customers_page")
+     * @Route("/customers/edit/{id}", name="edit_customer")
      */
-    public function customersAction(Request $request, $page = 1) {
+    public function customers(Request $request, $page = 1, $id = null) {
         $form = $this->createForm(CustomerFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -36,9 +55,7 @@ class CustomersController extends Controller
             $em->flush();
         }
 
-        //$em = $this->getDoctrine()->getManager();
-        //$customers = $em->getRepository('App:Customer')->findBy(['active' => 1]);
-
+        // Get all Customers
         $query = $this->getDoctrine()
             ->getRepository(Customer::class)
             ->findAllCustomerQuerys();

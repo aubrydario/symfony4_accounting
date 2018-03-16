@@ -12,6 +12,23 @@ use Symfony\Component\HttpFoundation\Request;
 class BillController extends Controller
 {
     /**
+     * @Route("/bill/edit/{id}")
+     */
+    public function editCustomer(Request $request, $id) {
+        $user = $this->getDoctrine()->getRepository(Bill::class)->find($id);
+        $editForm = $this->createForm(BillFormType::class, $user);
+        $editForm->handleRequest($request);
+        if($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+        }
+
+        return $this->render('default/editForm.html.twig', [
+            'editForm' => $editForm->createView()
+        ]);
+    }
+
+    /**
      * @Route("/bill/delete/{id}")
      */
     public function deactivateCustomerAction($id) {

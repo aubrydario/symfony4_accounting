@@ -44,7 +44,7 @@
                     <td>{{ customer.plz }}</td>
                     <td>{{ customer.startDate|date('d-m-Y') }}</td>
                     <td>{{ customer.endDate|date('d-m-Y') }}</td>
-                    <td><a href="" class="editLink" data-toggle="modal" data-id="{{ customer.id }}" data-target="#editCustomerModal"><i class="fa fa-pencil"></i></a></td>
+                    <td><a href="customers/edit/{{ customer.id }}" ><i class="fa fa-pencil"></i></a></td>
                     <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ customer.id }}" data-target="#deleteCustomerModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
@@ -66,8 +66,8 @@
 
         <!-- Create Customer Modal -->
         {% include 'components/createModal.html.twig' with {
-            'title': 'Kunde hinzufügen'}
-        %}
+            'title': 'Kunde hinzufügen'
+        } %}
 
     </div>
 {% endblock %}

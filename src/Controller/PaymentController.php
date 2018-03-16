@@ -12,6 +12,23 @@ use Symfony\Component\HttpFoundation\Request;
 class PaymentController extends Controller
 {
     /**
+     * @Route("/payment/edit/{id}")
+     */
+    public function editCustomer(Request $request, $id) {
+        $user = $this->getDoctrine()->getRepository(Payment::class)->find($id);
+        $editForm = $this->createForm(PaymentFormType::class, $user);
+        $editForm->handleRequest($request);
+        if($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+        }
+
+        return $this->render('default/editForm.html.twig', [
+            'editForm' => $editForm->createView()
+        ]);
+    }
+
+    /**
      * @Route("/payment/delete/{id}")
      */
     public function deactivateCustomerAction($id) {

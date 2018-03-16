@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="content">
+        {{ form_start(editForm, {'attr': {'id': 'editForm'}}) }}
+        {{ form_widget(editForm) }}
+        {{ form_end(editForm) }}
+        <input class="btn btn-default" name="submit" type="submit" form="editForm" value="Speichern"/>
+    </div>
+{% endblock %}
