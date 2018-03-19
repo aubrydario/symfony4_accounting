@@ -18,7 +18,7 @@ class HourRepository extends ServiceEntityRepository
     {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('
-                SELECT GROUP_CONCAT(id) AS id, GROUP_CONCAT(time) AS time, day 
+                SELECT GROUP_CONCAT(id ORDER BY time) AS id, GROUP_CONCAT(time ORDER BY time) AS time, day 
                 FROM hour
                 GROUP BY day
             ')->fetchAll();
