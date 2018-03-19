@@ -7,7 +7,7 @@ function getBills() {
     return $.ajax({
         type: "GET",
         dataType: 'json',
-        url: "http://localhost:8000/api/attendance",
+        url: "/api/attendance",
         async: true,
         contentType: "application/json; charset=utf-8"
     });
@@ -17,7 +17,7 @@ function getHour() {
     return $.ajax({
         type: "GET",
         dataType: 'json',
-        url: "http://localhost:8000/api/hour",
+        url: "/api/hour",
         async: true,
         contentType: "application/json; charset=utf-8"
     });
@@ -27,7 +27,7 @@ function getAttendance() {
     return $.ajax({
         type: "GET",
         dataType: 'json',
-        url: "http://localhost:8000/api/attendanceDetails",
+        url: "/api/attendanceDetails",
         async: true,
         contentType: "application/json; charset=utf-8"
     });
@@ -37,7 +37,7 @@ function getAttendanceCount() {
     return $.ajax({
         type: "GET",
         dataType: 'json',
-        url: "http://localhost:8000/api/attendanceCount",
+        url: "/api/attendanceCount",
         async: true,
         contentType: "application/json; charset=utf-8"
     });
@@ -173,7 +173,7 @@ function showInfo(timeRow) {
         const data = $.ajax({
             type: "GET",
             dataType: 'json',
-            url: "http://localhost:8000/api/attendanceCount/" + d3.event.target.dataset.billid,
+            url: "/api/attendanceCount/" + d3.event.target.dataset.billid,
             async: true,
             contentType: "application/json; charset=utf-8"
         }).done(() => {
@@ -192,7 +192,7 @@ function showInfo(timeRow) {
 
                 const postAttendance = $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8000/api/attendanceDetails',
+                    url: '/api/attendanceDetails',
                     data: JSON.stringify(response),
                     dataType: 'application/json; charset=utf-8',
                     complete: () => {
@@ -213,7 +213,7 @@ function showInfo(timeRow) {
 
         $.ajax({
             type: 'DELETE',
-            url: 'http://localhost:8000/api/attendanceDetails',
+            url: '/api/attendanceDetails',
             data: JSON.stringify({id: id}),
             dataType: 'application/json; charset=utf-8'
         });
