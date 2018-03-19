@@ -12,14 +12,12 @@
   },
   "author": "Dario Aubry",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@symfony/webpack-encore": "^0.17.0",
     "bootstrap-sass": "^3.3.7",
-    "jquery": "^3.2.1",
     "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6"
-  },
-  "dependencies": {
+    "sass-loader": "^6.0.6",
+    "jquery": "^3.2.1",
     "chart.js": "^2.7.1",
     "d3": "^3.5.17",
     "font-awesome": "^4.7.0",
