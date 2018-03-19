@@ -13,6 +13,8 @@ class BillController extends Controller
 {
     /**
      * @Route("/bill/edit/{id}")
+     * @Route("/bill/page/bill/edit/{id}")
+     * @Route("/bill/bill/edit/{id}")
      */
     public function editCustomer(Request $request, $id) {
         $user = $this->getDoctrine()->getRepository(Bill::class)->find($id);

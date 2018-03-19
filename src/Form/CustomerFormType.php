@@ -54,7 +54,8 @@ class CustomerFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Telefon Mobile'
                 ],
-                'label' => false
+                'label' => false,
+                'required' => false
             ])
             ->add('street', TextType::class, [
                 'attr' => [
@@ -86,7 +87,8 @@ class CustomerFormType extends AbstractType
             ])
             ->add('enddate', DateType::class, [
                 'label' => 'End Datum:',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('active', HiddenType::class, [
                 'data' => 1

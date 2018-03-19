@@ -312,7 +312,7 @@ class Customer
     /**
      * @param \DateTime $enddate
      */
-    public function setEnddate(\DateTime $enddate): void {
+    public function setEnddate(?\DateTime $enddate): void {
         $this->enddate = $enddate;
     }
 

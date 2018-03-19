@@ -13,6 +13,8 @@ class PaymentController extends Controller
 {
     /**
      * @Route("/payment/edit/{id}")
+     * @Route("/payment/page/payment/edit/{id}")
+     * @Route("/payment/payment/edit/{id}")
      */
     public function editCustomer(Request $request, $id) {
         $user = $this->getDoctrine()->getRepository(Payment::class)->find($id);
