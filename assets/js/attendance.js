@@ -33,26 +33,16 @@ function getAttendance() {
     });
 }
 
-function getAttendanceCount() {
-    return $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: "/api/attendanceCount",
-        async: true,
-        contentType: "application/json; charset=utf-8"
-    });
-}
-
 // Trigger when both Ajax requests are done
-$.when(getBills(), getAttendance(), getHour(), getAttendanceCount()).done((bills, attendances, hours, attendanceCount) => {
-    createTable(bills[0], attendances[0], hours[0], attendanceCount[0]);
+$.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
+    createTable(bills[0], attendances[0], hours[0]);
 });
 
 const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
 const thead = table.append('thead');
 const tbody = table.append('tbody');
 
-function createTable(data, attendances, hours, attendanceCount) {
+function createTable(data, attendances, hours) {
     const dateRow = thead.append('tr');
     const timeRow = thead.append('tr');
     let week = 0;
@@ -60,7 +50,7 @@ function createTable(data, attendances, hours, attendanceCount) {
     dateRow.append('th');
     timeRow.append('th');
 
-    for(let i = 0; i < 4; i++) {
+    for(let i = 0; i < 1; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];
