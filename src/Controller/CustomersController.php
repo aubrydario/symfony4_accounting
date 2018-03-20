@@ -45,9 +45,9 @@ class CustomersController extends Controller
     /**
      * @Route("/customers", name="customers")
      * @Route("/customers/page/{page}", name="customers_page")
-     * @Route("/customers/edit/{id}", name="edit_customer")
      */
-    public function customers(Request $request, $page = 1, $id = null) {
+    public function customers(Request $request, $page = 1) {
+        //dump($request->request->all());
         $form = $this->createForm(CustomerFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
