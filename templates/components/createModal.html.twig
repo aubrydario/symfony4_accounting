@@ -10,8 +10,56 @@
             </div>
             <div class="modal-body">
                 {{ form_start(newForm, {'attr': {'id': 'addForm'}}) }}
-                {{ form_widget(newForm) }}
-                {{ form_end(newForm) }}
+                <div class="col-md-12 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.gender) }}
+                </div>
+                <div class="col-md-6 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.firstname) }}
+                </div>
+                <div class="col-md-6 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.surname) }}
+                </div>
+                <div class="col-md-6 form-field">
+                    <span></span>
+                    {{ form_row(newForm.telprivat) }}
+                </div>
+                <div class="col-md-6 form-field">
+                    <span></span>
+                    {{ form_row(newForm.telmobile) }}
+                </div>
+                <div class="col-md-12 form-field">
+                    <span></span>
+                    {{ form_row(newForm.email) }}
+                </div>
+                <div class="col-md-8 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.street) }}
+                </div>
+                <div class="col-md-4 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.streetnr) }}
+                </div>
+                <div class="col-md-8 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.city) }}
+                </div>
+                <div class="col-md-4 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.plz) }}
+                </div>
+                <div class="col-md-6 form-field">
+                    <span>*</span>
+                    {{ form_row(newForm.startdate) }}
+                </div>
+                <div class="col-md-6 form-field">
+                    <span></span>
+                    {{ form_row(newForm.enddate) }}
+                </div>
+
+                <div class="mandatory"><span>*</span> Pflichtfelder</div>
             </div>
             <div class="modal-footer">
                 <input class="btn btn-default" name="submit" type="submit" form="addForm" value="Hinzufügen"/>

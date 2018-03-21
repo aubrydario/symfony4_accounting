@@ -15,7 +15,6 @@
         <table class="table table-striped" id="searchTable">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Geschlecht</th>
                 <th>Vorname</th>
                 <th>Nachname</th>
@@ -32,7 +31,6 @@
             <tbody>
             {% for customer in customers %}
                 <tr>
-                    <td>{{ customer.id }}</td>
                     <td>{{ customer.gender }}</td>
                     <td>{{ customer.firstname }}</td>
                     <td>{{ customer.surname }}</td>

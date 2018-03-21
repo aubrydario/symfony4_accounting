@@ -45,9 +45,8 @@ class CustomersController extends Controller
     /**
      * @Route("/customers", name="customers")
      * @Route("/customers/page/{page}", name="customers_page")
-     * @Route("/customers/edit/{id}", name="edit_customer")
      */
-    public function customers(Request $request, $page = 1, $id = null) {
+    public function customers(Request $request, $page = 1) {
         $form = $this->createForm(CustomerFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -62,8 +61,8 @@ class CustomersController extends Controller
             ->getRepository(Customer::class)
             ->findAllCustomerQuerys();
 
-        $pages = PaginationHelper::getPagesCount($query, 5);
-        $customers = PaginationHelper::paginate($query, 5, $page);
+        $pages = PaginationHelper::getPagesCount($query, 20);
+        $customers = PaginationHelper::paginate($query, 20, $page);
 
         return $this->render('default/customers.html.twig', [
             'customers' => $customers,
