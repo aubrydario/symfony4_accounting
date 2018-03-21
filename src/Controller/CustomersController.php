@@ -16,7 +16,7 @@ class CustomersController extends Controller
      * @Route("/customers/page/customers/edit/{id}")
      * @Route("/customers/customers/edit/{id}")
      */
-   public function editCustomer(Request $request, $id) {
+    public function editCustomer(Request $request, $id) {
        $user = $this->getDoctrine()->getRepository(Customer::class)->find($id);
        $editForm = $this->createForm(CustomerFormType::class, $user);
        $editForm->handleRequest($request);
