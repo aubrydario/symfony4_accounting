@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Doctrine\PaginationHelper;
 use App\Entity\Payment;
 use App\Form\PaymentFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,8 +12,6 @@ class PaymentController extends Controller
 {
     /**
      * @Route("/payment/edit/{id}")
-     * @Route("/payment/page/payment/edit/{id}")
-     * @Route("/payment/payment/edit/{id}")
      */
     public function editCustomer(Request $request, $id) {
         $user = $this->getDoctrine()->getRepository(Payment::class)->find($id);
@@ -32,7 +29,6 @@ class PaymentController extends Controller
 
     /**
      * @Route("/payment/delete/{id}")
-     * @Route("/payment/page/{page}/delete/{id}")
      */
     public function deactivateCustomerAction($id) {
         $this->getDoctrine()
@@ -44,7 +40,6 @@ class PaymentController extends Controller
 
     /**
      * @Route("/payment", name="payment")
-     * @Route("/payment/page/{page}", name="payment_page")
      */
     public function billAction(Request $request, $page = 1)
     {
@@ -61,13 +56,15 @@ class PaymentController extends Controller
             ->getRepository(Payment::class)
             ->findAllPaymentQuerys();
 
-        $pages = PaginationHelper::getPagesCount($query, 5);
-        $payments = PaginationHelper::paginate($query, 5, $page);
+        $paginator = $this->get('knp_paginator');
+        $payments = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $request->query->get('limit', 20)
+        );
 
         return $this->render('default/payment.html.twig', [
             'payments' => $payments,
-            'page' => $page,
-            'pages' => $pages,
             'newForm' => $form->createView()
         ]);
     }

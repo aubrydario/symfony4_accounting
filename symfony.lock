@@ -59,6 +59,12 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "knplabs/knp-components": {
+        "version": "v1.3.6"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v2.7.2"
+    },
     "ocramius/package-versions": {
         "version": "1.2.0"
     },

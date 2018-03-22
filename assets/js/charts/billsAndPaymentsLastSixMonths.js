@@ -19,7 +19,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
         return $.ajax({
             type: "GET",
             dataType: 'json',
-            url: "http://localhost:8000/api/payments",
+            url: "/api/payments",
             async: true,
             contentType: "application/json; charset=utf-8"
         });

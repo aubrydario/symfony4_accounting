@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Doctrine\PaginationHelper;
 use App\Entity\Customer;
 use App\Form\CustomerFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,8 +12,6 @@ class CustomersController extends Controller
 {
     /**
      * @Route("/customers/edit/{id}")
-     * @Route("/customers/page/customers/edit/{id}")
-     * @Route("/customers/customers/edit/{id}")
      */
     public function editCustomer(Request $request, $id) {
        $user = $this->getDoctrine()->getRepository(Customer::class)->find($id);
@@ -32,7 +29,6 @@ class CustomersController extends Controller
 
     /**
      * @Route("/customers/delete/{id}")
-     * @Route("/customers/page/{page}/delete/{id}")
      */
     public function deactivateCustomer($id) {
         $this->getDoctrine()
@@ -44,9 +40,8 @@ class CustomersController extends Controller
 
     /**
      * @Route("/customers", name="customers")
-     * @Route("/customers/page/{page}", name="customers_page")
      */
-    public function customers(Request $request, $page = 1) {
+    public function customers(Request $request) {
         $form = $this->createForm(CustomerFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -61,13 +56,15 @@ class CustomersController extends Controller
             ->getRepository(Customer::class)
             ->findAllCustomerQuerys();
 
-        $pages = PaginationHelper::getPagesCount($query, 20);
-        $customers = PaginationHelper::paginate($query, 20, $page);
+        $paginator = $this->get('knp_paginator');
+        $customers = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $request->query->get('limit', 20)
+        );
 
         return $this->render('default/customers.html.twig', [
             'customers' => $customers,
-            'page' => $page,
-            'pages' => $pages,
             'newForm' => $form->createView()
         ]);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Doctrine\PaginationHelper;
 use App\Entity\Bill;
 use App\Form\BillFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,8 +12,6 @@ class BillController extends Controller
 {
     /**
      * @Route("/bill/edit/{id}")
-     * @Route("/bill/page/bill/edit/{id}")
-     * @Route("/bill/bill/edit/{id}")
      */
     public function editCustomer(Request $request, $id) {
         $user = $this->getDoctrine()->getRepository(Bill::class)->find($id);
@@ -32,7 +29,6 @@ class BillController extends Controller
 
     /**
      * @Route("/bill/delete/{id}")
-     * @Route("/bill/page/{page}/delete/{id}")
      */
     public function deactivateCustomerAction($id) {
         $this->getDoctrine()
@@ -44,9 +40,8 @@ class BillController extends Controller
 
     /**
      * @Route("/bill", name="bill")
-     * @Route("/bill/page/{page}", name="bill_page")
      */
-    public function billAction(Request $request, $page = 1)
+    public function billAction(Request $request)
     {
         $form = $this->createForm(BillFormType::class);
         $form->handleRequest($request);
@@ -61,13 +56,15 @@ class BillController extends Controller
             ->getRepository(Bill::class)
             ->findAllBillQuerys();
 
-        $pages = PaginationHelper::getPagesCount($query, 5);
-        $bills = PaginationHelper::paginate($query, 5, $page);
+        $paginator = $this->get('knp_paginator');
+        $bills = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $request->query->get('limit', 20)
+        );
 
         return $this->render('default/bill.html.twig', [
             'bills' => $bills,
-            'page' => $page,
-            'pages' => $pages,
             'newForm' => $form->createView()
         ]);
     }

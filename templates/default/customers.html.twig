@@ -16,8 +16,8 @@
             <thead>
             <tr>
                 <th>Geschlecht</th>
-                <th>Vorname</th>
-                <th>Nachname</th>
+                <th>{{ knp_pagination_sortable(customers, 'Vorname', 'c.firstname') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Nachname', 'c.surname') }}<i class="fa fa-sort"></i></th>
                 <th>Email</th>
                 <th>Telefon Privat</th>
                 <th>Telefon Mobile</th>
@@ -52,12 +52,10 @@
             {% endfor %}
             </tbody>
         </table>
-        {% include 'components/pagination.html.twig' with {
-            'route': 'customers_page',
-            'parameters': {},
-            'page': page,
-            'pages': pages
-        } %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(customers) }}
+        </div>
 
         <!-- Delete Customer Modal -->
         {% include 'components/deleteModal.html.twig' with {
@@ -67,7 +65,7 @@
         } %}
 
         <!-- Create Customer Modal -->
-        {% include 'components/createModal.html.twig' with {
+        {% include 'components/createCustomerModal.html.twig' with {
             'title': 'Kunde hinzufügen'
         } %}
 

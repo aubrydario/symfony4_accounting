@@ -29,6 +29,7 @@ class CustomerRepository extends ServiceEntityRepository
     public function findAllCustomerQuerys()
     {
         return $this->createQueryBuilder('c')
+            ->select('c')
             ->where('c.active = 1')
             ->orderBy('c.surname', 'asc')
             ->getQuery();

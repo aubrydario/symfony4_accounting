@@ -16,7 +16,6 @@
             <table class="table table-striped" id="searchTable">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Datum</th>
                     <th>Name</th>
                     <th>Betrag</th>
@@ -25,7 +24,6 @@
                 <tbody>
                 {% for bill in bills %}
                     <tr>
-                        <td>{{ bill.id }}</td>
                         <td>{{ bill.date|date('d.m.Y') }}</td>
                         <td>{{ bill.firstname }} {{ bill.surname }}</td>
                         <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
@@ -35,12 +33,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-            {% include 'components/pagination.html.twig' with {
-                'route': 'bill_page',
-                'parameters': {},
-                'page': page,
-                'pages': pages
-            } %}
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(bills) }}
+            </div>
         </div>
         <!-- Delete Bill Modal -->
         {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Rechnung löschen', 'text': 'Wollen Sie diese Rechnung löschen?'} %}

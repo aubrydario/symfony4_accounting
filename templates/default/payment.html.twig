@@ -16,7 +16,6 @@
             <table class="table table-striped" id="searchTable">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Datum</th>
                     <th>Beschreibung</th>
                     <th>Betrag</th>
@@ -25,7 +24,6 @@
                 <tbody>
                 {% for payment in payments %}
                     <tr>
-                        <td>{{ payment.id }}</td>
                         <td>{{ payment.date|date('d.m.Y') }}</td>
                         <td>{{ payment.description }}</td>
                         <td>{{ payment.amount }}Fr.</td>
@@ -35,12 +33,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-            {% include 'components/pagination.html.twig' with {
-                'route': 'payment_page',
-                'parameters': {},
-                'page': page,
-                'pages': pages
-            } %}
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(payments) }}
+            </div>
         </div>
 
         <!-- Delete Payment Modal -->
