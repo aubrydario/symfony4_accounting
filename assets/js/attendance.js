@@ -157,7 +157,12 @@ function createTable(data, attendances, hours) {
 }
 
 function showInfo(timeRow) {
-    const element = d3.event.target;
+    let element = d3.event.target;
+
+    // If the icon is clicked get the parent td element
+    if(element.nodeName !== 'TD') {
+        element = element.parentElement;
+    }
 
     if(!element.hasChildNodes()) {
         const data = $.ajax({
