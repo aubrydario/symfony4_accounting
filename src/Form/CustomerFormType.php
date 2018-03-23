@@ -27,66 +27,43 @@ class CustomerFormType extends AbstractType
                 'multiple' => false
             ])
             ->add('firstname', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Vorname'
-                ],
-                'label' => false
+                'label' => 'Vorname'
             ])
             ->add('surname', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Nachname'
-                ],
-                'label' => false
+                'label' => 'Nachname'
             ])
             ->add('email', EmailType::class, [
-                'attr' => [
-                    'placeholder' => 'Email'
-                ],
-                'label' => false
+                'label' => 'Email'
+            ])
+            ->add('birthday', DateType::class, [
+                'label' => 'Geburtstag',
+                'widget' => 'single_text'
             ])
             ->add('telprivat', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Telefon Privat'
-                ],
-                'label' => false
+                'label' => 'Telefon Privat'
             ])
             ->add('telmobile', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Telefon Mobile'
-                ],
-                'label' => false,
+                'label' => 'Telefon Mobile',
                 'required' => false
             ])
             ->add('street', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Strasse'
-                ],
-                'label' => false
+                'label' => 'Strasse'
             ])
             ->add('streetnr', NumberType::class, [
-                'attr' => [
-                    'placeholder' => 'Strassennummer'
-                ],
-                'label' => false
+                'label' => 'Strassennummer'
             ])
             ->add('city', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Ort'
-                ],
-                'label' => false
+                'label' => 'Ort'
             ])
             ->add('plz', NumberType::class, [
-                'attr' => [
-                    'placeholder' => 'PLZ'
-                ],
-                'label' => false
+                'label' => 'PLZ'
             ])
             ->add('startdate', DateType::class, [
-                'label' => 'Start Datum:',
+                'label' => 'Start Datum',
                 'widget' => 'single_text'
             ])
             ->add('enddate', DateType::class, [
-                'label' => 'End Datum:',
+                'label' => 'End Datum',
                 'widget' => 'single_text',
                 'required' => false
             ])

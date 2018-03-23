@@ -15,17 +15,18 @@
         <table class="table table-striped" id="searchTable">
             <thead>
             <tr>
-                <th>Geschlecht</th>
+                <th>{{ knp_pagination_sortable(customers, 'Geschlecht', 'c.gender') }}<i class="fa fa-sort"></i></th>
                 <th>{{ knp_pagination_sortable(customers, 'Vorname', 'c.firstname') }}<i class="fa fa-sort"></i></th>
                 <th>{{ knp_pagination_sortable(customers, 'Nachname', 'c.surname') }}<i class="fa fa-sort"></i></th>
-                <th>Email</th>
-                <th>Telefon Privat</th>
-                <th>Telefon Mobile</th>
-                <th>Strasse</th>
-                <th>Ort</th>
-                <th>PLZ</th>
-                <th>Start Datum</th>
-                <th>End Datum</th>
+                <th>{{ knp_pagination_sortable(customers, 'Geburtstag', 'c.birthday') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Email', 'c.email') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Telefon Privat', 'c.telprivat') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Telefon Mobile', 'c.telmobile') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Strasse', 'c.street') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Ort', 'c.city') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'PLZ', 'c.plz') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Start Datum', 'c.startdate') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Start Datum', 'c.enddate') }}<i class="fa fa-sort"></i></th>
             </tr>
             </thead>
             <tbody>
@@ -34,15 +35,16 @@
                     <td>{{ customer.gender }}</td>
                     <td>{{ customer.firstname }}</td>
                     <td>{{ customer.surname }}</td>
+                    <td>{{ customer.birthday|date('d.m.Y') }}</td>
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.telPrivat }}</td>
                     <td>{{ customer.telMobile }}</td>
                     <td>{{ customer.street }} {{ customer.streetNr }}</td>
                     <td>{{ customer.city }}</td>
                     <td>{{ customer.plz }}</td>
-                    <td>{{ customer.startDate|date('d-m-Y') }}</td>
+                    <td>{{ customer.startDate|date('d.m.Y') }}</td>
                     {% if customer.endDate is not null %}
-                        <td>{{ customer.endDate|date('d-m-Y') }}</td>
+                        <td>{{ customer.endDate|date('d.m.Y') }}</td>
                     {% else %}
                         <td></td>
                     {% endif %}

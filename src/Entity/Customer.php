@@ -41,6 +41,13 @@ class Customer
     private $surname;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="birthday", type="date", nullable=false)
+     */
+    private $birthday;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100, nullable=false)
@@ -188,6 +195,20 @@ class Customer
      */
     public function setSurname(string $surname): void {
         $this->surname = $surname;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBirthday(): \DateTime {
+        return $this->birthday;
+    }
+
+    /**
+     * @param \DateTime $birthday
+     */
+    public function setBirthday(\DateTime $birthday): void {
+        $this->birthday = $birthday;
     }
 
     /**
