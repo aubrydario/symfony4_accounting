@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content">
         {% if successMessage is not null and successMessage.type == 'edit' %}
-            <div class="success-message">Kunde {{ successMessage.item.firstname }} {{ successMessage.item.firstname }} wurde erfolgreich bearbeitet.</div>
+            <div class="success-message">Kunde {{ successMessage.item.firstname }} {{ successMessage.item.surname }} wurde erfolgreich bearbeitet.</div>
         {% endif %}
 
         <h1>Kunden Liste</h1>

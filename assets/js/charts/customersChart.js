@@ -1,5 +1,4 @@
 import Chart from 'chart.js';
-import moment from 'moment';
 
 export default function getCustomersChart() {
     let customersChart;
@@ -18,12 +17,24 @@ export default function getCustomersChart() {
             customersChart = new Chart(customersChartCtx, {
                 type: 'pie',
                 data: {
-                    datasets: [
-                        {
-                            data: [customers.responseJSON[0].genderCount, customers.responseJSON[1].genderCount],
-                        }
-                    ],
-                    lables: ['Frauen', 'Herren']
+                    datasets: [{
+                        data: [
+                            customers.responseJSON[0].genderCount,
+                            customers.responseJSON[1].genderCount
+                        ],
+                        backgroundColor: [
+                            'rgba(36, 147, 11, 0.8)',
+                            'rgba(255, 0, 0, 0.8)'
+                        ],
+                        label: 'Dataset 1'
+                    }],
+                    labels: [
+                        'Frauen',
+                        'Herren'
+                    ]
+                },
+                options: {
+                    responsive: true
                 }
             });
         }

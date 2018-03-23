@@ -44,9 +44,10 @@ class CustomersController extends Controller
      * @Route("/customers", name="customers")
      */
     public function customers(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $successMessage = null;
         if($request->query->get('edit')) {
-            $sm = new SuccessMessage($this->getDoctrine()->getManager());
+            $sm = new SuccessMessage($em);
             $successMessage = $sm->getSuccessMessage($request, Customer::class);
         }
 
@@ -54,9 +55,10 @@ class CustomersController extends Controller
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $customer = $form->getData();
-            $em = $this->getDoctrine()->getManager();
+            $customer->setActive(1);
             $em->persist($customer);
             $em->flush();
+
             return $this->redirect($request->getUri());
         }
 

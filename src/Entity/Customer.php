@@ -50,14 +50,14 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100, nullable=false)
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telPrivat", type="string", length=50, nullable=false)
+     * @ORM\Column(name="telPrivat", type="string", length=50, nullable=true)
      */
     private $telprivat;
 
@@ -200,7 +200,7 @@ class Customer
     /**
      * @return \DateTime
      */
-    public function getBirthday(): \DateTime {
+    public function getBirthday(): ?\DateTime {
         return $this->birthday;
     }
 

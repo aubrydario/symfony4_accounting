@@ -3,17 +3,19 @@
 {% block content %}
     <div class="content">
         <h1>Dashboard</h1>
-        <div style="width: 45%">
-            <div class="spinner">
-                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        <div class="charts">
+            <div class="charts--chart">
+                <div class="spinner">
+                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                </div>
+                <canvas id="billsAndPaymentsChart"></canvas>
             </div>
-            <canvas id="billsAndPaymentsChart"></canvas>
-        </div>
-        <div style="width: 45%">
-            <div class="spinner">
-                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            <div class="charts--chart">
+                <div class="spinner">
+                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                </div>
+                <canvas id="customersChart"></canvas>
             </div>
-            <canvas id="customersChart"></canvas>
         </div>
     </div>
 {% endblock %}

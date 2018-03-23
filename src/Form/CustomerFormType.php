@@ -33,14 +33,16 @@ class CustomerFormType extends AbstractType
                 'label' => 'Nachname'
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'required' => false
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Geburtstag',
                 'widget' => 'single_text'
             ])
             ->add('telprivat', TextType::class, [
-                'label' => 'Telefon Privat'
+                'label' => 'Telefon Privat',
+                'required' => false
             ])
             ->add('telmobile', TextType::class, [
                 'label' => 'Telefon Mobile',
