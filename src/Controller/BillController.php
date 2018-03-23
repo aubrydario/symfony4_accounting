@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Form\BillFormType;
+use App\Form\EditBillFormType;
 use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,7 +17,7 @@ class BillController extends Controller
      */
     public function editCustomer(Request $request, $id) {
         $user = $this->getDoctrine()->getRepository(Bill::class)->find($id);
-        $editForm = $this->createForm(BillFormType::class, $user);
+        $editForm = $this->createForm(EditBillFormType::class, $user);
         $editForm->handleRequest($request);
         if($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -46,9 +47,11 @@ class BillController extends Controller
      */
     public function billAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $successMessage = null;
         if($request->query->get('edit')) {
-            $sm = new SuccessMessage($this->getDoctrine()->getManager());
+            $sm = new SuccessMessage($em);
             $successMessage = $sm->getSuccessMessage($request, Bill::class);
         }
 
@@ -56,9 +59,14 @@ class BillController extends Controller
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $bill = $form->getData();
-            $em = $this->getDoctrine()->getManager();
+            $maxDays = $form->get('abo')->getData()->getMaxDays();
+            $date = $form->get('date')->getData();
+            $enddate = clone $date;
+            $bill->setEnddate($enddate->modify('+'. $maxDays . ' days'));
+
             $em->persist($bill);
             $em->flush();
+
             return $this->redirect($request->getUri());
         }
 

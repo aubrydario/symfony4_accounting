@@ -27,6 +27,13 @@ class Bill
     private $date;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="endDate", type="date", nullable=false)
+     */
+    private $enddate;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bills")
      * @ORM\JoinColumn
      */
@@ -88,6 +95,20 @@ class Bill
      */
     public function setDate(\DateTime $date): void {
         $this->date = $date;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEnddate(): \DateTime {
+        return $this->enddate;
+    }
+
+    /**
+     * @param \DateTime $enddate
+     */
+    public function setEnddate(\DateTime $enddate): void {
+        $this->enddate = $enddate;
     }
 
     /**

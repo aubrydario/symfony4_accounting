@@ -50,7 +50,7 @@ function createTable(data, attendances, hours) {
     dateRow.append('th');
     timeRow.append('th');
 
-    for(let i = 0; i < 1; i++) {
+    for(let i = 0; i < 4; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];
@@ -79,6 +79,7 @@ function createTable(data, attendances, hours) {
     data.forEach((item, index1) => {
         const row = tbody.select(`tr:nth-child(${++index1})`);
         let itemDateArray = item.date ? item.date.split(',') : [];
+        let itemEnddateArray = item.enddate ? item.enddate.split(',') : [];
         let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
         let billIdArray = item.bill_id ? item.bill_id.split(',') : [];
 
@@ -100,7 +101,7 @@ function createTable(data, attendances, hours) {
                 switch(aboIdArray[index]) {
                     //Einzelstunde
                     case '1':
-                        if (itemDate === theadDate) {
+                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
                             field.attr('class', 'abo einzelstunde')
                                 .attr('data-billId', billIdArray[index]);
 
@@ -110,7 +111,7 @@ function createTable(data, attendances, hours) {
 
                     //Schnupperstunde
                     case '2':
-                        if (itemDate === theadDate) {
+                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
                             field.attr('class', 'abo schnupperstunde')
                                 .attr('data-billId', billIdArray[index]);
 
@@ -120,7 +121,7 @@ function createTable(data, attendances, hours) {
 
                     //10er-Abo
                     case '3':
-                        if (itemDate <= theadDate && moment(itemDate).add(12, 'weeks').format('YYYY-MM-DD') >= theadDate) {
+                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
                             field.attr('class', 'abo zehnerabo')
                                 .attr('data-billId', billIdArray[index]);
 
@@ -130,7 +131,7 @@ function createTable(data, attendances, hours) {
 
                     //Jahresabo
                     case '4':
-                        if (itemDate <= theadDate && moment(itemDate).add(1, 'year').format('YYYY-MM-DD') >= theadDate) {
+                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
                             field.attr('class', 'abo jahresabo')
                                 .attr('data-billId', billIdArray[index]);
 

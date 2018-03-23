@@ -20,7 +20,8 @@
             <table class="table table-striped" id="searchTable">
                 <thead>
                 <tr>
-                    <th>Datum</th>
+                    <th>Start Datum</th>
+                    <th>Ablauf Datum</th>
                     <th>Name</th>
                     <th>Betrag</th>
                 </tr>
@@ -29,6 +30,7 @@
                 {% for bill in bills %}
                     <tr>
                         <td>{{ bill.date|date('d.m.Y') }}</td>
+                        <td>{{ bill.enddate|date('d.m.Y') }}</td>
                         <td>{{ bill.firstname }} {{ bill.surname }}</td>
                         <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
                         <td><a href="/bill/edit/{{ bill.id }}"><i class="fa fa-pencil"></i></a></td>
