@@ -59,6 +59,7 @@ class PaymentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($bill);
             $em->flush();
+            return $this->redirect($request->getUri());
         }
 
         $query = $this->getDoctrine()

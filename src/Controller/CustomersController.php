@@ -57,6 +57,7 @@ class CustomersController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($customer);
             $em->flush();
+            return $this->redirect($request->getUri());
         }
 
         // Get all Customers
