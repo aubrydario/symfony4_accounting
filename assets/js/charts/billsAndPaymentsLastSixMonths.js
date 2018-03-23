@@ -25,16 +25,9 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
         });
     }
 
-    let monthCount = 6;
-    let billsAmountPerMonth = [];
-    let paymentsAmountPerMonth = [];
+    const monthCount = 6;
 
-    for(let i = 0 ; i < monthCount ; i++) {
-        billsAmountPerMonth.push(0);
-        paymentsAmountPerMonth.push(0);
-    }
-
-    //GET LABELS FOR THE LAST SIX MONTHS
+    //Crate labels array for the last six months
     function getLables() {
         const today = new Date();
         let d;
@@ -64,13 +57,13 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
                         label: 'Einnahmen in Fr.',
                         backgroundColor: 'rgba(36, 147, 11, 0.2)',
                         borderColor: 'rgba(36, 147, 11, 1)',
-                        data: billsAmountPerMonth
+                        data: getAmountPerMonth(bills[0])
                     },
                     {
                         label: 'Ausgaben in Fr.',
                         backgroundColor: 'rgba(255, 0, 0, 0.2)',
                         borderColor: 'rgba(255, 0, 0, 1)',
-                        data: paymentsAmountPerMonth
+                        data: getAmountPerMonth(payments[0])
                     }
                 ]
             },
@@ -109,32 +102,31 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
                 }
             }
         });
-
-        const today = new Date();
-        let monthBefore = new Date(today.getFullYear(), today.getMonth() - monthCount, 1).getMonth();
-
-        bills[0].forEach(b => {
-            if(parseInt(moment(b.date.date).format('M')) - 1 <= today.getMonth() || parseInt(moment(b.date.date).format('M')) - 1 > monthBefore) {
-                if(parseInt(moment(b.date.date).format('M')) - monthCount - 2 < 0) {
-                    let diff = parseInt(moment(b.date.date).format('M')) - monthCount - 2;
-                    billsAmountPerMonth[12 + diff] += b.amount;
-                } else {
-                    billsAmountPerMonth[parseInt(moment(b.date.date).format('M')) - monthCount - 2] += b.amount;
-                }
-            }
-        });
-
-        payments[0].forEach(p => {
-            if(parseInt(moment(p.date.date).format('M')) - 1 <= today.getMonth() || parseInt(moment(p.date.date).format('M')) - 1 > monthBefore) {
-                if(parseInt(moment(p.date.date).format('M')) - monthCount - 2 < 0) {
-                    let diff = parseInt(moment(p.date.date).format('M')) - monthCount - 2;
-                    paymentsAmountPerMonth[12 + diff] += p.amount;
-                } else {
-                    paymentsAmountPerMonth[parseInt(moment(p.date.date).format('M')) - monthCount - 2] += p.amount;
-                }
-            }
-        });
-
-        billsAndPaymentsChart.update();
     });
+
+    function getAmountPerMonth(dataArray) {
+        let resultArray = [];
+        for(let i = 0 ; i < monthCount ; i++) {
+            resultArray.push(0);
+        }
+
+        const thisMonth = parseInt(moment().format('M'));
+        const monthBefore = parseInt(moment().subtract(monthCount, 'months').format('M')) + 1;
+
+        dataArray.forEach(item => {
+            const itemMonth = parseInt(moment(item.date.date).format('M'));
+
+            if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
+                let index;
+                if(itemMonth - monthBefore < 0) {
+                    index = itemMonth + 12 - monthBefore;
+                } else {
+                    index = itemMonth - monthBefore;
+                }
+                resultArray[index] += item.amount;
+            }
+        });
+
+        return resultArray;
+    }
 }
