@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Form\CustomerFormType;
+use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ class CustomersController extends Controller
        if($editForm->isSubmitted() && $editForm->isValid()) {
            $em = $this->getDoctrine()->getManager();
            $em->flush();
+           return $this->redirect('/customers?edit=' . $id);
        }
 
        return $this->render('default/editForm.html.twig', [
@@ -42,6 +44,12 @@ class CustomersController extends Controller
      * @Route("/customers", name="customers")
      */
     public function customers(Request $request) {
+        $successMessage = null;
+        if($request->query->get('edit')) {
+            $sm = new SuccessMessage($this->getDoctrine()->getManager());
+            $successMessage = $sm->getSuccessMessage($request, Customer::class);
+        }
+
         $form = $this->createForm(CustomerFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +73,8 @@ class CustomersController extends Controller
 
         return $this->render('default/customers.html.twig', [
             'customers' => $customers,
-            'newForm' => $form->createView()
+            'newForm' => $form->createView(),
+            'successMessage' => $successMessage
         ]);
     }
 }

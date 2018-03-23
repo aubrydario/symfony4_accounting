@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Payment;
 use App\Form\PaymentFormType;
+use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,8 @@ class PaymentController extends Controller
         if($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+
+            return $this->redirect('/payment?edit=' . $id);
         }
 
         return $this->render('default/editForm.html.twig', [
@@ -41,8 +44,14 @@ class PaymentController extends Controller
     /**
      * @Route("/payment", name="payment")
      */
-    public function billAction(Request $request, $page = 1)
+    public function billAction(Request $request)
     {
+        $successMessage = null;
+        if($request->query->get('edit')) {
+            $sm = new SuccessMessage($this->getDoctrine()->getManager());
+            $successMessage = $sm->getSuccessMessage($request, Payment::class);
+        }
+
         $form = $this->createForm(PaymentFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +74,8 @@ class PaymentController extends Controller
 
         return $this->render('default/payment.html.twig', [
             'payments' => $payments,
-            'newForm' => $form->createView()
+            'newForm' => $form->createView(),
+            'successMessage' => $successMessage
         ]);
     }
 }

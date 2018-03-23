@@ -2,9 +2,13 @@
 
 {% block content %}
     <div class="content">
-        <h1>Zahlungen</h1>
-        <div class="table-wrapper">
+        {% if successMessage is not null and successMessage.type == 'edit' %}
+            <div class="success-message">Zahlung {{ successMessage.item.description }} wurde erfolgreich bearbeitet.</div>
+        {% endif %}
 
+        <h1>Zahlungen</h1>
+
+        <div class="table-wrapper">
             <div class="filter-options">
                 <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
                 {% include 'components/triggerModalButton.html.twig' with {

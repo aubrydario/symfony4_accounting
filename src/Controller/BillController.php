@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Form\BillFormType;
+use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,8 @@ class BillController extends Controller
         if($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+
+            return $this->redirect('/bill?edit=' . $id);
         }
 
         return $this->render('default/editForm.html.twig', [
@@ -43,6 +46,12 @@ class BillController extends Controller
      */
     public function billAction(Request $request)
     {
+        $successMessage = null;
+        if($request->query->get('edit')) {
+            $sm = new SuccessMessage($this->getDoctrine()->getManager());
+            $successMessage = $sm->getSuccessMessage($request, Bill::class);
+        }
+
         $form = $this->createForm(BillFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +74,8 @@ class BillController extends Controller
 
         return $this->render('default/bill.html.twig', [
             'bills' => $bills,
-            'newForm' => $form->createView()
+            'newForm' => $form->createView(),
+            'successMessage' => $successMessage
         ]);
     }
 }
