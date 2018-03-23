@@ -35,6 +35,16 @@ class CustomerRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    public function findAllCustomerGroupedByGender()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c.gender) AS genderCount')
+            ->where('c.active = 1')
+            ->groupBy('c.gender')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllCustomerNameJoinBill() {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('

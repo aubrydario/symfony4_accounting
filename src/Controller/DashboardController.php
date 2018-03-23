@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bill;
+use App\Entity\Customer;
 use App\Entity\Payment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,16 +16,28 @@ class DashboardController extends Controller
      * @Route("/", name="homepage")
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboardAction()
+    public function dashboard()
     {
         return $this->render('default/dashboard.html.twig');
+    }
+
+    /**
+     * @Route("/api/customers")
+     * @Method("GET")
+     */
+    public function getCustomers()
+    {
+        $customers = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findAllCustomerGroupedByGender();
+        return new JsonResponse($customers);
     }
 
     /**
      * @Route("/api/bills")
      * @Method("GET")
      */
-    public function getBillsAction()
+    public function getBills()
     {
         $bills = $this->getDoctrine()
             ->getRepository(Bill::class)
@@ -36,7 +49,7 @@ class DashboardController extends Controller
      * @Route("/api/payments")
      * @Method("GET")
      */
-    public function getPaymentsAction()
+    public function getPayments()
     {
         $payments = $this->getDoctrine()
             ->getRepository(Payment::class)
