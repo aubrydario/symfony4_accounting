@@ -221,7 +221,7 @@ class Customer
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void {
+    public function setEmail(?string $email): void {
         $this->email = $email;
     }
 
@@ -235,7 +235,7 @@ class Customer
     /**
      * @param string $telprivat
      */
-    public function setTelprivat(string $telprivat): void {
+    public function setTelprivat(?string $telprivat): void {
         $this->telprivat = $telprivat;
     }
 
@@ -249,7 +249,7 @@ class Customer
     /**
      * @param string $telmobile
      */
-    public function setTelmobile(string $telmobile): void {
+    public function setTelmobile(?string $telmobile): void {
         $this->telmobile = $telmobile;
     }
 
