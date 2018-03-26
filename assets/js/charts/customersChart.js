@@ -19,8 +19,8 @@ export default function getCustomersChart() {
                 data: {
                     datasets: [{
                         data: [
-                            customers.responseJSON[0].genderCount,
-                            customers.responseJSON[1].genderCount
+                            customers.responseJSON[0] ? customers.responseJSON[0].genderCount : 0,
+                            customers.responseJSON[1] ? customers.responseJSON[1].genderCount : 0
                         ],
                         backgroundColor: [
                             'rgba(36, 147, 11, 0.8)',
