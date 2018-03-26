@@ -3,20 +3,20 @@
 {% block content %}
     <div class="content">
         {% if successMessage is not null and successMessage.type == 'edit' %}
-            <div class="success-message">Rechnung {{ successMessage.item.id }} wurde erfolgreich bearbeitet.</div>
+            <div class="success-message">Abonnement {{ successMessage.item.id }} wurde erfolgreich bearbeitet.</div>
         {% endif %}
 
-        <h1>Rechnungen</h1>
+        <h1>Abonnemente</h1>
 
         <div class="table-wrapper">
             <div class="filter-options">
                 {% include 'components/triggerModalButton.html.twig' with {
                     'dataTarget': 'addModal',
-                    'text': 'Rechnung erstellen'
+                    'text': 'Abonnement erstellen'
                 } %}
             </div>
 
-            <table class="table table-striped" id="searchTable">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>{{ knp_pagination_sortable(bills, 'Start Datum', 'b.date') }}</th>
@@ -44,10 +44,10 @@
             </div>
         </div>
         <!-- Delete Bill Modal -->
-        {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Rechnung löschen', 'text': 'Wollen Sie diese Rechnung löschen?'} %}
+        {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Abonnement löschen', 'text': 'Wollen Sie dieses Abonnement löschen?'} %}
 
         <!-- Create Bill Modal -->
-        {% include 'components/createModal.html.twig' with {'title': 'Rechnung erstellen'} %}
+        {% include 'components/createModal.html.twig' with {'title': 'Abonnement erstellen'} %}
     </div>
 {% endblock %}
 
