@@ -10,7 +10,6 @@
 
         <div class="table-wrapper">
             <div class="filter-options">
-                <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
                 {% include 'components/triggerModalButton.html.twig' with {
                     'dataTarget': 'addModal',
                     'text': 'Zahlung erstellen'
@@ -20,9 +19,9 @@
             <table class="table table-striped" id="searchTable">
                 <thead>
                 <tr>
-                    <th>Datum</th>
-                    <th>Beschreibung</th>
-                    <th>Betrag</th>
+                    <th>{{ knp_pagination_sortable(payments, 'Datum', 'p.date') }}</th>
+                    <th>{{ knp_pagination_sortable(payments, 'Beschreibung', 'p.description') }}</th>
+                    <th>{{ knp_pagination_sortable(payments, 'Betrag', 'p.amount') }}</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -9,7 +9,6 @@
         <h1>Kunden Liste</h1>
 
         <div class="filter-options">
-            <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
             {% include 'components/triggerModalButton.html.twig' with {
                 'dataTarget': 'addModal',
                 'text': 'Kunde hinzufügen'
@@ -19,18 +18,18 @@
         <table class="table table-striped" id="searchTable">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(customers, 'Geschlecht', 'c.gender') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Vorname', 'c.firstname') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Nachname', 'c.surname') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Geburtstag', 'c.birthday') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Email', 'c.email') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Telefon Privat', 'c.telprivat') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Telefon Mobile', 'c.telmobile') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Strasse', 'c.street') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Ort', 'c.city') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'PLZ', 'c.plz') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Start Datum', 'c.startdate') }}<i class="fa fa-sort"></i></th>
-                <th>{{ knp_pagination_sortable(customers, 'Start Datum', 'c.enddate') }}<i class="fa fa-sort"></i></th>
+                <th>{{ knp_pagination_sortable(customers, 'Geschlecht', 'c.gender') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Vorname', 'c.firstname') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Nachname', 'c.surname') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Geburtstag', 'c.birthday') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Email', 'c.email') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Telefon Privat', 'c.telprivat') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Telefon Mobile', 'c.telmobile') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Strasse', 'c.street') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Ort', 'c.city') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'PLZ', 'c.plz') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Start Datum', 'c.startdate') }}</th>
+                <th>{{ knp_pagination_sortable(customers, 'Start Datum', 'c.enddate') }}</th>
             </tr>
             </thead>
             <tbody>

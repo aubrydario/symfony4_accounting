@@ -1,6 +1,3 @@
-import search from './search.js'
-
-search();
 modal(window.location.pathname);
 
 function modal(uri) {

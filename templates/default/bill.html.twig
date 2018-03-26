@@ -10,7 +10,6 @@
 
         <div class="table-wrapper">
             <div class="filter-options">
-                <input class="form-control" id="searchField" type="search" placeholder="Suchen..." />
                 {% include 'components/triggerModalButton.html.twig' with {
                     'dataTarget': 'addModal',
                     'text': 'Rechnung erstellen'
@@ -20,10 +19,10 @@
             <table class="table table-striped" id="searchTable">
                 <thead>
                 <tr>
-                    <th>Start Datum</th>
-                    <th>Ablauf Datum</th>
-                    <th>Name</th>
-                    <th>Betrag</th>
+                    <th>{{ knp_pagination_sortable(bills, 'Start Datum', 'b.date') }}</th>
+                    <th>{{ knp_pagination_sortable(bills, 'Ablauf Datum', 'b.enddate') }}</th>
+                    <th>{{ knp_pagination_sortable(bills, 'Name', 'c.firstname') }}</th>
+                    <th>{{ knp_pagination_sortable(bills, 'Betrag', 'amount') }}</th>
                 </tr>
                 </thead>
                 <tbody>
