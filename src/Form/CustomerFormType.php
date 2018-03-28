@@ -61,16 +61,13 @@ class CustomerFormType extends AbstractType
                 'label' => 'PLZ'
             ])
             ->add('startdate', DateType::class, [
-                'label' => 'Start Datum',
+                'label' => 'Eintrittsdatum',
                 'widget' => 'single_text'
             ])
             ->add('enddate', DateType::class, [
-                'label' => 'End Datum',
+                'label' => 'Austrittsdatum',
                 'widget' => 'single_text',
                 'required' => false
-            ])
-            ->add('active', HiddenType::class, [
-                'data' => 1
             ]);
     }
 
