@@ -18,7 +18,8 @@ class EditBillFormType extends AbstractType
         $builder
             ->add('date', DateType::class, [
                 'label' => 'Start Datum: ',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'disabled' => true
             ])
             ->add('enddate', DateType::class, [
                 'label' => 'End Datum: ',
@@ -33,12 +34,14 @@ class EditBillFormType extends AbstractType
                 },
                 'choice_label' => function (Customer $customer) {
                     return $customer->getFirstname().' '.$customer->getSurname();
-                }
+                },
+                'disabled' => true
             ])
             ->add('abo', EntityType::class, [
                 'label' => 'Abo: ',
                 'class' => Abo::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'disabled' => true
             ]);
     }
 

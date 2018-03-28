@@ -27,7 +27,8 @@ class BillController extends Controller
         }
 
         return $this->render('default/editForm.html.twig', [
-            'editForm' => $editForm->createView()
+            'editForm' => $editForm->createView(),
+            'site' => 'bill'
         ]);
     }
 
