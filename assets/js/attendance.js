@@ -35,6 +35,9 @@ function getAttendance() {
 
 // Trigger when both Ajax requests are done
 $.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
+    // Remove Spinner
+    document.getElementsByClassName('spinner')[0].style.display = 'none';
+
     createTable(bills[0], attendances[0], hours[0]);
 });
 
