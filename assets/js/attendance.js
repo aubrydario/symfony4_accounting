@@ -3,38 +3,20 @@ import d3 from 'd3';
 
 moment.locale('de');
 
-function getBills() {
+function ajax(type, url, {data = null, dataType = 'json', async = true, contentType = 'application/json; charset=utf-8', complete = null} = {}) {
     return $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: "/api/attendance",
-        async: true,
-        contentType: "application/json; charset=utf-8"
+        type: type,
+        dataType: dataType,
+        url: url,
+        data: data,
+        async: async,
+        contentType: contentType,
+        complete: complete
     });
 }
 
-function getHour() {
-    return $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: "/api/hour",
-        async: true,
-        contentType: "application/json; charset=utf-8"
-    });
-}
-
-function getAttendance() {
-    return $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: "/api/attendanceDetails",
-        async: true,
-        contentType: "application/json; charset=utf-8"
-    });
-}
-
-// Trigger when both Ajax requests are done
-$.when(getBills(), getAttendance(), getHour()).done((bills, attendances, hours) => {
+// Trigger when all Ajax requests are done
+$.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {
     // Remove Spinner
     document.getElementsByClassName('spinner')[0].style.display = 'none';
 
@@ -169,13 +151,7 @@ function showInfo(timeRow) {
     }
 
     if(!element.hasChildNodes()) {
-        const data = $.ajax({
-            type: "GET",
-            dataType: 'json',
-            url: "/api/attendanceCount/" + d3.event.target.dataset.billid,
-            async: true,
-            contentType: "application/json; charset=utf-8"
-        }).done(() => {
+        const data = ajax('GET', '/api/attendanceCount/' + d3.event.target.dataset.billid, {complete: () => {
             let attendanceCount = JSON.parse(data.responseText)[0];
 
             if(!attendanceCount || parseInt(attendanceCount.attendanceCount) < parseInt(attendanceCount.maxVisits)) {
@@ -189,32 +165,21 @@ function showInfo(timeRow) {
                     'hour_id': timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
                 };
 
-                const postAttendance = $.ajax({
-                    type: 'POST',
-                    url: '/api/attendanceDetails',
-                    data: JSON.stringify(response),
-                    dataType: 'application/json; charset=utf-8',
-                    complete: () => {
-                        icon.dataset.id = postAttendance.responseText;
+                const postAttendance = ajax('POST', '/api/attendanceDetails', {
+                        data: JSON.stringify(response),
+                        complete: () => { icon.dataset.id = postAttendance.responseText; }
                     }
-                });
+                );
 
             } else {
                 alert('Max erreicht');
             }
-
-        });
-
+        }});
     } else {
         let icon = element.getElementsByTagName('i')[0];
         let id = icon.dataset.id;
         icon.remove();
 
-        $.ajax({
-            type: 'DELETE',
-            url: '/api/attendanceDetails',
-            data: JSON.stringify({id: id}),
-            dataType: 'application/json; charset=utf-8'
-        });
+        ajax('DELETE', '/api/attendanceDetails', { data: JSON.stringify({id: id}) });
     }
 }
