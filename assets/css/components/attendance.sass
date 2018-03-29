@@ -31,14 +31,32 @@
 
 
 #attendance-table
+  width: 100%
+  overflow-x: scroll
+  overflow-y: visible
+
   table
     thead tr:nth-child(2) th
       min-width: 90px
 
+    thead tr th:first-child
+      min-width: 150px
+      max-width: 150px
+      width: 150px
+      border: none
+
+    tr
+      height: 35px
+
     td
       &:first-child
         font-weight: bold
-        min-width: 120px
+        position: absolute
+        width: 150px
+        height: 35px
+        margin: 0 0 0 -1px
+        background: #ffffff
+        border-top-width: 1px
 
       &:not(:first-child)
         text-align: center
