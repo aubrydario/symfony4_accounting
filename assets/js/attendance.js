@@ -1,19 +1,8 @@
 import moment from 'moment';
 import d3 from 'd3';
+import ajax from './components/ajaxCall';
 
-moment.locale('de');
-
-function ajax(type, url, {data = null, dataType = 'json', async = true, contentType = 'application/json; charset=utf-8', complete = null} = {}) {
-    return $.ajax({
-        type: type,
-        dataType: dataType,
-        url: url,
-        data: data,
-        async: async,
-        contentType: contentType,
-        complete: complete
-    });
-}
+moment.locale('de-ch');
 
 // Trigger when all Ajax requests are done
 $.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {

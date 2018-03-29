@@ -1,29 +1,10 @@
 import Chart from 'chart.js';
 import moment from 'moment';
+import ajax from '../components/ajaxCall';
 
 export default function getBillsAndPaymentsLastSixMonthsChart() {
     moment.locale('de-ch');
     let billsAndPaymentsChart;
-
-    function getBills() {
-        return $.ajax({
-            type: "GET",
-            dataType: 'json',
-            url: "/api/bills",
-            async: true,
-            contentType: "application/json; charset=utf-8"
-        });
-    }
-
-    function getPayments() {
-        return $.ajax({
-            type: "GET",
-            dataType: 'json',
-            url: "/api/payments",
-            async: true,
-            contentType: "application/json; charset=utf-8"
-        });
-    }
 
     const monthCount = 6;
 
@@ -42,7 +23,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
     }
 
     // Trigger when both Ajax requests are done
-    $.when(getBills(), getPayments()).done((bills, payments) => {
+    $.when(ajax('GET', '/api/bills'), ajax('GET', '/api/payments')).done((bills, payments) => {
 
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
