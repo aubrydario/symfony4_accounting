@@ -24,7 +24,7 @@ function createTable(data, attendances, hours) {
     dateRow.append('th');
     timeRow.append('th');
 
-    for(let i = 0; i < 52; i++) {
+    for(let i = 0; i < 4; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];

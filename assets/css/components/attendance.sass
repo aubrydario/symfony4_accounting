@@ -1,85 +1,116 @@
 @import "../variables"
 
-.abolegend
-  float: right
+.header
   display: flex
-  position: relative
-  margin: -50px 50px 20px 50px
+  justify-content: space-between
 
-  .abos
-    margin: 10px 40px 0 0
+  .abolegend
+    float: right
+    display: flex
+    position: relative
+    margin: 0 50px 20px 50px
 
-  .colors
-    span
-      display: block
-      width: 25px
-      height: 25px
-      border-radius: 50%
-      margin: 5px 10px
+    .abos
+      margin: 10px 40px 0 0
 
-      &.einzelstunde
-        background-color: $einzelstunde
+    .colors
+      span
+        display: block
+        width: 25px
+        height: 25px
+        border-radius: 50%
+        margin: 5px 10px
 
-      &.schnupperstunde
-        background-color: $schnupperstunde
+        &.einzelstunde
+          background-color: $einzelstunde
 
-      &.zehnerabo
-        background-color: $zehnerabo
+        &.schnupperstunde
+          background-color: $schnupperstunde
 
-      &.jahresabo
-        background-color: $jahresabo
+        &.zehnerabo
+          background-color: $zehnerabo
 
+        &.jahresabo
+          background-color: $jahresabo
 
-#attendance-table
-  width: 100%
-  overflow-x: scroll
-  overflow-y: visible
+.filter
+  #app_bundle_attendance_filter_form_type
+    display: flex
+    align-items: flex-end
+    justify-content: flex-end
 
-  table
-    thead tr:nth-child(2) th
-      min-width: 90px
+    .form-group
+      margin: 10px
 
-    thead tr th:first-child
-      min-width: 150px
-      max-width: 150px
-      width: 150px
-      border: none
+.attendance
+  display: flex
+  align-items: center
 
-    tr
-      height: 35px
+  .load-right,
+  .load-left
+    cursor: pointer
+    opacity: .5
+    transition: all .3s ease-in-out
 
-    td
-      &:first-child
-        font-weight: bold
-        position: absolute
-        width: 150px
+    &:hover
+      opacity: 1
+
+  .load-left
+    margin-right: 20px
+
+  .load-right
+    margin-left: 20px
+
+  #attendance-table
+    width: 100%
+    overflow-x: scroll
+    overflow-y: visible
+
+    table
+      thead tr:nth-child(2) th
+        min-width: 90px
+
+      thead tr th:first-child
+        min-width: 200px
+        max-width: 200px
+        width: 200px
+        border: none
+
+      tr
         height: 35px
-        margin: 0 0 0 -1px
-        background: #ffffff
-        border-top-width: 1px
 
-      &:not(:first-child)
-        text-align: center
+      td
+        &:first-child
+          font-weight: bold
+          position: absolute
+          width: 200px
+          height: 35px
+          margin: 0 0 0 -1px
+          background: #ffffff
+          border-top-width: 1px
 
-      i
-        color: #ffffff
+        &:not(:first-child)
+          text-align: center
 
-    .abo
-      cursor: pointer
+        i
+          color: #ffffff
 
-    .einzelstunde
-      background: $einzelstunde
+      .abo
+        cursor: pointer
 
-    .schnupperstunde
-      background: $schnupperstunde
+      .einzelstunde
+        background: $einzelstunde
 
-    .zehnerabo
-      background: $zehnerabo
+      .schnupperstunde
+        background: $schnupperstunde
 
-    .jahresabo
-      background: $jahresabo
+      .zehnerabo
+        background: $zehnerabo
 
-    span
-      display: block
-      background-color: lightgray
-      position: absolute
+      .jahresabo
+        background: $jahresabo
+
+      span
+        display: block
+        background-color: lightgray
+        position: absolute

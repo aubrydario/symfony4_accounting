@@ -6,6 +6,7 @@ use App\Entity\Attendance;
 use App\Entity\Bill;
 use App\Entity\Customer;
 use App\Entity\Hour;
+use App\Form\AttendanceFilterFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,8 +18,17 @@ class AttendanceController extends Controller
     /**
      * @Route("/attendance", name="attendance")
      */
-    public function attendance() {
-        return $this->render('default/attendance.html.twig');
+    public function attendance(Request $request) {
+        $form = $this->createForm(AttendanceFilterFormType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            dump($data);
+        }
+
+        return $this->render('default/attendance.html.twig', [
+            'AttendanceFilterForm' => $form->createView()
+        ]);
     }
 
     /**
