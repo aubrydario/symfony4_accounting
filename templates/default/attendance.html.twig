@@ -2,26 +2,37 @@
 
 {% block content %}
     <div class="content">
-        <h1>Anwesenheitsliste</h1>
+        <div class="header">
+            <h1>Anwesenheitsliste</h1>
 
-        <div class="abolegend">
-            <div class="abos">
-                <p>Einzelstunde</p>
-                <p>Schnupperstunde</p>
-                <p>10er Abo</p>
-                <p>Jahresabo</p>
-            </div>
-            <div class="colors">
-                <span class="einzelstunde"></span>
-                <span class="schnupperstunde"></span>
-                <span class="zehnerabo"></span>
-                <span class="jahresabo"></span>
+            <div class="abolegend">
+                <div class="abos">
+                    <p>Einzelstunde</p>
+                    <p>Schnupperstunde</p>
+                    <p>10er Abo</p>
+                    <p>Jahresabo</p>
+                </div>
+                <div class="colors">
+                    <span class="einzelstunde"></span>
+                    <span class="schnupperstunde"></span>
+                    <span class="zehnerabo"></span>
+                    <span class="jahresabo"></span>
+                </div>
             </div>
         </div>
         <div class="spinner">
             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
         </div>
-        <div id="attendance-table"></div>
+        <div class="filter">
+            {{ form_start(AttendanceFilterForm) }}
+            {{ form_widget(AttendanceFilterForm) }}
+            {{ form_end(AttendanceFilterForm) }}
+        </div>
+        <div class="attendance">
+            <div class="load-left"><i class="fa fa-chevron-left fa-2x"></i></div>
+            <div id="attendance-table"></div>
+            <div class="load-right"><i class="fa fa-chevron-right fa-2x"></i></div>
+        </div>
     </div>
 {% endblock %}
 
