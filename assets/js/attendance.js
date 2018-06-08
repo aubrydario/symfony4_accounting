@@ -1,37 +1,74 @@
 import moment from 'moment';
 import d3 from 'd3';
 import ajax from './components/ajaxCall';
+import daterangepicker from 'daterangepicker';
 
 moment.locale('de-ch');
 
-// Trigger when all Ajax requests are done
-$.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {
-    // Remove Spinner
-    document.getElementsByClassName('spinner')[0].style.display = 'none';
+// DateRangePicker
+const startDate = moment().subtract(14, 'days');
+const endDate = moment().add(14, 'days');
 
-    createTable(bills[0], attendances[0], hours[0]);
-});
+loadData();
 
-const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
-const thead = table.append('thead');
-const tbody = table.append('tbody');
+function loadData() {
+    // Trigger when all Ajax requests are done
+    $.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {
+        // Remove Spinner
+        document.getElementsByClassName('spinner')[0].style.display = 'none';
 
-function createTable(data, attendances, hours) {
+        $('#daterangepicker').daterangepicker({
+            startDate: startDate,
+            endDate: endDate,
+            ranges: {
+                'Letzten 30 Tage': [moment().subtract(29, 'days'), moment()],
+                'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
+                'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            locale: {
+                cancelLabel: 'Abbrechen',
+                applyLabel: 'Speichern',
+                customRangeLabel: 'Selber Auswählen'
+            }
+        }, cb);
+
+        //cb(startDate, endDate);
+        $('#daterangepicker span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+
+        createTable(startDate, endDate, bills[0], attendances[0], hours[0]);
+    });
+}
+
+function cb(start, end) {
+    $('#daterangepicker span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
+    $('.table-bordered').remove();
+    loadData();
+
+    console.log($('#daterangepicker').data('daterangepicker').startDate.format('MMMM D, YYYY'));
+    console.log($('#daterangepicker').data('daterangepicker').endDate.format('MMMM D, YYYY'));
+}
+
+function createTable(startDate, endDate, data, attendances, hours) {
+    const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
+    const thead = table.append('thead');
+    const tbody = table.append('tbody');
     const dateRow = thead.append('tr');
     const timeRow = thead.append('tr');
+    const weekCount = endDate.format('w') - startDate.format('w');
     let week = 0;
 
     dateRow.append('th');
     timeRow.append('th');
 
-    for(let i = 0; i < 4; i++) {
+    for(let i = 0; i < weekCount; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];
             let addDays = hour.day - 1 + week;
 
             dateRow.append('th')
-                .text(moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'))
+                .text(startDate.startOf('week').add(addDays, 'days').format('dd D.M.YY'))
                 .attr('colspan', hourTimeArray.length);
 
             hourTimeArray.forEach((time, index) => {

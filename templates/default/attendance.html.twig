@@ -23,15 +23,16 @@
         <div class="spinner">
             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
         </div>
+
         <div class="filter">
-            {{ form_start(AttendanceFilterForm) }}
-            {{ form_widget(AttendanceFilterForm) }}
-            {{ form_end(AttendanceFilterForm) }}
+            <div id="daterangepicker" class="form-control" style="cursor: pointer;">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+            </div>
         </div>
+
         <div class="attendance">
-            <div class="load-left"><i class="fa fa-chevron-left fa-2x"></i></div>
             <div id="attendance-table"></div>
-            <div class="load-right"><i class="fa fa-chevron-right fa-2x"></i></div>
         </div>
     </div>
 {% endblock %}
