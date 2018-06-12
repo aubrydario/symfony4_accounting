@@ -5,21 +5,18 @@ import daterangepicker from 'daterangepicker';
 
 moment.locale('de-ch');
 
-// DateRangePicker
-const startDate = moment().subtract(14, 'days');
-const endDate = moment().add(14, 'days');
-
 loadData();
 
-function loadData() {
+function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
     $.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
         $('#daterangepicker').daterangepicker({
-            startDate: startDate,
-            endDate: endDate,
+            startDate: start,
+            endDate: end,
+            opens: 'left',
             ranges: {
                 'Letzten 30 Tage': [moment().subtract(29, 'days'), moment()],
                 'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
@@ -33,20 +30,15 @@ function loadData() {
         }, cb);
 
         //cb(startDate, endDate);
-        $('#daterangepicker span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+        $('#daterangepicker span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 
-        createTable(startDate, endDate, bills[0], attendances[0], hours[0]);
+        createTable(start, end, bills[0], attendances[0], hours[0]);
     });
 }
 
 function cb(start, end) {
-    $('#daterangepicker span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-
     $('.table-bordered').remove();
-    loadData();
-
-    console.log($('#daterangepicker').data('daterangepicker').startDate.format('MMMM D, YYYY'));
-    console.log($('#daterangepicker').data('daterangepicker').endDate.format('MMMM D, YYYY'));
+    loadData(start, end);
 }
 
 function createTable(startDate, endDate, data, attendances, hours) {
@@ -61,7 +53,7 @@ function createTable(startDate, endDate, data, attendances, hours) {
     dateRow.append('th');
     timeRow.append('th');
 
-    for(let i = 0; i < weekCount; i++) {
+    for(let i = 0; i <= weekCount; i++) {
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];
@@ -74,11 +66,12 @@ function createTable(startDate, endDate, data, attendances, hours) {
             hourTimeArray.forEach((time, index) => {
                 timeRow.append('th')
                     .text(moment(time, 'HH:mm:ss').format('HH:mm'))
-                    .attr('data-date', moment().startOf('week').add(addDays, 'days').format('dd D.M.YY'))
+                    .attr('data-date', startDate.startOf('week').add(addDays, 'days').format('dd D.M.YY'))
                     .attr('data-id', hourIdArray[index]);
             });
         });
-        week += 7;
+        //week += 7;
+        startDate.add(1, 'week')
     }
 
     // create a row for each object in the data
