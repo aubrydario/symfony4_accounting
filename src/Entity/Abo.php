@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AboRepository")
+ * @ApiResource
  */
 class Abo
 {
@@ -44,6 +47,7 @@ class Abo
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo", fetch="EAGER")
+     * @ApiSubresource
      */
     private $bills;
 

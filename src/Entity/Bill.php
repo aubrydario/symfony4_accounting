@@ -5,10 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BillRepository")
+ * @ApiResource
  */
 class Bill
 {
@@ -36,6 +39,7 @@ class Bill
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bills")
      * @ORM\JoinColumn
+     * @ApiSubresource
      */
     private $customer;
 
@@ -47,6 +51,7 @@ class Bill
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="bill", fetch="EAGER")
+     * @ApiSubresource
      */
     private $attendances;
 

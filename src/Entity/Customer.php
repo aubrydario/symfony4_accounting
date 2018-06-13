@@ -5,10 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+Use ApiPlatform\Core\Annotation\ApiSubresource;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
+ * @ApiResource
  */
 class Customer
 {
@@ -111,7 +114,8 @@ class Customer
     private $enddate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer")
+     * @ApiSubresource
      */
     private $bills;
 

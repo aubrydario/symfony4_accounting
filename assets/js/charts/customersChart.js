@@ -5,6 +5,8 @@ export default function getCustomersChart() {
     let customersChart;
 
     const customers =  ajax('GET', '/api/customers', { complete: () => {
+        console.log(customers);
+
         // Remove Spinner
         document.getElementsByClassName('spinner')[1].style.display = 'none';
 
