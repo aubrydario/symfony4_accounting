@@ -46,6 +46,7 @@ class Bill
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="bills")
      * @ORM\JoinColumn
+     * @ApiSubresource
      */
     private $abo;
 

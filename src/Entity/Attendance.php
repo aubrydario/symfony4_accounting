@@ -29,14 +29,12 @@ class Attendance
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Bill", inversedBy="attendances")
      * @ORM\JoinColumn
-     * @ApiSubresource
      */
     private $bill;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Hour", inversedBy="attendances")
      * @ORM\JoinColumn
-     * @ApiSubresource
      */
     private $hour;
 

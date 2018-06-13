@@ -4,7 +4,19 @@ import ajax from '../components/ajaxCall';
 export default function getCustomersChart() {
     let customersChart;
 
-    const customers =  ajax('GET', '/api/customers', { complete: () => {
+    let customers =  ajax('GET', '/api/customers?active=1', { complete: () => {
+        customers = customers.responseJSON;
+        let men = [];
+        let women = [];
+
+        customers.forEach(customer => {
+            if(customer.gender === "Herr") {
+                men.push(customer);
+            } else {
+                women.push(customer);
+            }
+        });
+
         console.log(customers);
 
         // Remove Spinner
@@ -16,8 +28,8 @@ export default function getCustomersChart() {
             data: {
                 datasets: [{
                     data: [
-                        customers.responseJSON[0] ? customers.responseJSON[0].genderCount : 0,
-                        customers.responseJSON[1] ? customers.responseJSON[1].genderCount : 0
+                        women.length,
+                        men.length
                     ],
                     backgroundColor: [
                         'rgba(36, 147, 11, 0.8)',
