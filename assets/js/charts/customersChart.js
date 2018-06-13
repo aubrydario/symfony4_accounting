@@ -4,7 +4,7 @@ import ajax from '../components/ajaxCall';
 export default function getCustomersChart() {
     let customersChart;
 
-    let customers =  ajax('GET', '/api/customers?active=1', { complete: () => {
+    let customers = ajax('GET', '/api/customers?active=1', { complete: () => {
         customers = customers.responseJSON;
         let men = [];
         let women = [];
@@ -16,8 +16,6 @@ export default function getCustomersChart() {
                 women.push(customer);
             }
         });
-
-        console.log(customers);
 
         // Remove Spinner
         document.getElementsByClassName('spinner')[1].style.display = 'none';
