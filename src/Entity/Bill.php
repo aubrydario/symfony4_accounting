@@ -51,7 +51,7 @@ class Bill
     private $abo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="bill", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="bill")
      * @ApiSubresource
      */
     private $attendances;

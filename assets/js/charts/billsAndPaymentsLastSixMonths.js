@@ -24,7 +24,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
 
     // Trigger when both Ajax requests are done
     $.when(ajax('GET', '/api/bills'), ajax('GET', '/api/payments')).done((bills, payments) => {
-
+console.log(bills);
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 

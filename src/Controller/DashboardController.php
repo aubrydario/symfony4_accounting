@@ -20,18 +20,6 @@ class DashboardController extends Controller
     {
         return $this->render('default/dashboard.html.twig');
     }
-/*
-    /**
-     * @Route("/api/customers")
-     * @Method("GET")
-     *//*
-    public function getCustomers()
-    {
-        $customers = $this->getDoctrine()
-            ->getRepository(Customer::class)
-            ->findAllCustomerGroupedByGender();
-        return new JsonResponse($customers);
-    }*/
 
     /**
      * @Route("/api/bills")
