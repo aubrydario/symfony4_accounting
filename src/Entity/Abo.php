@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AboRepository")
@@ -32,6 +33,7 @@ class Abo
      * @var integer
      *
      * @ORM\Column(name="price", type="integer", nullable=false)
+     * @Groups("bill-abo")
      */
     private $price;
 
@@ -46,7 +48,7 @@ class Abo
     private $maxDays;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo")
      */
     private $bills;
 

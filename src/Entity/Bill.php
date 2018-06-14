@@ -7,14 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BillRepository")
- * @ApiResource
+ * @ApiResource(attributes={
+ *   "normalization_context"={"groups"={"bill-abo"}}
+ * })
  */
-class Bill
-{
+class Bill {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -26,6 +28,7 @@ class Bill
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false)
+     * @Groups("bill-abo")
      */
     private $date;
 
@@ -47,6 +50,7 @@ class Bill
      * @ORM\ManyToOne(targetEntity="App\Entity\Abo", inversedBy="bills")
      * @ORM\JoinColumn
      * @ApiSubresource
+     * @Groups("bill-abo")
      */
     private $abo;
 

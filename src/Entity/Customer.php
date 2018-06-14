@@ -9,7 +9,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -37,7 +36,6 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=50, nullable=false)
-     * @Groups({"list"})
      */
     private $firstname;
 

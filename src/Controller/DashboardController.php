@@ -20,29 +20,4 @@ class DashboardController extends Controller
     {
         return $this->render('default/dashboard.html.twig');
     }
-
-    /**
-     * @Route("/api/bills")
-     * @Method("GET")
-     */
-    public function getBills()
-    {
-        $bills = $this->getDoctrine()
-            ->getRepository(Bill::class)
-            ->findAllBills();
-        return new JsonResponse($bills);
-    }
-
-    /**
-     * @Route("/api/payments")
-     * @Method("GET")
-     */
-    public function getPayments()
-    {
-        $payments = $this->getDoctrine()
-            ->getRepository(Payment::class)
-            ->findAllPayments();
-
-        return new JsonResponse($payments);
-    }
 }

@@ -24,7 +24,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
 
     // Trigger when both Ajax requests are done
     $.when(ajax('GET', '/api/bills'), ajax('GET', '/api/payments')).done((bills, payments) => {
-console.log(bills);
+
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
@@ -38,13 +38,13 @@ console.log(bills);
                         label: 'Einnahmen in Fr.',
                         backgroundColor: 'rgba(36, 147, 11, 0.2)',
                         borderColor: 'rgba(36, 147, 11, 1)',
-                        data: getAmountPerMonth(bills[0])
+                        data: getAmountPerMonth(bills[0], 'bills')
                     },
                     {
                         label: 'Ausgaben in Fr.',
                         backgroundColor: 'rgba(255, 0, 0, 0.2)',
                         borderColor: 'rgba(255, 0, 0, 1)',
-                        data: getAmountPerMonth(payments[0])
+                        data: getAmountPerMonth(payments[0], 'payments')
                     }
                 ]
             },
@@ -85,7 +85,7 @@ console.log(bills);
         });
     });
 
-    function getAmountPerMonth(dataArray) {
+    function getAmountPerMonth(dataArray, name) {
         let resultArray = [];
         for(let i = 0 ; i < monthCount ; i++) {
             resultArray.push(0);
@@ -95,16 +95,18 @@ console.log(bills);
         const monthBefore = parseInt(moment().subtract(monthCount, 'months').format('M')) + 1;
 
         dataArray.forEach(item => {
-            const itemMonth = parseInt(moment(item.date.date).format('M'));
+            const itemMonth = parseInt(moment(item.date).format('M'));
 
             if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
                 let index;
+
                 if(itemMonth - monthBefore < 0) {
                     index = itemMonth + 12 - monthBefore;
                 } else {
                     index = itemMonth - monthBefore;
                 }
-                resultArray[index] += item.amount;
+
+                resultArray[index] += name === 'bills' ? item.abo.price : item.amount;
             }
         });
 
