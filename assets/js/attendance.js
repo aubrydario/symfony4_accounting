@@ -2,10 +2,16 @@ import moment from 'moment';
 import d3 from 'd3';
 import ajax from './components/ajaxCall';
 import daterangepicker from 'daterangepicker';
+import colorpicker from 'spectrum-colorpicker';
 
 moment.locale('de-ch');
 
 loadData();
+
+$("#colorpicker-einzelstunde").spectrum({color: "#ff6347"});
+$("#colorpicker-schnupperstunde").spectrum({color: "#65b966"});
+$("#colorpicker-zehnerabo").spectrum({color: "#6abfe6"});
+$("#colorpicker-jahresabo").spectrum({color: "#246fff"});
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
