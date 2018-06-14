@@ -13,13 +13,12 @@ class PaymentRepository extends ServiceEntityRepository
         parent::__construct($registry, Payment::class);
     }
 
-
-    public function findAllPayments()
+    public function findAllPaymentQuerys()
     {
         return $this->createQueryBuilder('p')
             ->select('p.id, p.date, p.amount, p.description')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('p.date', 'asc')
+            ->getQuery();
     }
 
     public function deletePayment($id) {
