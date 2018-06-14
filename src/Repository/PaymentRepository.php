@@ -22,14 +22,6 @@ class PaymentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllPaymentQuerys()
-    {
-        return $this->createQueryBuilder('p')
-            ->select('p.id, p.date, p.amount, p.description')
-            ->orderBy('p.date', 'asc')
-            ->getQuery();
-    }
-
     public function deletePayment($id) {
         $this->createQueryBuilder('p')
             ->delete()
