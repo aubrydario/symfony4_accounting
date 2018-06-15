@@ -4,14 +4,17 @@ import ajax from './components/ajaxCall';
 import daterangepicker from 'daterangepicker';
 import colorpicker from 'spectrum-colorpicker';
 
+const dataColorpicker = [
+    {name: 'einzelstunde', color: '#ff6347'},
+    {name: 'schnupperstunde', color: '#65b966'},
+    {name: 'zehnerabo', color: '#6abfe6'},
+    {name: 'jahresabo', color: '#246fff'}
+];
+
 moment.locale('de-ch');
 
 loadData();
-
-$("#colorpicker-einzelstunde").spectrum({color: "#ff6347"});
-$("#colorpicker-schnupperstunde").spectrum({color: "#65b966"});
-$("#colorpicker-zehnerabo").spectrum({color: "#6abfe6"});
-$("#colorpicker-jahresabo").spectrum({color: "#246fff"});
+setupColorpicker(dataColorpicker);
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
@@ -33,18 +36,15 @@ function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 
                 applyLabel: 'Speichern',
                 customRangeLabel: 'Selber Auswählen'
             }
-        }, cb);
+        }, (start, end) => {
+            document.getElementsByClassName('table-bordered')[0].remove();
+            loadData(start, end);
+        });
 
-        //cb(startDate, endDate);
-        $('#daterangepicker span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        document.querySelector('#daterangepicker span').innerHTML = start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
 
         createTable(start, end, bills[0], attendances[0], hours[0]);
     });
-}
-
-function cb(start, end) {
-    $('.table-bordered').remove();
-    loadData(start, end);
 }
 
 function createTable(startDate, endDate, data, attendances, hours) {
@@ -207,4 +207,24 @@ function showInfo(timeRow) {
 
         ajax('DELETE', '/api/attendanceDetails', { data: JSON.stringify({id: id}) });
     }
+}
+
+function setupColorpicker(data) {
+    data.forEach(item => {
+        $('#colorpicker-' + item.name).spectrum({
+            color: item.color,
+            change: color => {
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name);
+                fields.forEach(field => {
+                    field.style.backgroundColor = color.toHexString();
+                });
+            },
+            move: color => {
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name);
+                fields.forEach(field => {
+                    field.style.backgroundColor = color.toHexString();
+                });
+            }
+        });
+    });
 }
