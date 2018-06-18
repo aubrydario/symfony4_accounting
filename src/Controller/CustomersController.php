@@ -31,17 +31,6 @@ class CustomersController extends Controller
     }
 
     /**
-     * @Route("/customers/delete/{id}")
-     */
-    public function deactivateCustomer($id) {
-        $this->getDoctrine()
-            ->getRepository(Customer::class)
-            ->deactivateCustomer($id);
-
-        return $this->redirectToRoute('customers');
-    }
-
-    /**
      * @Route("/customers", name="customers")
      */
     public function customers(Request $request) {

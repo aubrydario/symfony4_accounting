@@ -14,18 +14,6 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
-
-    public function deactivateCustomer($id)
-    {
-        return $this->createQueryBuilder('c')
-            ->update()
-            ->set('c.active', 0)
-            ->where('c.id = :value')->setParameter(':value', $id)
-            ->getQuery()
-            ->execute()
-        ;
-    }
-
     public function findAllCustomerQuerys()
     {
         return $this->createQueryBuilder('c')

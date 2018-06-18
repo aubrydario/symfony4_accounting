@@ -33,17 +33,6 @@ class BillController extends Controller
     }
 
     /**
-     * @Route("/bill/delete/{id}")
-     */
-    public function deactivateCustomerAction($id) {
-        $this->getDoctrine()
-            ->getRepository(Bill::class)
-            ->deleteBill($id);
-
-        return $this->redirectToRoute('bill');
-    }
-
-    /**
      * @Route("/bill", name="bill")
      */
     public function billAction(Request $request)

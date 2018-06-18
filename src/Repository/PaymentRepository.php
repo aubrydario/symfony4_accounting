@@ -20,12 +20,4 @@ class PaymentRepository extends ServiceEntityRepository
             ->orderBy('p.date', 'asc')
             ->getQuery();
     }
-
-    public function deletePayment($id) {
-        $this->createQueryBuilder('p')
-            ->delete()
-            ->where('p.id = :id')->setParameter(':id', $id)
-            ->getQuery()
-            ->execute();
-    }
 }

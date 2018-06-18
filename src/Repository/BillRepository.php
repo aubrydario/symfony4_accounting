@@ -27,12 +27,4 @@ class BillRepository extends ServiceEntityRepository
             ->orderBy('b.date', 'asc')
             ->getQuery();
     }
-
-    public function deleteBill($id) {
-        $this->createQueryBuilder('b')
-            ->delete()
-            ->where('b.id = :id')->setParameter(':id', $id)
-            ->getQuery()
-            ->execute();
-    }
 }

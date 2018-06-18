@@ -32,17 +32,6 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/payment/delete/{id}")
-     */
-    public function deactivateCustomerAction($id) {
-        $this->getDoctrine()
-            ->getRepository(Payment::class)
-            ->deletePayment($id);
-
-        return $this->redirectToRoute('payment');
-    }
-
-    /**
      * @Route("/payment", name="payment")
      */
     public function billAction(Request $request)
