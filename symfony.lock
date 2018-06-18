@@ -77,9 +77,6 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v2.7.2"
     },
-    "myclabs/deep-copy": {
-        "version": "1.7.0"
-    },
     "nelmio/cors-bundle": {
         "version": "1.5",
         "recipe": {
@@ -98,12 +95,6 @@
     "ocramius/proxy-manager": {
         "version": "2.2.0"
     },
-    "phar-io/manifest": {
-        "version": "1.0.1"
-    },
-    "phar-io/version": {
-        "version": "1.0.1"
-    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
@@ -112,36 +103,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
-    },
-    "phpspec/prophecy": {
-        "version": "1.7.6"
-    },
-    "phpunit/php-code-coverage": {
-        "version": "6.0.4"
-    },
-    "phpunit/php-file-iterator": {
-        "version": "1.4.5"
-    },
-    "phpunit/php-text-template": {
-        "version": "1.2.1"
-    },
-    "phpunit/php-timer": {
-        "version": "2.0.0"
-    },
-    "phpunit/php-token-stream": {
-        "version": "3.0.0"
-    },
-    "phpunit/phpunit": {
-        "version": "4.7",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.7",
-            "ref": "c276fa48d4713de91eb410289b3b1834acb7e403"
-        }
-    },
-    "phpunit/phpunit-mock-objects": {
-        "version": "6.1.1"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -154,39 +115,6 @@
     },
     "psr/simple-cache": {
         "version": "1.0.0"
-    },
-    "sebastian/code-unit-reverse-lookup": {
-        "version": "1.0.1"
-    },
-    "sebastian/comparator": {
-        "version": "3.0.0"
-    },
-    "sebastian/diff": {
-        "version": "3.0.0"
-    },
-    "sebastian/environment": {
-        "version": "3.1.0"
-    },
-    "sebastian/exporter": {
-        "version": "3.1.0"
-    },
-    "sebastian/global-state": {
-        "version": "2.0.0"
-    },
-    "sebastian/object-enumerator": {
-        "version": "3.0.3"
-    },
-    "sebastian/object-reflector": {
-        "version": "1.1.1"
-    },
-    "sebastian/recursion-context": {
-        "version": "3.0.0"
-    },
-    "sebastian/resource-operations": {
-        "version": "1.0.0"
-    },
-    "sebastian/version": {
-        "version": "2.0.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
@@ -295,15 +223,6 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.5"
-    },
-    "symfony/phpunit-bridge": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "179470cb6492db92dffee208cfdb436f175c93b4"
-        }
     },
     "symfony/polyfill-ctype": {
         "version": "v1.8.0"
@@ -415,9 +334,6 @@
     },
     "symfony/yaml": {
         "version": "v4.0.3"
-    },
-    "theseer/tokenizer": {
-        "version": "1.1.0"
     },
     "twig/twig": {
         "version": "v2.4.4"
