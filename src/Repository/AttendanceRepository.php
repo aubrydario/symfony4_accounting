@@ -60,12 +60,4 @@ class AttendanceRepository extends ServiceEntityRepository
             return $e->getMessage();
         }
     }
-
-    public function deleteAttendance($id) {
-        $this->createQueryBuilder('a')
-            ->delete()
-            ->where('a.id = :id')->setParameter(':id', $id)
-            ->getQuery()
-            ->execute();
-    }
 }

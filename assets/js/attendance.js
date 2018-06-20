@@ -186,13 +186,13 @@ function showInfo(timeRow) {
 
                 let response = {
                     'date': moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
-                    'bill_id': element.dataset.billid,
-                    'hour_id': timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
+                    'bill': '/api/bills/' + element.dataset.billid,
+                    'hour': '/api/hours/' + timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
                 };
 
-                const postAttendance = ajax('POST', '/api/attendanceDetails', {
+                const postAttendance = ajax('POST', '/api/attendances', {
                         data: JSON.stringify(response),
-                        complete: () => { icon.dataset.id = postAttendance.responseText; }
+                        complete: () => {icon.dataset.id = JSON.parse(postAttendance.responseText).id; }
                     }
                 );
 
@@ -205,7 +205,7 @@ function showInfo(timeRow) {
         let id = icon.dataset.id;
         icon.remove();
 
-        ajax('DELETE', '/api/attendanceDetails', { data: JSON.stringify({id: id}) });
+        ajax('DELETE', `/api/attendances/${id}`);
     }
 }
 
