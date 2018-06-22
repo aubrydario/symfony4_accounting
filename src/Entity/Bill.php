@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 
 
 /**
@@ -15,12 +17,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(attributes={
  *   "normalization_context"={"groups"={"bill-abo"}}
  * })
+ * @ApiFilter(GroupFilter::class, arguments={"overrideDefaultGroups": true, "whitelist": {"lazy"}})
  */
 class Bill {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("lazy")
      */
     private $id;
 
@@ -29,6 +33,7 @@ class Bill {
      *
      * @ORM\Column(name="date", type="date", nullable=false)
      * @Groups("bill-abo")
+     * @Groups("lazy")
      */
     private $date;
 
@@ -36,6 +41,7 @@ class Bill {
      * @var \DateTime
      *
      * @ORM\Column(name="endDate", type="date", nullable=false)
+     * @Groups("lazy")
      */
     private $enddate;
 
