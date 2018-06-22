@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -32,18 +33,25 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
      */
     private $password;
 
     /**
-     * @var string
-     *
+     * @Assert\Length(max=4096)
+     * @Assert\NotBlank()
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     * @Assert\NotBlank()
      */
     private $email;
 
@@ -100,7 +108,17 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getEmail(): string {
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
+    public function getEmail(): ?string {
         return $this->email;
     }
 

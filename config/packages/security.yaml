@@ -23,6 +23,10 @@ security:
             http_basic: ~
             provider: our_db_provider
 
+            form_login:
+                login_path: login
+                check_path: login
+
             # activate different ways to authenticate
 
             # http_basic: true
@@ -35,5 +39,6 @@ security:
     # Note: Only the *first* access control that matches will be used
 
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }

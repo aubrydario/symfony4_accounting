@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block content %}
+{% block content
+    {% include 'components/sidebar.html.twig' %}
+
     <div class="content">
         {% if successMessage is not null and successMessage.type == 'edit' %}
             <div class="success-message">Kunde {{ successMessage.item.firstname }} {{ successMessage.item.surname }} wurde erfolgreich bearbeitet.</div>
