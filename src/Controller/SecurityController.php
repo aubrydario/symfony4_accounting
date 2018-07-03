@@ -35,7 +35,7 @@ class SecurityController extends Controller
         $user = new User();
         $form = $this->createForm(UserRegistrationFormType::class, $user);
 
-        $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+        $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword2());
         $user->setPassword($password);
 
         $form->handleRequest($request);

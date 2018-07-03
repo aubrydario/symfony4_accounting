@@ -6,11 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource()
  * @ORM\Table(name="`user`")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="username", message="Benutzername bereits vergeben")
  */
 class User implements UserInterface, \Serializable
 {
@@ -108,7 +110,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getPlainPassword()
+    public function getPlainPassword2()
     {
         return $this->plainPassword;
     }
@@ -153,6 +155,6 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password
-            ) = unserialize($serialized, ['allowed_classes' => false]);
+        ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
