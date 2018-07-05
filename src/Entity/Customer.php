@@ -82,9 +82,9 @@ class Customer
     private $street;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="streetNr", type="integer", nullable=false)
+     * @ORM\Column(name="streetNr", type="string", length=5, nullable=false)
      */
     private $streetnr;
 
@@ -275,16 +275,16 @@ class Customer
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getStreetnr(): ?int {
+    public function getStreetnr(): ?string {
         return $this->streetnr;
     }
 
     /**
-     * @param int $streetnr
+     * @param string $streetnr
      */
-    public function setStreetnr(int $streetnr): void {
+    public function setStreetnr(string $streetnr): void {
         $this->streetnr = $streetnr;
     }
 
