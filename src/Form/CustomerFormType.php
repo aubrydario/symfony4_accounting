@@ -51,7 +51,7 @@ class CustomerFormType extends AbstractType
             ->add('street', TextType::class, [
                 'label' => 'Strasse'
             ])
-            ->add('streetnr', NumberType::class, [
+            ->add('streetnr', TextType::class, [
                 'label' => 'Strassennummer'
             ])
             ->add('city', TextType::class, [
