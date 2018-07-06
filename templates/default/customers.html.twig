@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block content
+{% block content %}
     {% include 'components/sidebar.html.twig' %}
 
     <div class="content">
@@ -64,14 +64,12 @@
             {{ knp_pagination_render(customers) }}
         </div>
 
-        <!-- Delete Customer Modal -->
         {% include 'components/deleteModal.html.twig' with {
             'id': 'deleteCustomerModal',
             'title': 'Kunde entfernen',
             'text': 'Wollen Sie den Kunden entfernen?'
         } %}
 
-        <!-- Create Customer Modal -->
         {% include 'components/createCustomerModal.html.twig' with {
             'title': 'Kunde hinzufügen'
         } %}
