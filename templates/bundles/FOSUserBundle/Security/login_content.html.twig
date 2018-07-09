@@ -11,11 +11,29 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     {% endif %}
 
-    <input type="text" id="username" name="_username" placeholder="{{ 'security.login.username'|trans }} / Email" value="{{ last_username }}" required="required" autocomplete="username" />
-    <input type="password" id="password" name="_password" placeholder="{{ 'security.login.password'|trans }}" required="required" autocomplete="current-password" />
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input class="form-control" type="text" id="username" name="_username" placeholder="{{ 'security.login.username'|trans }} / Email" value="{{ last_username }}" required="required" autocomplete="username" />
+    </div>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+        <input class="form-control" type="password" id="password" name="_password" placeholder="{{ 'security.login.password'|trans }}" required="required" autocomplete="current-password" />
+    </div>
 
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+
+    <div class="forgot-pw">
+        <div>
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <label for="remember_me">Benutzername speichern</label>
+        </div>
+        <a href="/resetting/request">Passwort vergessen?</a>
+    </div>
 </form>
+
+<hr />
+
+<div class="login-link">
+    <a href="/register">Du hast kein Konto? Registrieren</a>
+</div>
