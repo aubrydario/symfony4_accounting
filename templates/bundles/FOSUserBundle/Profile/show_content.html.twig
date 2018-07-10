@@ -1,0 +1,19 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% include 'components/sidebar.html.twig' %}
+
+    <div class="content">
+        <h1>Einstellungen</h1>
+
+        <div class="fos_user_user_show">
+            <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+            <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+        </div>
+
+        <a class="btn btn-default" href="/profile/edit">Benutzer bearbeiten</a>
+        <a class="btn btn-default" href="/profile/change-password">Passwort ändern</a>
+    </div>
+{% endblock %}
