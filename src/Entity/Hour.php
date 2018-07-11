@@ -37,6 +37,12 @@ class Hour
      */
     private $attendances;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="hours")
+     * @ORM\JoinColumn
+     */
+    private $user;
+
     public function __construct()
     {
         $this->attendances = new ArrayCollection();
@@ -96,5 +102,19 @@ class Hour
      */
     public function setAttendances($attendances): void {
         $this->attendances = $attendances;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void {
+        $this->user = $user;
     }
 }

@@ -33,11 +33,18 @@ class User extends BaseUser
      */
     private $payments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="user")
+     * @ApiSubresource
+     */
+    private $hours;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->payments = new ArrayCollection();
+        $this->hours = new ArrayCollection();
     }
 
     /**
@@ -52,5 +59,19 @@ class User extends BaseUser
      */
     public function setPayments($payments): void {
         $this->payments = $payments;
+    }
+
+    /**
+     * @return Collection|Hour[]
+     */
+    public function getHours() {
+        return $this->hours;
+    }
+
+    /**
+     * @param mixed $hours
+     */
+    public function setHours($hours): void {
+        $this->hours = $hours;
     }
 }
