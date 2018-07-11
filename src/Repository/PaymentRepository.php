@@ -16,7 +16,8 @@ class PaymentRepository extends ServiceEntityRepository
     public function findAllPaymentQuerys()
     {
         return $this->createQueryBuilder('p')
-            ->select('p.id, p.date, p.amount, p.description')
+            ->select('p.id, p.date, p.amount, p.description, IDENTITY(p.user)')
+            ->where('p.user = 4')
             ->orderBy('p.date', 'asc')
             ->getQuery();
     }

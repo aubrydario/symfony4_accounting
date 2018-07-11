@@ -40,6 +40,12 @@ class Payment
     private $description;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payments")
+     * @ORM\JoinColumn
+     */
+    private $user;
+
+    /**
      * @return mixed
      */
     public function getId()
