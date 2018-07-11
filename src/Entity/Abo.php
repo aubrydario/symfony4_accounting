@@ -48,6 +48,11 @@ class Abo
     private $maxDays;
 
     /**
+     * @ORM\Column(name="color", type="string", length=7, nullable=false)
+     */
+    private $color;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo")
      */
     private $bills;
@@ -145,6 +150,20 @@ class Abo
      */
     public function setMaxDays($maxDays): void {
         $this->maxDays = $maxDays;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getColor() {
+        return $this->color;
+    }
+
+    /**
+     * @param mixed $color
+     */
+    public function setColor($color): void {
+        $this->color = $color;
     }
 
     /**
