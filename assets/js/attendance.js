@@ -19,7 +19,6 @@ setupColorpicker(dataColorpicker);
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
     $.when(ajax('GET', '/api/bills?groups[]=lazy'), ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((abos, bills, attendances, hours) => {
-        console.log(abos[0]);
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
