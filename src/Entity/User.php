@@ -45,6 +45,12 @@ class User extends BaseUser
      */
     private $abos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
+     * @ApiSubresource
+     */
+    private $customers;
+
     public function __construct()
     {
         parent::__construct();
@@ -52,6 +58,7 @@ class User extends BaseUser
         $this->payments = new ArrayCollection();
         $this->hours = new ArrayCollection();
         $this->abos = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     /**
@@ -94,5 +101,19 @@ class User extends BaseUser
      */
     public function setAbos($abos): void {
         $this->abos = $abos;
+    }
+
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers() {
+        return $this->customers;
+    }
+
+    /**
+     * @param mixed $customers
+     */
+    public function setCustomers($customers): void {
+        $this->customers = $customers;
     }
 }
