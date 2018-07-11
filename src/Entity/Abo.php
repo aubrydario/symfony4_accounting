@@ -52,6 +52,12 @@ class Abo
      */
     private $bills;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="abos")
+     * @ORM\JoinColumn
+     */
+    private $user;
+
     public function __construct()
     {
         $this->bills = new ArrayCollection();
@@ -139,5 +145,19 @@ class Abo
      */
     public function setMaxDays($maxDays): void {
         $this->maxDays = $maxDays;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void {
+        $this->user = $user;
     }
 }
