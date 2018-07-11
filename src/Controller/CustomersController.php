@@ -55,7 +55,7 @@ class CustomersController extends Controller
         // Get all Customers
         $query = $this->getDoctrine()
             ->getRepository(Customer::class)
-            ->findAllCustomerQuerys();
+            ->findAllCustomerQuerys($this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');
         $customers = $paginator->paginate(

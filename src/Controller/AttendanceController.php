@@ -29,7 +29,7 @@ class AttendanceController extends Controller
     {
         $bills = $this->getDoctrine()
             ->getRepository(Customer::class)
-            ->findAllCustomerNameJoinBill();
+            ->findAllCustomerNameJoinBill($this->getUser()->getId());
 
         return new JsonResponse($bills);
     }
@@ -42,7 +42,7 @@ class AttendanceController extends Controller
     {
         $attendance = $this->getDoctrine()
             ->getRepository(Attendance::class)
-            ->findAllAttendancesJoinBillJoinCustomer();
+            ->findAllAttendancesJoinBillJoinCustomer($this->getUser()->getId());
 
         return new JsonResponse($attendance);
     }
