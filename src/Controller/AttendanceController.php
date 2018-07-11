@@ -75,7 +75,7 @@ class AttendanceController extends Controller
     {
         $hours = $this->getDoctrine()
             ->getRepository(Hour::class)
-            ->findAllHours();
+            ->findAllHours($this->getUser()->getId());
         return new JsonResponse($hours);
     }
 }
