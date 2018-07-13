@@ -9,16 +9,14 @@
 
             <div class="abolegend">
                 <div class="abos">
-                    <p>Einzelstunde</p>
-                    <p>Schnupperstunde</p>
-                    <p>Zehnerabo</p>
-                    <p>Jahresabo</p>
+                    {% for abo in abos %}
+                        <p>{{ abo.name }}</p>
+                    {% endfor %}
                 </div>
                 <div class="colors">
-                    <input id='colorpicker-einzelstunde' />
-                    <input id='colorpicker-schnupperstunde' />
-                    <input id='colorpicker-zehnerabo' />
-                    <input id='colorpicker-jahresabo' />
+                    {% for abo in abos %}
+                        <input id='colorpicker-{{ abo.name|lower }}' />
+                    {% endfor %}
                 </div>
             </div>
         </div>

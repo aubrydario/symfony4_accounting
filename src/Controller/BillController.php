@@ -45,14 +45,22 @@ class BillController extends Controller
             $successMessage = $sm->getSuccessMessage($request, Bill::class);
         }
 
-        $form = $this->createForm(BillFormType::class);
+        $form = $this->createForm(BillFormType::class, ['user' => $this->getUser()->getId()]);
+
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $bill = $form->getData();
+            $data = $form->getData();
             $maxDays = $form->get('abo')->getData()->getMaxDays();
             $date = $form->get('date')->getData();
             $enddate = clone $date;
-            $bill->setEnddate($enddate->modify('+'. $maxDays . ' days'));
+            $data['enddate'] = $enddate->modify('+'. $maxDays . ' days');
+
+            // Transform Array to Entity
+            $bill = new Bill();
+            $bill->setCustomer($data['customer']);
+            $bill->setAbo($data['abo']);
+            $bill->setDate($data['date']);
+            $bill->setEnddate($data['enddate']);
 
             $em->persist($bill);
             $em->flush();
