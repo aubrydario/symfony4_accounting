@@ -1,10 +1,10 @@
 import Chart from 'chart.js';
 import ajax from '../components/ajaxCall';
 
-export default function getCustomersChart() {
+export default function getCustomersChart(user) {
     let customersChart;
 
-    let customers = ajax('GET', '/api/customers?active=1', { complete: () => {
+    let customers = ajax('GET', `/api/users/${user.id}/customers?active=1`, { complete: () => {
         customers = customers.responseJSON;
         let men = [];
         let women = [];
