@@ -51,7 +51,7 @@
                     {% else %}
                         <td></td>
                     {% endif %}
-                    <td><a href="public/customers/edit/{{ customer.id }}" ><i class="fa fa-pencil"></i></a></td>
+                    <td><a href="customers/edit/{{ customer.id }}" ><i class="fa fa-pencil"></i></a></td>
                     <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ customer.id }}" data-target="#deleteCustomerModal"><i class="fa fa-trash red"></i></a></td>
                 </tr>
             {% endfor %}
