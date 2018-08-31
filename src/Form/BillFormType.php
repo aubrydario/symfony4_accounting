@@ -30,7 +30,9 @@ class BillFormType extends AbstractType
                 'class' => Customer::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
-                        ->where('c.active = 1');
+                        ->where('c.active = 1')
+                        ->andWhere('c.user = :userId')
+                        ->setParameter(':userId', $this->user);
                 },
                 'choice_label' => function (Customer $customer) {
                     return $customer->getFirstname().' '.$customer->getSurname();
@@ -41,7 +43,8 @@ class BillFormType extends AbstractType
                 'class' => Abo::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('a')
-                        ->where('a.user = '.$this->user);
+                        ->where('a.user = :userId')
+                        ->setParameter('userId', $this->user);
                 },
                 'choice_label' => 'name'
             ]);
