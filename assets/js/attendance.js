@@ -6,9 +6,13 @@ import colorpicker from 'spectrum-colorpicker';
 
 moment.locale('de-ch');
 
-let dataColorpicker = ajax('GET', '/api/users/4/abos', { complete: () => {
-    dataColorpicker = dataColorpicker.responseJSON;
-    setupColorpicker(dataColorpicker);
+let activeUser = ajax('GET', '/api/activeUser', { complete: () => {
+    activeUser = activeUser.responseJSON;
+
+    let dataColorpicker = ajax('GET', `/api/users/${activeUser[0].id}/abos`, { complete: () => {
+        dataColorpicker = dataColorpicker.responseJSON;
+        setupColorpicker(dataColorpicker);
+    }});
 }});
 
 loadData();
