@@ -70,7 +70,7 @@ class BillController extends Controller
 
         $query = $this->getDoctrine()
             ->getRepository(Bill::class)
-            ->findAllBillQuerys();
+            ->findAllBillQuerys($this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');
         $bills = $paginator->paginate(
