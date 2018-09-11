@@ -4,22 +4,22 @@ import ajax from './components/ajaxCall';
 import daterangepicker from 'daterangepicker';
 import colorpicker from 'spectrum-colorpicker';
 
-const dataColorpicker = [
-    {name: 'einzelstunde', color: '#ff6347'},
-    {name: 'schnupperstunde', color: '#65b966'},
-    {name: 'zehnerabo', color: '#6abfe6'},
-    {name: 'jahresabo', color: '#246fff'}
-];
-
 moment.locale('de-ch');
 
+let activeUser = ajax('GET', '/api/activeUser', { complete: () => {
+    activeUser = activeUser.responseJSON;
+
+    let dataColorpicker = ajax('GET', `/api/users/${activeUser[0].id}/abos`, { complete: () => {
+        dataColorpicker = dataColorpicker.responseJSON;
+        setupColorpicker(dataColorpicker);
+    }});
+}});
+
 loadData();
-setupColorpicker(dataColorpicker);
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
     $.when(ajax('GET', '/api/bills?groups[]=lazy'), ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((abos, bills, attendances, hours) => {
-        console.log(abos[0]);
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
@@ -212,16 +212,24 @@ function showInfo(timeRow) {
 
 function setupColorpicker(data) {
     data.forEach(item => {
-        $('#colorpicker-' + item.name).spectrum({
+        document.styleSheets[0].insertRule(`.${item.name.toLowerCase()} { background-color: ${item.color}}`);
+
+        $('#colorpicker-' + item.name.toLowerCase()).spectrum({
             color: item.color,
             change: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name);
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name.toLowerCase());
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });
+
+                ajax('PUT', `/api/abos/${item.id}`, {
+                    data: JSON.stringify({
+                        color: color.toHexString()
+                    })
+                });
             },
             move: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name);
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name.toLowerCase());
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });

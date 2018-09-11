@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    {% include 'components/sidebar.html.twig' %}
+
     <div class="content">
         <div class="header">
             <h1>Anwesenheitsliste</h1>
 
             <div class="abolegend">
                 <div class="abos">
-                    <p>Einzelstunde</p>
-                    <p>Schnupperstunde</p>
-                    <p>10er Abo</p>
-                    <p>Jahresabo</p>
+                    {% for abo in abos %}
+                        <p>{{ abo.name }}</p>
+                    {% endfor %}
                 </div>
                 <div class="colors">
-                    <input id='colorpicker-einzelstunde' />
-                    <input id='colorpicker-schnupperstunde' />
-                    <input id='colorpicker-zehnerabo' />
-                    <input id='colorpicker-jahresabo' />
+                    {% for abo in abos %}
+                        <input id='colorpicker-{{ abo.name|lower }}' />
+                    {% endfor %}
                 </div>
             </div>
         </div>

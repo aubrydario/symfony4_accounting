@@ -54,7 +54,7 @@ class PaymentController extends Controller
 
         $query = $this->getDoctrine()
             ->getRepository(Payment::class)
-            ->findAllPaymentQuerys();
+            ->findAllPaymentQuerys($this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');
         $payments = $paginator->paginate(

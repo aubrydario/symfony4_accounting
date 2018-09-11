@@ -2,7 +2,7 @@ import Chart from 'chart.js';
 import moment from 'moment';
 import ajax from '../components/ajaxCall';
 
-export default function getBillsAndPaymentsLastSixMonthsChart() {
+export default function getBillsAndPaymentsLastSixMonthsChart(user) {
     moment.locale('de-ch');
     let billsAndPaymentsChart;
 
@@ -23,7 +23,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
     }
 
     // Trigger when both Ajax requests are done
-    $.when(ajax('GET', '/api/bills'), ajax('GET', '/api/payments')).done((bills, payments) => {
+    $.when(ajax('GET', '/api/bills'), ajax('GET', `/api/users/${user.id}/payments`)).done((bills, payments) => {
 
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';

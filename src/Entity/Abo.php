@@ -48,9 +48,20 @@ class Abo
     private $maxDays;
 
     /**
+     * @ORM\Column(name="color", type="string", length=7, nullable=false)
+     */
+    private $color;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo")
      */
     private $bills;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="abos")
+     * @ORM\JoinColumn
+     */
+    private $user;
 
     public function __construct()
     {
@@ -139,5 +150,33 @@ class Abo
      */
     public function setMaxDays($maxDays): void {
         $this->maxDays = $maxDays;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getColor() {
+        return $this->color;
+    }
+
+    /**
+     * @param mixed $color
+     */
+    public function setColor($color): void {
+        $this->color = $color;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void {
+        $this->user = $user;
     }
 }

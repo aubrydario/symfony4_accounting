@@ -1,0 +1,44 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="background">
+    <div class="box-center">
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <h1>Anmelden</h1>
+
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input class="form-control" type="text" id="username" name="_username" placeholder="{{ 'security.login.username'|trans }} / Email" value="{{ last_username }}" required="required" autocomplete="username" />
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input class="form-control" type="password" id="password" name="_password" placeholder="{{ 'security.login.password'|trans }}" required="required" autocomplete="current-password" />
+            </div>
+
+            <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+
+            <div class="forgot-pw">
+                <div>
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                    <label for="remember_me">Benutzername speichern</label>
+                </div>
+                <a href="/resetting/request">Passwort vergessen?</a>
+            </div>
+        </form>
+
+        <hr />
+
+        <div class="login-link">
+            <a href="/register">Du hast kein Konto? Registrieren</a>
+        </div>
+
+    </div>
+</div>

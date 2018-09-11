@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Abo;
 use App\Entity\Attendance;
 use App\Entity\Bill;
 use App\Entity\Customer;
@@ -18,7 +19,11 @@ class AttendanceController extends Controller
      * @Route("/attendance", name="attendance")
      */
     public function attendance() {
-        return $this->render('default/attendance.html.twig');
+        $abos = $this->getDoctrine()->getRepository(Abo::class)->findBy(['user' => $this->getUser()->getId()]);
+
+        return $this->render('default/attendance.html.twig', [
+            'abos' => $abos
+        ]);
     }
 
     /**
@@ -29,7 +34,7 @@ class AttendanceController extends Controller
     {
         $bills = $this->getDoctrine()
             ->getRepository(Customer::class)
-            ->findAllCustomerNameJoinBill();
+            ->findAllCustomerNameJoinBill($this->getUser()->getId());
 
         return new JsonResponse($bills);
     }
@@ -42,7 +47,7 @@ class AttendanceController extends Controller
     {
         $attendance = $this->getDoctrine()
             ->getRepository(Attendance::class)
-            ->findAllAttendancesJoinBillJoinCustomer();
+            ->findAllAttendancesJoinBillJoinCustomer($this->getUser()->getId());
 
         return new JsonResponse($attendance);
     }
@@ -75,7 +80,7 @@ class AttendanceController extends Controller
     {
         $hours = $this->getDoctrine()
             ->getRepository(Hour::class)
-            ->findAllHours();
+            ->findAllHours($this->getUser()->getId());
         return new JsonResponse($hours);
     }
 }

@@ -129,6 +129,12 @@ class Customer
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="customers")
+     * @ORM\JoinColumn
+     */
+    private $user;
+
     public function __construct()
     {
         $this->bills = new ArrayCollection();
