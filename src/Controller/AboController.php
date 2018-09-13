@@ -38,7 +38,7 @@ class AboController extends Controller
     public function abo(Request $request)
     {
         $successMessage = null;
-        if ($request->query->get('hour')) {
+        if ($request->query->get('abo')) {
             $sm = new SuccessMessage($this->getDoctrine()->getManager());
             $successMessage = $sm->getSuccessMessage($request, Abo::class);
         }
