@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Entity\User;
 use App\Form\CustomerFormType;
 use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -46,6 +47,7 @@ class CustomersController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $customer = $form->getData();
             $customer->setActive(1);
+            $customer->setUser($em->getRepository(User::class)->find($this->getUser()->getId()));
             $em->persist($customer);
             $em->flush();
 
