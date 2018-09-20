@@ -99,7 +99,7 @@ class Abo
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 
@@ -113,7 +113,7 @@ class Abo
     /**
      * @return int
      */
-    public function getPrice(): int {
+    public function getPrice(): ?int {
         return $this->price;
     }
 

@@ -26,7 +26,10 @@ class AboFormType extends AbstractType
                 'label' => 'Haltbar in Tagen'
             ])
             ->add('color', TextType::class, [
-                'label' => 'Farbe'
+                'label' => 'Farbe',
+                'attr' => [
+                    'class' => 'colorpicker'
+                ]
             ]);
     }
 

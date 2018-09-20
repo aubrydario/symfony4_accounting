@@ -26,7 +26,6 @@
                     <th>{{ knp_pagination_sortable(abos, 'Preis', 'a.price') }}</th>
                     <th>{{ knp_pagination_sortable(abos, 'Maximale Besuche', 'a.maxVisits') }}</th>
                     <th>{{ knp_pagination_sortable(abos, 'Haltbar', 'a.maxDays') }}</th>
-                    <th>{{ knp_pagination_sortable(abos, 'Farbe', 'a.color') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,7 +35,6 @@
                         <td>{{ abo.price }} Fr.</td>
                         <td>{{ abo.maxVisits }}</td>
                         <td>{{ abo.maxDays }} Tag(e)</td>
-                        <td>{{ abo.color }}</td>
                         <td><a href="/abo/edit/{{ abo.id }}"><i class="fa fa-pencil"></i></a></td>
                         <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ abo.id }}" data-target="#deleteAboModal"><i class="fa fa-trash red"></i></a></td>
                     </tr>

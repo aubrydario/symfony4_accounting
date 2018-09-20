@@ -19,7 +19,7 @@ loadData();
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
-    $.when(ajax('GET', '/api/bills?groups[]=lazy'), ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((abos, bills, attendances, hours) => {
+    $.when(ajax('GET', '/api/abos'), ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((abos, bills, attendances, hours) => {
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
@@ -44,11 +44,11 @@ function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 
 
         document.querySelector('#daterangepicker span').innerHTML = start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
 
-        createTable(start, end, bills[0], attendances[0], hours[0]);
+        createTable(start, end, bills[0], attendances[0], hours[0], abos[0]);
     });
 }
 
-function createTable(startDate, endDate, data, attendances, hours) {
+function createTable(startDate, endDate, data, attendances, hours, abos) {
     const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
     const thead = table.append('thead');
     const tbody = table.append('tbody');
@@ -77,7 +77,6 @@ function createTable(startDate, endDate, data, attendances, hours) {
                     .attr('data-id', hourIdArray[index]);
             });
         });
-        //week += 7;
         startDate.add(1, 'week')
     }
 
@@ -108,47 +107,13 @@ function createTable(startDate, endDate, data, attendances, hours) {
             itemDateArray.forEach((date, index) => {
                 let itemDate = moment(date).format('YYYY-MM-DD');
                 let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
+                let aboId = aboIdArray[index];
 
-                switch(aboIdArray[index]) {
-                    //Einzelstunde
-                    case '1':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo einzelstunde')
-                                .attr('data-billId', billIdArray[index]);
+                if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
+                    field.attr('class', `abo ${abos[--aboId].name.toLowerCase()}`)
+                        .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //Schnupperstunde
-                    case '2':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo schnupperstunde')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //10er-Abo
-                    case '3':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo zehnerabo')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //Jahresabo
-                    case '4':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo jahresabo')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
+                    field.on('click', () => { showInfo(timeRow); });
                 }
             });
 
