@@ -19,7 +19,7 @@ loadData();
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
-    $.when(ajax('GET', '/api/abos'), ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((abos, bills, attendances, hours) => {
+    $.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
@@ -44,11 +44,11 @@ function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 
 
         document.querySelector('#daterangepicker span').innerHTML = start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
 
-        createTable(start, end, bills[0], attendances[0], hours[0], abos[0]);
+        createTable(start, end, bills[0], attendances[0], hours[0]);
     });
 }
 
-function createTable(startDate, endDate, data, attendances, hours, abos) {
+function createTable(startDate, endDate, data, attendances, hours) {
     const table = d3.select('#attendance-table').append('table').attr('class', 'table table-bordered');
     const thead = table.append('thead');
     const tbody = table.append('tbody');
@@ -90,11 +90,11 @@ function createTable(startDate, endDate, data, attendances, hours, abos) {
         const row = tbody.select(`tr:nth-child(${++index1})`);
         let itemDateArray = item.date ? item.date.split(',') : [];
         let itemEnddateArray = item.enddate ? item.enddate.split(',') : [];
-        let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
+        let aboNameArray = item.abo_name ? item.abo_name.split(',') : [];
         let billIdArray = item.bill_id ? item.bill_id.split(',') : [];
 
         row.append('td')
-            .text(item.name);
+            .text(item.c_name);
 
         let size = timeRow.selectAll('th').size() - 1;
 
@@ -107,10 +107,9 @@ function createTable(startDate, endDate, data, attendances, hours, abos) {
             itemDateArray.forEach((date, index) => {
                 let itemDate = moment(date).format('YYYY-MM-DD');
                 let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
-                let aboId = aboIdArray[index];
 
                 if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                    field.attr('class', `abo ${abos[--aboId].name.toLowerCase()}`)
+                    field.attr('class', `abo ${aboNameArray[index].toLowerCase()}`)
                         .attr('data-billId', billIdArray[index]);
 
                     field.on('click', () => { showInfo(timeRow); });
