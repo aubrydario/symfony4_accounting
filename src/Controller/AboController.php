@@ -49,9 +49,11 @@ class AboController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $abo = $form->getData();
+            $abo->setAlias('_' . strtolower(str_replace(' ', '_', $abo->getName())));
             $abo->setUser($em->getRepository(User::class)->find($this->getUser()->getId()));
             $em->persist($abo);
             $em->flush();
+
             return $this->redirect($request->getUri());
         }
 

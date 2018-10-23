@@ -30,6 +30,13 @@ class Abo
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="alias", type="string", length=50, nullable=false)
+     */
+    private $alias;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="price", type="integer", nullable=false)
@@ -108,6 +115,22 @@ class Abo
      */
     public function setName(string $name): void {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias(): string
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param string $alias
+     */
+    public function setAlias(string $alias): void
+    {
+        $this->alias = $alias;
     }
 
     /**

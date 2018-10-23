@@ -28,7 +28,7 @@ class CustomerRepository extends ServiceEntityRepository
     public function findAllCustomerNameJoinBill($userId) {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('
-                SELECT CONCAT(c.firstname, " ", c.surname) AS c_name, GROUP_CONCAT(b.date) AS date, GROUP_CONCAT(b.endDate) AS enddate, GROUP_CONCAT(a.name) AS abo_name, GROUP_CONCAT(b.id) AS bill_id
+                SELECT CONCAT(c.firstname, " ", c.surname) AS c_name, GROUP_CONCAT(b.date) AS date, GROUP_CONCAT(b.endDate) AS enddate, GROUP_CONCAT(a.alias) AS abo_name, GROUP_CONCAT(b.id) AS bill_id
                 FROM customer c
                 LEFT JOIN bill b ON c.id = b.customer_id
                 INNER JOIN abo a ON b.abo_id = a.id

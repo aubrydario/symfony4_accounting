@@ -109,7 +109,7 @@ function createTable(startDate, endDate, data, attendances, hours) {
                 let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
 
                 if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                    field.attr('class', `abo ${aboNameArray[index].toLowerCase()}`)
+                    field.attr('class', `abo ${aboNameArray[index]}`)
                         .attr('data-billId', billIdArray[index]);
 
                     field.on('click', () => { showInfo(timeRow); });
@@ -176,12 +176,12 @@ function showInfo(timeRow) {
 
 function setupColorpicker(data) {
     data.forEach(item => {
-        document.styleSheets[0].insertRule(`.${item.name.toLowerCase()} { background-color: ${item.color}}`);
+        document.styleSheets[0].insertRule(`.${item.alias} { background-color: ${item.color}}`);
 
-        $('#colorpicker-' + item.name.toLowerCase()).spectrum({
+        $('#colorpicker-' + item.alias).spectrum({
             color: item.color,
             change: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name.toLowerCase());
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.alias);
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });
@@ -193,7 +193,7 @@ function setupColorpicker(data) {
                 });
             },
             move: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name.toLowerCase());
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.alias);
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });
