@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% include 'components/sidebar.html.twig' %}
+
+    <div class="content">
+        {% if successMessage is not null and successMessage.type == 'edit' %}
+            <div class="success-message">Stunde {{ successMessage.item.id }} wurde erfolgreich bearbeitet.</div>
+        {% endif %}
+        <div class="success-message" id="success-message"></div>
+
+        <h1>Stunden</h1>
+
+        <div class="table-wrapper">
+            <div class="filter-options">
+                {% include 'components/triggerModalButton.html.twig' with {
+                    'dataTarget': 'addModal',
+                    'text': 'Stunde erstellen'
+                } %}
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(hours, 'Tag', 'h.day') }}</th>
+                    <th>{{ knp_pagination_sortable(hours, 'Zeit', 'h.time') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for hour in hours %}
+                    {% set weekStart = 'now'|date_modify("-#{'now'|date('w')} days")|date_modify("+" ~ hour.day ~ "days")|date('d-m-Y') %}
+                    <tr>
+                        <td>{{ weekStart|localizeddate("none", "none", null, null, "EEEE") }}</td>
+                        <td>{{ hour.time|date('H:i') }}</td>
+                        <td><a href="/hour/edit/{{ hour.id }}"><i class="fa fa-pencil"></i></a></td>
+                        <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ hour.id }}" data-target="#deleteHourModal"><i class="fa fa-trash red"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(hours) }}
+            </div>
+        </div>
+
+        <!-- Delete Payment Modal -->
+        {% include 'components/deleteModal.html.twig' with {'id': 'deleteHourModal', 'title': 'Stunde löschen', 'text': 'Wollen Sie diese Stunde löschen?'} %}
+
+        <!-- Create Payment Modal -->
+        {% include 'components/createModal.html.twig' with {'title': 'Stunde erstellen'} %}
+
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <script src="{{ asset('build/table.js') }}" async defer></script>
+{% endblock %}

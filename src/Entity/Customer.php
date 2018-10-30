@@ -84,7 +84,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="streetNr", type="string", length=5, nullable=false)
+     * @ORM\Column(name="streetNr", type="string", length=5, nullable=true)
      */
     private $streetnr;
 
@@ -362,5 +362,21 @@ class Customer
      */
     public function setActive(int $active): void {
         $this->active = $active;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 }

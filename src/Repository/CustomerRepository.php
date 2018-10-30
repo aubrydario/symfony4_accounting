@@ -28,14 +28,12 @@ class CustomerRepository extends ServiceEntityRepository
     public function findAllCustomerNameJoinBill($userId) {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('
-                SELECT name, date, enddate, abo_id, bill_id
-                FROM (
-                    SELECT CONCAT(c.firstname, " ", c.surname) AS name, GROUP_CONCAT(b.date) AS date, GROUP_CONCAT(b.endDate) AS enddate, GROUP_CONCAT(b.abo_id) AS abo_id, GROUP_CONCAT(b.id) AS bill_id
-                    FROM customer c
-                    LEFT JOIN bill b ON c.id = b.customer_id
-                    WHERE c.active = 1 AND c.user_id = ' . $userId . '
-                    GROUP BY name
-                ) t
+                SELECT CONCAT(c.firstname, " ", c.surname) AS c_name, GROUP_CONCAT(b.date) AS date, GROUP_CONCAT(b.endDate) AS enddate, GROUP_CONCAT(a.alias) AS abo_name, GROUP_CONCAT(b.id) AS bill_id
+                FROM customer c
+                LEFT JOIN bill b ON c.id = b.customer_id
+                INNER JOIN abo a ON b.abo_id = a.id
+                WHERE c.active = 1 AND c.user_id = ' . $userId . '
+                GROUP BY c_name
             ')->fetchAll();
         } catch(DBALException $e) {
             return $e->getMessage();

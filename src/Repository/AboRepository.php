@@ -13,16 +13,12 @@ class AboRepository extends ServiceEntityRepository
         parent::__construct($registry, Abo::class);
     }
 
-    /*
-    public function findBySomething($value)
-    {
+    public function findAllAboQuerys($userId) {
         return $this->createQueryBuilder('a')
-            ->where('a.something = :value')->setParameter('value', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+            ->select('a.id, a.name, a.price, a.maxVisits, a.maxDays, a.color, IDENTITY(a.user)')
+            ->where('a.user = :userId')
+            ->orderBy('a.name', 'asc')
+            ->setParameter(':userId', $userId)
+            ->getQuery();
     }
-    */
 }

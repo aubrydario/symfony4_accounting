@@ -19,7 +19,7 @@ loadData();
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
-    $.when(ajax('GET', '/api/bills?groups[]=lazy'), ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((abos, bills, attendances, hours) => {
+    $.when(ajax('GET', '/api/attendance'), ajax('GET', '/api/attendanceDetails'), ajax('GET', '/api/hour')).done((bills, attendances, hours) => {
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
 
@@ -77,7 +77,6 @@ function createTable(startDate, endDate, data, attendances, hours) {
                     .attr('data-id', hourIdArray[index]);
             });
         });
-        //week += 7;
         startDate.add(1, 'week')
     }
 
@@ -91,11 +90,11 @@ function createTable(startDate, endDate, data, attendances, hours) {
         const row = tbody.select(`tr:nth-child(${++index1})`);
         let itemDateArray = item.date ? item.date.split(',') : [];
         let itemEnddateArray = item.enddate ? item.enddate.split(',') : [];
-        let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
+        let aboNameArray = item.abo_name ? item.abo_name.split(',') : [];
         let billIdArray = item.bill_id ? item.bill_id.split(',') : [];
 
         row.append('td')
-            .text(item.name);
+            .text(item.c_name);
 
         let size = timeRow.selectAll('th').size() - 1;
 
@@ -109,46 +108,11 @@ function createTable(startDate, endDate, data, attendances, hours) {
                 let itemDate = moment(date).format('YYYY-MM-DD');
                 let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
 
-                switch(aboIdArray[index]) {
-                    //Einzelstunde
-                    case '1':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo einzelstunde')
-                                .attr('data-billId', billIdArray[index]);
+                if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
+                    field.attr('class', `abo ${aboNameArray[index]}`)
+                        .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //Schnupperstunde
-                    case '2':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo schnupperstunde')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //10er-Abo
-                    case '3':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo zehnerabo')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //Jahresabo
-                    case '4':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo jahresabo')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
+                    field.on('click', () => { showInfo(timeRow); });
                 }
             });
 
@@ -212,12 +176,12 @@ function showInfo(timeRow) {
 
 function setupColorpicker(data) {
     data.forEach(item => {
-        document.styleSheets[0].insertRule(`.${item.name.toLowerCase()} { background-color: ${item.color}}`);
+        document.styleSheets[0].insertRule(`.${item.alias} { background-color: ${item.color}}`);
 
-        $('#colorpicker-' + item.name.toLowerCase()).spectrum({
+        $('#colorpicker-' + item.alias).spectrum({
             color: item.color,
             change: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name.toLowerCase());
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.alias);
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });
@@ -229,7 +193,7 @@ function setupColorpicker(data) {
                 });
             },
             move: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name.toLowerCase());
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.alias);
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });
