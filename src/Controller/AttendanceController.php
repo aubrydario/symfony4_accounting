@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Abo;
 use App\Entity\Attendance;
 use App\Entity\Bill;
 use App\Entity\Customer;
 use App\Entity\Hour;
-use App\Form\AttendanceFilterFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,16 +18,11 @@ class AttendanceController extends Controller
     /**
      * @Route("/attendance", name="attendance")
      */
-    public function attendance(Request $request) {
-        $form = $this->createForm(AttendanceFilterFormType::class);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            dump($data);
-        }
+    public function attendance() {
+        $abos = $this->getDoctrine()->getRepository(Abo::class)->findBy(['user' => $this->getUser()->getId()]);
 
         return $this->render('default/attendance.html.twig', [
-            'AttendanceFilterForm' => $form->createView()
+            'abos' => $abos
         ]);
     }
 
@@ -39,43 +34,20 @@ class AttendanceController extends Controller
     {
         $bills = $this->getDoctrine()
             ->getRepository(Customer::class)
-            ->findAllCustomerNameJoinBill();
+            ->findAllCustomerNameJoinBill($this->getUser()->getId());
 
         return new JsonResponse($bills);
     }
 
     /**
      * @Route("/api/attendanceDetails")
-     * @Method({"GET", "POST", "DELETE"})
+     * @Method("GET")
      */
-    public function attendanceDetails(Request $request)
+    public function attendanceDetails()
     {
         $attendance = $this->getDoctrine()
             ->getRepository(Attendance::class)
-            ->findAllAttendancesJoinBillJoinCustomer();
-
-        if($request->getMethod() === 'POST'){
-            $data = (array)json_decode($request->getContent());
-
-            $em = $this->getDoctrine()->getManager();
-
-            $bill = $em->getRepository(Bill::class)->find($data['bill_id']);
-            $hour = $em->getRepository(Hour::class)->find($data['hour_id']);
-
-            $newAttendance = new Attendance();
-            $newAttendance->setBill($bill);
-            $newAttendance->setDate(new \DateTime($data['date']));
-            $newAttendance->setHour($hour);
-
-            $em->persist($newAttendance);
-            $em->flush();
-
-            return new JsonResponse($newAttendance->getId());
-        } else if($request->getMethod() === 'DELETE') {
-            $data = (array)json_decode($request->getContent());
-
-            $this->getDoctrine()->getRepository(Attendance::class)->deleteAttendance($data['id']);
-        }
+            ->findAllAttendancesJoinBillJoinCustomer($this->getUser()->getId());
 
         return new JsonResponse($attendance);
     }
@@ -108,7 +80,7 @@ class AttendanceController extends Controller
     {
         $hours = $this->getDoctrine()
             ->getRepository(Hour::class)
-            ->findAllHours();
+            ->findAllHours($this->getUser()->getId());
         return new JsonResponse($hours);
     }
 }

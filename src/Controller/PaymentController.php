@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Payment;
+use App\Entity\User;
 use App\Form\PaymentFormType;
 use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,17 +33,6 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/payment/delete/{id}")
-     */
-    public function deactivateCustomerAction($id) {
-        $this->getDoctrine()
-            ->getRepository(Payment::class)
-            ->deletePayment($id);
-
-        return $this->redirectToRoute('payment');
-    }
-
-    /**
      * @Route("/payment", name="payment")
      */
     public function billAction(Request $request)
@@ -56,16 +46,18 @@ class PaymentController extends Controller
         $form = $this->createForm(PaymentFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $bill = $form->getData();
             $em = $this->getDoctrine()->getManager();
-            $em->persist($bill);
+
+            $payment = $form->getData();
+            $payment->setUser($em->getRepository(User::class)->find($this->getUser()->getId()));
+            $em->persist($payment);
             $em->flush();
             return $this->redirect($request->getUri());
         }
 
         $query = $this->getDoctrine()
             ->getRepository(Payment::class)
-            ->findAllPaymentQuerys();
+            ->findAllPaymentQuerys($this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');
         $payments = $paginator->paginate(

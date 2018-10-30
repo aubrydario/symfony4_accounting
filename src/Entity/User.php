@@ -3,138 +3,117 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ApiResource()
  * @ORM\Table(name="`user`")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="username", message="Benutzername bereits vergeben")
+ * @UniqueEntity(fields="email", message="Email wird bereits verwendet")
  */
-class User implements UserInterface, \Serializable
+class User extends BaseUser
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="user")
+     * @ApiSubresource
      */
-    private $firstname;
+    private $payments;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="user")
+     * @ApiSubresource
      */
-    private $surname;
+    private $hours;
 
     /**
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Abo", mappedBy="user")
+     * @ApiSubresource
      */
-    private $username;
+    private $abos;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
+     * @ApiSubresource
      */
-    private $password;
+    private $customers;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->payments = new ArrayCollection();
+        $this->hours = new ArrayCollection();
+        $this->abos = new ArrayCollection();
+        $this->customers = new ArrayCollection();
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     * @return Collection|Payment[]
      */
-    private $email;
-
-    public function getId()
-    {
-        return $this->id;
+    public function getPayments() {
+        return $this->payments;
     }
 
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
+    /**
+     * @param mixed $payments
+     */
+    public function setPayments($payments): void {
+        $this->payments = $payments;
     }
 
-    public function setFirstname(string $firstname): self
-    {
-        $this->firstname = $firstname;
-
-        return $this;
+    /**
+     * @return Collection|Hour[]
+     */
+    public function getHours() {
+        return $this->hours;
     }
 
-    public function getSurname(): ?string
-    {
-        return $this->surname;
+    /**
+     * @param mixed $hours
+     */
+    public function setHours($hours): void {
+        $this->hours = $hours;
     }
 
-    public function setSurname(string $surname): self
-    {
-        $this->surname = $surname;
-
-        return $this;
+    /**
+     * @return Collection|Abo[]
+     */
+    public function getAbos() {
+        return $this->abos;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
+    /**
+     * @param mixed $abos
+     */
+    public function setAbos($abos): void {
+        $this->abos = $abos;
     }
 
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers() {
+        return $this->customers;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getEmail(): string {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): void {
-        $this->email = $email;
-    }
-
-    public function getSalt() {
-        return null;
-    }
-
-    public function getRoles() {
-        return array('ROLE_USER');
-    }
-
-    public function eraseCredentials() {
-
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize() {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized) {
-        list (
-            $this->id,
-            $this->username,
-            $this->password
-            ) = unserialize($serialized, ['allowed_classes' => false]);
+    /**
+     * @param mixed $customers
+     */
+    public function setCustomers($customers): void {
+        $this->customers = $customers;
     }
 }

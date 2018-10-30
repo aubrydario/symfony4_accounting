@@ -14,7 +14,7 @@ class AttendanceRepository extends ServiceEntityRepository
         parent::__construct($registry, Attendance::class);
     }
 
-    public function findAllAttendancesJoinBillJoinCustomer()
+    public function findAllAttendancesJoinBillJoinCustomer($userId)
     {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('
@@ -23,7 +23,7 @@ class AttendanceRepository extends ServiceEntityRepository
                 LEFT JOIN bill b ON a.bill_id = b.id
                 INNER JOIN customer c ON b.customer_id = c.id
                 INNER JOIN hour h ON a.hour_id = h.id
-                WHERE c.active = 1
+                WHERE c.active = 1 AND c.user_id = ' . $userId . '
             ')->fetchAll();
         } catch(DBALException $e) {
             return $e->getMessage();
@@ -53,19 +53,11 @@ class AttendanceRepository extends ServiceEntityRepository
                 FROM attendance a
                 LEFT JOIN bill b ON a.bill_id = b.id
                 INNER JOIN abo a2 ON b.abo_id = a2.id
-                WHERE a.bill_id = '. $id .'
+                WHERE a.bill_id = ' . $id . '
                 GROUP BY a.bill_id
             ')->fetchAll();
         } catch(DBALException $e) {
             return $e->getMessage();
         }
-    }
-
-    public function deleteAttendance($id) {
-        $this->createQueryBuilder('a')
-            ->delete()
-            ->where('a.id = :id')->setParameter(':id', $id)
-            ->getQuery()
-            ->execute();
     }
 }

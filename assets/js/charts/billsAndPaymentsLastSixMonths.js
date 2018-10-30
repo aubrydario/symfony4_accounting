@@ -2,7 +2,7 @@ import Chart from 'chart.js';
 import moment from 'moment';
 import ajax from '../components/ajaxCall';
 
-export default function getBillsAndPaymentsLastSixMonthsChart() {
+export default function getBillsAndPaymentsLastSixMonthsChart(user) {
     moment.locale('de-ch');
     let billsAndPaymentsChart;
 
@@ -23,7 +23,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
     }
 
     // Trigger when both Ajax requests are done
-    $.when(ajax('GET', '/api/bills'), ajax('GET', '/api/payments')).done((bills, payments) => {
+    $.when(ajax('GET', `/api/users/${user.id}/bills`), ajax('GET', `/api/users/${user.id}/payments`)).done((bills, payments) => {
 
         // Remove Spinner
         document.getElementsByClassName('spinner')[0].style.display = 'none';
@@ -95,7 +95,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
         const monthBefore = parseInt(moment().subtract(monthCount, 'months').format('M')) + 1;
 
         dataArray.forEach(item => {
-            const itemMonth = parseInt(moment(item.date).format('M'));
+            const itemMonth = name === 'bills' ? parseInt(moment(item.date.date).format('M')) : parseInt(moment(item.date).format('M'));
 
             if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
                 let index;
@@ -106,7 +106,7 @@ export default function getBillsAndPaymentsLastSixMonthsChart() {
                     index = itemMonth - monthBefore;
                 }
 
-                resultArray[index] += name === 'bills' ? item.abo.price : item.amount;
+                resultArray[index] += name === 'bills' ? item.price : item.amount;
             }
         });
 

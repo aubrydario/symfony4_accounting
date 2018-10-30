@@ -14,48 +14,26 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
-
-    public function deactivateCustomer($id)
-    {
-        return $this->createQueryBuilder('c')
-            ->update()
-            ->set('c.active', 0)
-            ->where('c.id = :value')->setParameter(':value', $id)
-            ->getQuery()
-            ->execute()
-        ;
-    }
-
-    public function findAllCustomerQuerys()
+    public function findAllCustomerQuerys($userId)
     {
         return $this->createQueryBuilder('c')
             ->select('c')
             ->where('c.active = 1')
+            ->andWhere('c.user = :userId')
             ->orderBy('c.surname', 'asc')
+            ->setParameter(':userId', $userId)
             ->getQuery();
     }
 
-    public function findAllCustomerGroupedByGender()
-    {
-        return $this->createQueryBuilder('c')
-            ->select('COUNT(c.gender) AS genderCount')
-            ->where('c.active = 1')
-            ->groupBy('c.gender')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findAllCustomerNameJoinBill() {
+    public function findAllCustomerNameJoinBill($userId) {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('
-                SELECT name, date, enddate, abo_id, bill_id
-                FROM (
-                    SELECT CONCAT(c.firstname, " ", c.surname) AS name, GROUP_CONCAT(b.date) AS date, GROUP_CONCAT(b.endDate) AS enddate, GROUP_CONCAT(b.abo_id) AS abo_id, GROUP_CONCAT(b.id) AS bill_id
-                    FROM customer c
-                    LEFT JOIN bill b ON c.id = b.customer_id
-                    WHERE c.active = 1
-                    GROUP BY name
-                ) t
+                SELECT CONCAT(c.firstname, " ", c.surname) AS c_name, GROUP_CONCAT(b.date) AS date, GROUP_CONCAT(b.endDate) AS enddate, GROUP_CONCAT(a.alias) AS abo_name, GROUP_CONCAT(b.id) AS bill_id
+                FROM customer c
+                LEFT JOIN bill b ON c.id = b.customer_id
+                INNER JOIN abo a ON b.abo_id = a.id
+                WHERE c.active = 1 AND c.user_id = ' . $userId . '
+                GROUP BY c_name
             ')->fetchAll();
         } catch(DBALException $e) {
             return $e->getMessage();

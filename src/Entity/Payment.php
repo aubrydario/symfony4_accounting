@@ -40,6 +40,12 @@ class Payment
     private $description;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payments")
+     * @ORM\JoinColumn
+     */
+    private $user;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -101,5 +107,19 @@ class Payment
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void {
+        $this->user = $user;
     }
 }

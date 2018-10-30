@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Entity\User;
 use App\Form\CustomerFormType;
 use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,17 +32,6 @@ class CustomersController extends Controller
     }
 
     /**
-     * @Route("/customers/delete/{id}")
-     */
-    public function deactivateCustomer($id) {
-        $this->getDoctrine()
-            ->getRepository(Customer::class)
-            ->deactivateCustomer($id);
-
-        return $this->redirectToRoute('customers');
-    }
-
-    /**
      * @Route("/customers", name="customers")
      */
     public function customers(Request $request) {
@@ -57,6 +47,7 @@ class CustomersController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $customer = $form->getData();
             $customer->setActive(1);
+            $customer->setUser($em->getRepository(User::class)->find($this->getUser()->getId()));
             $em->persist($customer);
             $em->flush();
 
@@ -66,7 +57,7 @@ class CustomersController extends Controller
         // Get all Customers
         $query = $this->getDoctrine()
             ->getRepository(Customer::class)
-            ->findAllCustomerQuerys();
+            ->findAllCustomerQuerys($this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');
         $customers = $paginator->paginate(

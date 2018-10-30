@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    {% include 'components/sidebar.html.twig' %}
+
     <div class="content">
         {% if successMessage is not null and successMessage.type == 'edit' %}
             <div class="success-message">Kunde {{ successMessage.item.firstname }} {{ successMessage.item.surname }} wurde erfolgreich bearbeitet.</div>
         {% endif %}
+
+        <div class="success-message" id="success-message"></div>
 
         <h1>Kunden Liste</h1>
 
@@ -60,14 +64,12 @@
             {{ knp_pagination_render(customers) }}
         </div>
 
-        <!-- Delete Customer Modal -->
         {% include 'components/deleteModal.html.twig' with {
             'id': 'deleteCustomerModal',
             'title': 'Kunde entfernen',
             'text': 'Wollen Sie den Kunden entfernen?'
         } %}
 
-        <!-- Create Customer Modal -->
         {% include 'components/createCustomerModal.html.twig' with {
             'title': 'Kunde hinzufügen'
         } %}

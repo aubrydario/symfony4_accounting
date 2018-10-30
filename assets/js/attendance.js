@@ -4,17 +4,18 @@ import ajax from './components/ajaxCall';
 import daterangepicker from 'daterangepicker';
 import colorpicker from 'spectrum-colorpicker';
 
-const dataColorpicker = [
-    {name: 'einzelstunde', color: '#ff6347'},
-    {name: 'schnupperstunde', color: '#65b966'},
-    {name: 'zehnerabo', color: '#6abfe6'},
-    {name: 'jahresabo', color: '#246fff'}
-];
-
 moment.locale('de-ch');
 
+let activeUser = ajax('GET', '/api/activeUser', { complete: () => {
+    activeUser = activeUser.responseJSON;
+
+    let dataColorpicker = ajax('GET', `/api/users/${activeUser[0].id}/abos`, { complete: () => {
+        dataColorpicker = dataColorpicker.responseJSON;
+        setupColorpicker(dataColorpicker);
+    }});
+}});
+
 loadData();
-setupColorpicker(dataColorpicker);
 
 function loadData(start = moment().subtract(14, 'days'), end = moment().add(14, 'days')) {
     // Trigger when all Ajax requests are done
@@ -76,7 +77,6 @@ function createTable(startDate, endDate, data, attendances, hours) {
                     .attr('data-id', hourIdArray[index]);
             });
         });
-        //week += 7;
         startDate.add(1, 'week')
     }
 
@@ -90,11 +90,11 @@ function createTable(startDate, endDate, data, attendances, hours) {
         const row = tbody.select(`tr:nth-child(${++index1})`);
         let itemDateArray = item.date ? item.date.split(',') : [];
         let itemEnddateArray = item.enddate ? item.enddate.split(',') : [];
-        let aboIdArray = item.abo_id ? item.abo_id.split(',') : [];
+        let aboNameArray = item.abo_name ? item.abo_name.split(',') : [];
         let billIdArray = item.bill_id ? item.bill_id.split(',') : [];
 
         row.append('td')
-            .text(item.name);
+            .text(item.c_name);
 
         let size = timeRow.selectAll('th').size() - 1;
 
@@ -108,46 +108,11 @@ function createTable(startDate, endDate, data, attendances, hours) {
                 let itemDate = moment(date).format('YYYY-MM-DD');
                 let field = row.select(`td:nth-child(${timeRow.selectAll('th')[0][i].cellIndex + 1})`);
 
-                switch(aboIdArray[index]) {
-                    //Einzelstunde
-                    case '1':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo einzelstunde')
-                                .attr('data-billId', billIdArray[index]);
+                if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
+                    field.attr('class', `abo ${aboNameArray[index]}`)
+                        .attr('data-billId', billIdArray[index]);
 
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //Schnupperstunde
-                    case '2':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo schnupperstunde')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //10er-Abo
-                    case '3':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo zehnerabo')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
-
-                    //Jahresabo
-                    case '4':
-                        if (itemDate <= theadDate && itemEnddateArray[index] >= theadDate) {
-                            field.attr('class', 'abo jahresabo')
-                                .attr('data-billId', billIdArray[index]);
-
-                            field.on('click', () => { showInfo(timeRow); });
-                        }
-                        break;
+                    field.on('click', () => { showInfo(timeRow); });
                 }
             });
 
@@ -186,13 +151,13 @@ function showInfo(timeRow) {
 
                 let response = {
                     'date': moment(timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.date, 'D.M.YY').format('YYYY-MM-DD'),
-                    'bill_id': element.dataset.billid,
-                    'hour_id': timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
+                    'bill': '/api/bills/' + element.dataset.billid,
+                    'hour': '/api/hours/' + timeRow.select(`th:nth-child(${element.cellIndex + 1})`)[0][0].dataset.id
                 };
 
-                const postAttendance = ajax('POST', '/api/attendanceDetails', {
+                const postAttendance = ajax('POST', '/api/attendances', {
                         data: JSON.stringify(response),
-                        complete: () => { icon.dataset.id = postAttendance.responseText; }
+                        complete: () => {icon.dataset.id = JSON.parse(postAttendance.responseText).id; }
                     }
                 );
 
@@ -205,22 +170,30 @@ function showInfo(timeRow) {
         let id = icon.dataset.id;
         icon.remove();
 
-        ajax('DELETE', '/api/attendanceDetails', { data: JSON.stringify({id: id}) });
+        ajax('DELETE', `/api/attendances/${id}`);
     }
 }
 
 function setupColorpicker(data) {
     data.forEach(item => {
-        $('#colorpicker-' + item.name).spectrum({
+        document.styleSheets[0].insertRule(`.${item.alias} { background-color: ${item.color}}`);
+
+        $('#colorpicker-' + item.alias).spectrum({
             color: item.color,
             change: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name);
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.alias);
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });
+
+                ajax('PUT', `/api/abos/${item.id}`, {
+                    data: JSON.stringify({
+                        color: color.toHexString()
+                    })
+                });
             },
             move: color => {
-                const fields = document.querySelectorAll('#attendance-table tbody .' + item.name);
+                const fields = document.querySelectorAll('#attendance-table tbody .' + item.alias);
                 fields.forEach(field => {
                     field.style.backgroundColor = color.toHexString();
                 });

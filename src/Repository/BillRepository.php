@@ -18,21 +18,27 @@ class BillRepository extends ServiceEntityRepository
      *
      * @return \Doctrine\ORM\Query
      */
-    public function findAllBillQuerys()
+    public function findAllBillQuerys($userId)
     {
         return $this->createQueryBuilder('b')
             ->select('b.id, b.date', 'b.enddate', 'c.firstname', 'c.surname', 'a.name', 'a.price AS amount')
             ->innerjoin('b.customer', 'c')
             ->innerjoin('b.abo', 'a')
+            ->where('c.user = :userId')
             ->orderBy('b.date', 'asc')
+            ->setParameter(':userId', $userId)
             ->getQuery();
     }
 
-    public function deleteBill($id) {
-        $this->createQueryBuilder('b')
-            ->delete()
-            ->where('b.id = :id')->setParameter(':id', $id)
+    public function findAllBillsAndAbosByUserId($userId)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id, b.date', 'a.price')
+            ->innerjoin('b.customer', 'c')
+            ->innerjoin('b.abo', 'a')
+            ->where('c.user = :userId')
+            ->setParameter(':userId', $userId)
             ->getQuery()
-            ->execute();
+            ->getArrayResult();
     }
 }
