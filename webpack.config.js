@@ -14,6 +14,8 @@ Encore
     .addEntry('table', './assets/js/table.js')
     .addEntry('attendance', './assets/js/attendance.js')
 
+    .addEntry('customer', './assets/js/customer.js')
+
     // allow sass/scss files to be processed
     .enableSassLoader(function(sassOptions) {}, {
         resolveUrlLoader: false

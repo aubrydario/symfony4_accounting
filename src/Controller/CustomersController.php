@@ -66,10 +66,6 @@ class CustomersController extends Controller
             $request->query->get('limit', 20)
         );
 
-        return $this->render('default/customers.html.twig', [
-            'customers' => $customers,
-            'newForm' => $form->createView(),
-            'successMessage' => $successMessage
-        ]);
+        return $this->render('default/react_customers.html.twig');
     }
 }
