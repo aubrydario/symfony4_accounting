@@ -14,6 +14,16 @@ class HourRepository extends ServiceEntityRepository
         parent::__construct($registry, Hour::class);
     }
 
+    public function findAllHourQuerys($userId) {
+        return $this->createQueryBuilder('h')
+            ->select('h.id, h.time, h.day, IDENTITY(h.user)')
+            ->where('h.user = :userId')
+            ->orderBy('h.day', 'asc')
+            ->addOrderBy('h.time', 'asc')
+            ->setParameter(':userId', $userId)
+            ->getQuery();
+    }
+
     public function findAllHours($userId)
     {
         try {

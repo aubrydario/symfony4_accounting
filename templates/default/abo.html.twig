@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% include 'components/sidebar.html.twig' %}
+
+    <div class="content">
+        {% if successMessage is not null and successMessage.type == 'edit' %}
+            <div class="success-message">Abonnement {{ successMessage.item.name }} wurde erfolgreich bearbeitet.</div>
+        {% endif %}
+        <div class="success-message" id="success-message"></div>
+
+        <h1>Abonnements verwalten</h1>
+
+        <div class="table-wrapper">
+            <div class="filter-options">
+                {% include 'components/triggerModalButton.html.twig' with {
+                    'dataTarget': 'addModal',
+                    'text': 'Abonnement erstellen'
+                } %}
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(abos, 'Name', 'a.name') }}</th>
+                    <th>{{ knp_pagination_sortable(abos, 'Preis', 'a.price') }}</th>
+                    <th>{{ knp_pagination_sortable(abos, 'Maximale Besuche', 'a.maxVisits') }}</th>
+                    <th>{{ knp_pagination_sortable(abos, 'Haltbar', 'a.maxDays') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for abo in abos %}
+                    <tr>
+                        <td>{{ abo.name }}</td>
+                        <td>{{ abo.price }} Fr.</td>
+                        <td>{{ abo.maxVisits }}</td>
+                        <td>{{ abo.maxDays }} Tag(e)</td>
+                        <td><a href="/abo/edit/{{ abo.id }}"><i class="fa fa-pencil"></i></a></td>
+                        <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ abo.id }}" data-target="#deleteAboModal"><i class="fa fa-trash red"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(abos) }}
+            </div>
+        </div>
+
+        <!-- Delete Abonnement Modal -->
+        {% include 'components/deleteModal.html.twig' with {'id': 'deleteAboModal', 'title': 'Abonnement löschen', 'text': 'Wollen Sie dieses Abonnement löschen?'} %}
+
+        <!-- Create Abonnement Modal -->
+        {% include 'components/createModal.html.twig' with {'title': 'Abonnement erstellen'} %}
+
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <script src="{{ asset('build/table.js') }}" async defer></script>
+{% endblock %}

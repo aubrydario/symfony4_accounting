@@ -49,6 +49,7 @@ class Bill {
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bills")
      * @ORM\JoinColumn
      * @ApiSubresource
+     * @Groups("lazy")
      */
     private $customer;
 
@@ -57,12 +58,14 @@ class Bill {
      * @ORM\JoinColumn
      * @ApiSubresource
      * @Groups("bill-abo")
+     * @Groups("lazy")
      */
     private $abo;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="bill")
      * @ApiSubresource
+     * @Groups("lazy")
      */
     private $attendances;
 

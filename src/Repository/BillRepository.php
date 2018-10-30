@@ -29,4 +29,16 @@ class BillRepository extends ServiceEntityRepository
             ->setParameter(':userId', $userId)
             ->getQuery();
     }
+
+    public function findAllBillsAndAbosByUserId($userId)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id, b.date', 'a.price')
+            ->innerjoin('b.customer', 'c')
+            ->innerjoin('b.abo', 'a')
+            ->where('c.user = :userId')
+            ->setParameter(':userId', $userId)
+            ->getQuery()
+            ->getArrayResult();
+    }
 }
