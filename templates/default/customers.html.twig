@@ -21,19 +21,19 @@
 
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th>{{ knp_pagination_sortable(customers, 'Vorname', 'c.firstname') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Nachname', 'c.surname') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Geburtstag', 'c.birthday') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Email', 'c.email') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Telefon Privat', 'c.telprivat') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Telefon Mobile', 'c.telmobile') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Strasse', 'c.street') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Ort', 'c.city') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'PLZ', 'c.plz') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Eintrittsdatum', 'c.startdate') }}</th>
-                <th>{{ knp_pagination_sortable(customers, 'Austrittsdatum', 'c.enddate') }}</th>
-            </tr>
+                <tr>
+                    <th>{{ knp_pagination_sortable(customers, 'Vorname', 'c.firstname') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Nachname', 'c.surname') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Geburtstag', 'c.birthday') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Email', 'c.email') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Telefon Privat', 'c.telprivat') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Telefon Mobile', 'c.telmobile') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Strasse', 'c.street') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Ort', 'c.city') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'PLZ', 'c.plz') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Eintrittsdatum', 'c.startdate') }}</th>
+                    <th>{{ knp_pagination_sortable(customers, 'Austrittsdatum', 'c.enddate') }}</th>
+                </tr>
             </thead>
             <tbody>
             {% for customer in customers %}
