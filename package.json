@@ -15,19 +15,17 @@
   "dependencies": {
     "@symfony/webpack-encore": "^0.17.0",
     "babel-preset-react": "^6.24.1",
-    "bootstrap-sass": "^3.3.7",
     "chart.js": "^2.7.2",
     "d3": "^3.5.17",
     "daterangepicker": "^3.0.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
-    "materialize-css": "^1.0.0",
+    "material-ui": "^0.20.2",
     "moment": "^2.22.2",
     "node-sass": "^4.9.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
-    "react-materialize": "^2.4.8",
     "sass-loader": "^6.0.7",
     "spectrum-colorpicker": "^1.8.0"
   }

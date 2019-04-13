@@ -6,7 +6,6 @@ import moment from 'moment';
 import DeleteModal from "./components/deleteModal";
 import CreateCustomerModal from "./components/Customer/createCustomerModal";
 import CustomerTable from "./components/Customer/customerTable";
-import {Button, Icon} from 'react-materialize'
 
 
 moment.locale('de-ch');
@@ -45,7 +44,6 @@ class App extends Component {
                 <Sidebar username={this.state.user.username}/>
                 <div className="content">
                     <h1>Kunden Liste</h1>
-                    <Button waves='light'>button</Button>
                     <div className="filter-options">
                         <TriggerModalButton dataTarget="#addModal" text="Kunde hinzufügen"/>
                     </div>
