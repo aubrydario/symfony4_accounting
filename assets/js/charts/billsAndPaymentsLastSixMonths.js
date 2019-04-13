@@ -91,22 +91,26 @@ export default function getBillsAndPaymentsLastSixMonthsChart(user) {
             resultArray.push(0);
         }
 
+        const thisYear = parseInt(moment().format('YYYY'));
         const thisMonth = parseInt(moment().format('M'));
         const monthBefore = parseInt(moment().subtract(monthCount, 'months').format('M')) + 1;
 
         dataArray.forEach(item => {
+            const itemYear = name === 'bills' ? parseInt(moment(item.date.date).format('YYYY')) : parseInt(moment(item.date).format('YYYY'));
             const itemMonth = name === 'bills' ? parseInt(moment(item.date.date).format('M')) : parseInt(moment(item.date).format('M'));
 
-            if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
-                let index;
+            if(thisYear === itemYear) {
+                if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
+                    let index;
 
-                if(itemMonth - monthBefore < 0) {
-                    index = itemMonth + 12 - monthBefore;
-                } else {
-                    index = itemMonth - monthBefore;
+                    if(itemMonth - monthBefore < 0) {
+                        index = itemMonth + 12 - monthBefore;
+                    } else {
+                        index = itemMonth - monthBefore;
+                    }
+
+                    resultArray[index] += name === 'bills' ? item.price : item.amount;
                 }
-
-                resultArray[index] += name === 'bills' ? item.price : item.amount;
             }
         });
 
