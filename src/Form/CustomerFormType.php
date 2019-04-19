@@ -53,6 +53,7 @@ class CustomerFormType extends AbstractType
             ])
             ->add('streetnr', TextType::class, [
                 'label' => 'Strassennummer',
+                'empty_data' => '',
                 'required' => false
             ])
             ->add('city', TextType::class, [

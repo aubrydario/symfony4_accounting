@@ -24,6 +24,8 @@ function modal(uri) {
 
                     elSuccessMessage.innerHTML = 'Kunde deaktiviert.';
                     elSuccessMessage.style.display = 'inline-block';
+
+                    location.reload();
                 }
             });
         } else {
@@ -39,6 +41,8 @@ function modal(uri) {
 
                     $(`#delete${modalId}Modal`).hide();
                     $('.modal-backdrop').hide();
+
+                    location.reload();
                 }
             });
         }
