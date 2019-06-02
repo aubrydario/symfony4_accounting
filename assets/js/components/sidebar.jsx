@@ -5,7 +5,7 @@ class Sidebar extends React.Component{
 
     getItemData() {
         return [
-            { id: 1, text: 'Dashboard', href: 'dashboard', icon: 'bar_chart' },
+            { id: 1, text: 'Dashboard', href: 'dashboard', icon: 'bar-chart' },
             { id: 2, text: 'Kunden', href: 'customers', icon: 'address-card'},
             { id: 3, text: 'Anwesenheitsliste', href: 'attendance', icon: 'calendar'},
             { id: 4, text: 'Abonnemente', href: 'bill', icon: 'file-text'},
