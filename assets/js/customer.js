@@ -29,7 +29,7 @@ class App extends Component {
                 });
             });
 
-        fetch('/api/customers')
+        fetch('/api/customers?active=1')
             .then(response => response.json())
             .then(customers => {
                this.setState({
@@ -47,7 +47,7 @@ class App extends Component {
                     <div className="filter-options">
                         <TriggerModalButton dataTarget="#addModal" text="Kunde hinzufügen"/>
                     </div>
-                    <CustomerTable customers={this.state.customers}/>
+                    <CustomerTable customers={this.state.customers} userid={this.state.user.id}/>
                     <DeleteModal id="deleteCustomerModal" title="Kunde entfernen" text="Wollen Sie den Kunden entfernen?" />
                     <CreateCustomerModal />
                 </div>
