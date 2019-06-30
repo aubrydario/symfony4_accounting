@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
 import Sidebar from "./components/sidebar.jsx";
-import TriggerModalButton from "./components/triggerModalButton";
 import moment from 'moment';
-import DeleteModal from "./components/deleteModal";
-import CreateCustomerModal from "./components/Customer/createCustomerModal";
 import CustomerTable from "./components/Customer/customerTable";
 
 
