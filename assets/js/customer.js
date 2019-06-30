@@ -43,13 +43,7 @@ class App extends Component {
             <React.Fragment>
                 <Sidebar username={this.state.user.username}/>
                 <div className="content">
-                    <h1>Kunden Liste</h1>
-                    <div className="filter-options">
-                        <TriggerModalButton dataTarget="#addModal" text="Kunde hinzufügen"/>
-                    </div>
                     <CustomerTable customers={this.state.customers} userid={this.state.user.id}/>
-                    <DeleteModal id="deleteCustomerModal" title="Kunde entfernen" text="Wollen Sie den Kunden entfernen?" />
-                    <CreateCustomerModal />
                 </div>
             </React.Fragment>
         );
