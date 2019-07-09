@@ -89,6 +89,39 @@ class CustomerTable extends Component {
                                 }, 1000);
                             })
                 }}
+                localization={{
+                    pagination: {
+                        labelDisplayedRows: '{from}-{to} von {count}',
+                        labelRowsSelect: 'Zeilen',
+                        firstAriaLabel: 'Erste Seite',
+                        firstTooltip: 'Erste Seite',
+                        previousAriaLabel: 'Vorherige Seite',
+                        previousTooltip: 'Vorherige Seite',
+                        nextAriaLabel: 'Nächste Seite',
+                        nextTooltip: 'Nächste Seite',
+                        lastAriaLabel: 'Letzte Seite',
+                        lastTooltip: 'Letzte Seite'
+                    },
+                    toolbar: {
+                        nRowsSelected: '{0} Zeile(n) ausgewählt',
+                        searchTooltip: 'Suchen',
+                        searchPlaceholder: 'Suchen'
+                    },
+                    header: {
+                        actions: 'Aktion'
+                    },
+                    body: {
+                        emptyDataSourceMessage: 'Keine Daten vorhanden',
+                        addTooltip: 'Hinzufügen',
+                        deleteTooltip: 'Löschen',
+                        editTooltip: 'Bearbeiten',
+                        editRow: {
+                            deleteText: 'Wollen Sie diese Zeile löschen?',
+                            cancelTooltip: 'Abbrechen',
+                            saveTooltip: 'Speichern'
+                        }
+                    }
+                }}
             />
         );
     }
