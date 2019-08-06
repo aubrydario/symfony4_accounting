@@ -32,7 +32,9 @@ Encore
     // create hashed filenames (e.g. app.abc123.css)
     //.enableVersioning()
 
-    .enableReactPreset();
+    .enableReactPreset()
+
+    .enableSingleRuntimeChunk()
 ;
 
 // export the final configuration
