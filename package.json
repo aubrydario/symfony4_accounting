@@ -28,6 +28,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "react-router-dom": "^5.1.2",
     "sass-loader": "^7.1.0",
     "spectrum-colorpicker": "^1.8.0"
   },

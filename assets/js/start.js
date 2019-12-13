@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Sidebar from "./components/sidebar.jsx";
 import moment from 'moment';
-import CustomerTable from "./components/Customer/customerTable";
+import CustomerTable from "./components/CustomerView/customerTable";
+import AboTable from "./components/AboListView/aboTable";
 
 
 moment.locale('de-ch');
@@ -40,6 +42,10 @@ class App extends Component {
             <React.Fragment>
                 <Sidebar username={this.state.user.username}/>
                 <div className="content">
+                    <Switch>
+                        <Route path="/customers" component="CustomerTable" />
+                        <Route path="/abo" component="AboTable" />
+                    </Switch>
                     <CustomerTable customers={this.state.customers} userid={this.state.user.id}/>
                 </div>
             </React.Fragment>
@@ -47,4 +53,8 @@ class App extends Component {
     }
 }
 
-ReactDom.render(<App />, document.getElementById('root'));
+ReactDom.render((
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  ), document.getElementById('root'));

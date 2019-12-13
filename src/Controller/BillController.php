@@ -81,7 +81,7 @@ class BillController extends Controller
             $request->query->get('limit', 20)
         );
 
-        return $this->render('default/bill.html.twig', [
+        return $this->render('default/react_aboList.html.twig', [
             'bills' => $bills,
             'newForm' => $form->createView(),
             'successMessage' => $successMessage
