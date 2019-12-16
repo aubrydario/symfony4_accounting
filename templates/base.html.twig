@@ -11,6 +11,7 @@
 <body class="container-fluid">
 {% block content %}{% endblock %}
 
+<script src="{{ asset('build/runtime.js') }}" async defer></script>
 <script src="{{ asset('build/app.js') }}" async defer></script>
 {% block javascripts %}{% endblock %}
 </body>

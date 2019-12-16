@@ -29,6 +29,8 @@ Encore
 
     // create hashed filenames (e.g. app.abc123.css)
     //.enableVersioning()
+
+    .enableSingleRuntimeChunk()
 ;
 
 // export the final configuration
