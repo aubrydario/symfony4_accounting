@@ -61,7 +61,6 @@ function createTable(startDate, endDate, data, attendances, hours) {
     timeRow.append('th');
 
     for(let i = 0; i <= weekCount; i++) {
-      console.log(i)
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];

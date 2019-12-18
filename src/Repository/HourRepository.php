@@ -5,11 +5,11 @@ namespace App\Repository;
 use App\Entity\Hour;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 class HourRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Hour::class);
     }
@@ -28,7 +28,7 @@ class HourRepository extends ServiceEntityRepository
     {
         try {
             return $this->getEntityManager()->getConnection()->executeQuery('
-                SELECT GROUP_CONCAT(id ORDER BY time) AS id, GROUP_CONCAT(time ORDER BY time) AS time, day 
+                SELECT GROUP_CONCAT(id ORDER BY time) AS id, GROUP_CONCAT(time ORDER BY time) AS time, day
                 FROM hour
                 WHERE user_id = ' . $userId . '
                 GROUP BY day
