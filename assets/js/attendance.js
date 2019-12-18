@@ -54,13 +54,14 @@ function createTable(startDate, endDate, data, attendances, hours) {
     const tbody = table.append('tbody');
     const dateRow = thead.append('tr');
     const timeRow = thead.append('tr');
-    const weekCount = endDate.format('w') - startDate.format('w');
+    const weekCount = endDate.diff(startDate, 'weeks');
     let week = 0;
 
     dateRow.append('th');
     timeRow.append('th');
 
     for(let i = 0; i <= weekCount; i++) {
+      console.log(i)
         hours.forEach(hour => {
             let hourTimeArray = hour.time ? hour.time.split(',') : [];
             let hourIdArray = hour.id ? hour.id.split(',') : [];
