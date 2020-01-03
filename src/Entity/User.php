@@ -28,6 +28,30 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="Der Name ist zu lang.",
+     *     groups={"Registration", "Profile"}
+     * )
+     */
+    protected $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="Der Name ist zu lang.",
+     *     groups={"Registration", "Profile"}
+     * )
+     */
+    protected $lastname;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="user")
      * @ApiSubresource
      */
@@ -116,4 +140,53 @@ class User extends BaseUser
     public function setCustomers($customers): void {
         $this->customers = $customers;
     }
+
+    /**
+     * Get the value of Firstname
+     *
+     * @return mixed
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set the value of Firstname
+     *
+     * @param mixed $firstname
+     *
+     * @return self
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Lastname
+     *
+     * @return mixed
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set the value of Lastname
+     *
+     * @param mixed $lastname
+     *
+     * @return self
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
 }
