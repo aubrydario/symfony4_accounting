@@ -2,21 +2,20 @@ import Chart from 'chart.js';
 import moment from 'moment';
 import ajax from '../components/ajaxCall';
 
-export default function getBillsAndPaymentsLastSixMonthsChart(user) {
+export default function getBillsAndPaymentsChart(user) {
     moment.locale('de-ch');
     let billsAndPaymentsChart;
 
-    const monthCount = 6;
+    const monthCount = 12;
 
     //Crate labels array for the last six months
     function getLables() {
-        const today = new Date();
-        let d;
+        let month;
         let months = [];
 
         for(let i = monthCount - 1 ; i >= 0; i -= 1) {
-            d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-            months.push(moment().month(d.getMonth()).format('MMMM'));
+            month = moment().subtract(i, 'months');
+            months.push(moment(month).format('MMMM YY'));
         }
 
         return months;
@@ -99,7 +98,6 @@ export default function getBillsAndPaymentsLastSixMonthsChart(user) {
             const itemYear = name === 'bills' ? parseInt(moment(item.date.date).format('YYYY')) : parseInt(moment(item.date).format('YYYY'));
             const itemMonth = name === 'bills' ? parseInt(moment(item.date.date).format('M')) : parseInt(moment(item.date).format('M'));
 
-            if(thisYear === itemYear) {
                 if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
                     let index;
 
@@ -111,7 +109,6 @@ export default function getBillsAndPaymentsLastSixMonthsChart(user) {
 
                     resultArray[index] += name === 'bills' ? item.price : item.amount;
                 }
-            }
         });
 
         return resultArray;
