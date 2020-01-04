@@ -51,7 +51,7 @@ export default function getBillsAndPaymentsChart(user) {
                 responsive: true,
                 title:{
                     display:true,
-                    text:'Einnahmen und Ausgaben der letzten 6 Monate'
+                    text:'Einnahmen und Ausgaben der letzten 12 Monate'
                 },
                 tooltips: {
                     mode: 'index',
