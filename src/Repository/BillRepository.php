@@ -41,4 +41,18 @@ class BillRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
+
+    public function findAllBillsAndAbosByUserIdGroupByAbo($userId)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id, b.enddate', 'a.name', 'COUNT(a.name) AS amount', 'a.color')
+            ->innerjoin('b.customer', 'c')
+            ->innerjoin('b.abo', 'a')
+            ->where('c.user = :userId')
+            ->andWhere('b.enddate > CURRENT_DATE()')
+            ->groupBy('a.name')
+            ->setParameter(':userId', $userId)
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

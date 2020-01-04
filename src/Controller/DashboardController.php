@@ -11,6 +11,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DashboardController extends Controller
 {
     /**
+     * @Route("/api/users/{id}/billsAndAbos")
+     */
+    public function getAbos($id) {
+        $bills = $this->getDoctrine()
+            ->getRepository(Bill::class)
+            ->findAllBillsAndAbosByUserIdGroupByAbo($id);
+
+        return new JsonResponse($bills);
+    }
+
+    /**
      * @Route("/api/users/{id}/bills")
      */
     public function getBills($id) {
