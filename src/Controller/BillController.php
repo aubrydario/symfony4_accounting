@@ -54,7 +54,7 @@ class BillController extends Controller
             $date = $form->get('date')->getData();
 
             $enddate = clone $date;
-            $maxDays = $maxDays > 7 ? $maxDays - 7 : $maxDays;
+            //$maxDays = $maxDays > 7 ? $maxDays - 7 : $maxDays;
             $data['enddate'] = $enddate->modify('+'. $maxDays . ' days');
 
             // Transform Array to Entity
