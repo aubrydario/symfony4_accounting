@@ -9,8 +9,24 @@
         <h1>Benutzer bearbeiten</h1>
 
         {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
-            {{ form_widget(form) }}
-        <div>
+            <div class="form-group">
+                <label class="control-label required" for="fos_user_registration_form_firstname">Vorname</label>
+                {{ form_errors(form.firstname) }}
+                {{ form_widget(form.firstname) }}
+                {{ form_help(form.firstname) }}
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required" for="fos_user_registration_form_lastname">Nachname</label>
+                {{ form_errors(form.lastname) }}
+                {{ form_widget(form.lastname) }}
+                {{ form_help(form.lastname) }}
+            </div>
+
+            {{ form_row(form.email) }}
+            {{ form_row(form.username) }}
+            {{ form_row(form.current_password) }}
+            <div>
             <input class="btn btn-default" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
         </div>
         {{ form_end(form) }}
