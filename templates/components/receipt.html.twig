@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Quittung - tibetischesyoga.ch</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
+    <style>
+    .receipt {
+        font-family: "Arial", sans-serif;
+        font-size: 18px;
+        position: relative;
+    }
+
+    hr {
+        height: 1px;
+        background: darkgray;
+    }
+
+    header {
+        padding-top: 50px;
+    }
+
+    header img {
+        position: absolute;
+        top: 50px;
+        right: 0px;
+        width: 350px;
+    }
+
+    header hr {
+        margin: 30px 0;
+    }
+
+    main .date {
+        float: right;
+        margin-top: -60px;
+    }
+
+    main h1 {
+        margin-top: 100px;
+        font-size: 30px;
+    }
+
+    main h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 80px 0 20px 0;
+    }
+
+    main .signing {
+        margin: 170px 0 100px 0;
+    }
+
+    main .abo p {
+        margin: 15px 0;
+    }
+
+    main .address p {
+
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 50px;
+    }
+    </style>
+</head>
+<body class="container-fluid">
+    <div class="receipt">
+        <header>
+            <p>
+                <strong>{{ user }}</strong><br />
+                Zertifizierter Lehrer für Lu Jong<br />
+                Tibetisches Heilyoga<br /><br />
+                <i class="fa fa-phone-square-alt"></i> 079 542 24 93<br />
+                www.tibetischesyoga.ch
+            </p>
+            <img src="http://www.darioaubry.ch/build/images/logo.png" alt="Lu Jong Tibetisches Yoga Logo">
+            <hr />
+        </header>
+        <main>
+            <p class="date">Jonschwil, {{ 'now'|date('d.m.Y') }}</p>
+            <h1>Quittung / Bestätigung für Krankenkasse</h1>
+            <div class="abo">
+                <h2>Abonnement:</h2>
+                <p>{{ bill.name }} CHF {{ bill.price }}.-</p>
+                <p>Gültig vom {{ bill.date|date('d.m.Y') }} bis {{ bill.enddate|date('d.m.Y') }}</p>
+            </div>
+            <div class="address">
+                <h2>Ausgestellt für:</h2>
+                <p>
+                    {{ bill.firstname }} {{ bill.surname }}<br />
+                    {{ bill.street }} {{ bill.streetnr }}<br />
+                    {{ bill.plz }} {{ bill.city }}<br />
+                </p>
+            </div>
+            <p class="signing">Betrag dankend erhalten,</p>
+            <p>{{ user }}</p>
+        </main>
+        <footer>
+            <hr />
+            <p>Kaivalya Yoga, Unterdorfstrasse 3, 9243 Jonschwil & Obere Bahnhofstrasse 49 / Centralhof, 9500 Wil</p>
+        </footer>
+    </div>
+</body>
+</html>

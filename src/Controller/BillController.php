@@ -9,9 +9,32 @@ use App\Service\SuccessMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BillController extends Controller
 {
+    /**
+     * @Route("/bill/receipt/{id}")
+     */
+    public function getReceipt($id) {
+        $bill = $this->getDoctrine()->getRepository(Bill::class)->findBillAndAboAndUserAndCustomer($this->getUser()->getId(), $id);
+
+        $snappy = $this->get('knp_snappy.pdf');
+        $html = $this->renderView('components/receipt.html.twig', array(
+            'user' => $this->getUser()->getFirstname() . ' ' . $this->getUser()->getLastname(),
+            'bill' => $bill[0],
+        ));
+
+        return new Response(
+            $snappy->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="receipt.pdf"'
+            )
+        );
+    }
+
     /**
      * @Route("/bill/edit/{id}")
      */

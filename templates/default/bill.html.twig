@@ -35,6 +35,7 @@
                         <td>{{ bill.enddate|date('d.m.Y') }}</td>
                         <td>{{ bill.firstname }} {{ bill.surname }}</td>
                         <td>{{ bill.name }}: {{ bill.amount }}Fr.</td>
+                        <td><a href="/bill/receipt/{{ bill.id }}" target="_blank"><i class="fa fa-file-text"></i></a></td>
                         <td><a href="/bill/edit/{{ bill.id }}"><i class="fa fa-pencil"></i></a></td>
                         <td><a href="" class="deleteLink" data-toggle="modal" data-id="{{ bill.id }}" data-target="#deleteBillModal"><i class="fa fa-trash red"></i></a></td>
                     </tr>

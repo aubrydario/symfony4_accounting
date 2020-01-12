@@ -55,4 +55,18 @@ class BillRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
+
+    public function findBillAndAboAndUserAndCustomer($userId, $billId)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id, b.date', 'b.enddate', 'c.firstname', 'c.surname', 'c.street', 'c.streetnr', 'c.plz', 'c.city', 'a.name', 'a.price')
+            ->innerjoin('b.customer', 'c')
+            ->innerjoin('b.abo', 'a')
+            ->where('c.user = :userId')
+            ->andWhere('b.id = :billId')
+            ->setParameter(':userId', $userId)
+            ->setParameter(':billId', $billId)
+            ->getQuery()
+            ->getResult();
+    }
 }
