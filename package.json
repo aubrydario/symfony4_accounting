@@ -10,7 +10,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/encore dev --watch",
     "build": "./node_modules/.bin/encore production"
-
   },
   "author": "Dario Aubry",
   "license": "ISC",
@@ -21,8 +20,8 @@
     "d3": "^3.5.17",
     "daterangepicker": "^3.0.5",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
-    "moment": "^2.24.0",
+    "jquery": "^3.5.1",
+    "moment": "^2.25.3",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "spectrum-colorpicker": "^1.8.0"
