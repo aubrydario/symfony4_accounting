@@ -6,11 +6,12 @@ use App\Entity\Payment;
 use App\Entity\User;
 use App\Form\PaymentFormType;
 use App\Service\SuccessMessage;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class PaymentController extends Controller
+class PaymentController extends AbstractController
 {
     /**
      * @Route("/payment/edit/{id}")
@@ -35,7 +36,7 @@ class PaymentController extends Controller
     /**
      * @Route("/payment", name="payment")
      */
-    public function billAction(Request $request)
+    public function billAction(Request $request, PaginatorInterface $paginator)
     {
         $successMessage = null;
         if($request->query->get('edit')) {
@@ -59,7 +60,6 @@ class PaymentController extends Controller
             ->getRepository(Payment::class)
             ->findAllPaymentQuerys($this->getUser()->getId());
 
-        $paginator = $this->get('knp_paginator');
         $payments = $paginator->paginate(
             $query,
             $request->query->get('page', 1),

@@ -6,20 +6,20 @@ use App\Entity\Bill;
 use App\Form\BillFormType;
 use App\Form\EditBillFormType;
 use App\Service\SuccessMessage;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class BillController extends Controller
+class BillController extends AbstractController
 {
     /**
      * @Route("/bill/receipt/{id}")
      */
-    public function getReceipt($id) {
+    public function getReceipt($id, \Knp\Snappy\Pdf $snappy) {
         $bill = $this->getDoctrine()->getRepository(Bill::class)->findBillAndAboAndUserAndCustomer($this->getUser()->getId(), $id);
 
-        $snappy = $this->get('knp_snappy.pdf');
         $html = $this->renderView('components/receipt.html.twig', array(
             'user' => $this->getUser()->getFirstname() . ' ' . $this->getUser()->getLastname(),
             'bill' => $bill[0],
@@ -58,7 +58,7 @@ class BillController extends Controller
     /**
      * @Route("/bill", name="bill")
      */
-    public function billAction(Request $request)
+    public function billAction(Request $request, PaginatorInterface $paginator)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -97,7 +97,6 @@ class BillController extends Controller
             ->getRepository(Bill::class)
             ->findAllBillQuerys($this->getUser()->getId());
 
-        $paginator = $this->get('knp_paginator');
         $bills = $paginator->paginate(
             $query,
             $request->query->get('page', 1),

@@ -6,11 +6,12 @@ use App\Entity\Abo;
 use App\Entity\User;
 use App\Form\AboFormType;
 use App\Service\SuccessMessage;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AboController extends Controller
+class AboController extends AbstractController
 {
     /**
      * @Route("/abo/edit/{id}")
@@ -35,7 +36,7 @@ class AboController extends Controller
     /**
      * @Route("/abo", name="abo")
      */
-    public function abo(Request $request)
+    public function abo(Request $request, PaginatorInterface $paginator)
     {
         $successMessage = null;
         if ($request->query->get('abo')) {
@@ -61,7 +62,6 @@ class AboController extends Controller
             ->getRepository(Abo::class)
             ->findAllAboQuerys($this->getUser()->getId());
 
-        $paginator = $this->get('knp_paginator');
         $abos = $paginator->paginate(
             $query,
             $request->query->get('page', 1),

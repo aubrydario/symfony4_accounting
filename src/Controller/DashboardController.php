@@ -3,12 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Bill;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class DashboardController extends Controller
+class DashboardController extends AbstractController
 {
     /**
      * @Route("/api/users/{id}/billsAndAbos")

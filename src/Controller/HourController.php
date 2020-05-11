@@ -6,11 +6,12 @@ use App\Entity\Hour;
 use App\Entity\User;
 use App\Form\HourFormType;
 use App\Service\SuccessMessage;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class HourController extends Controller
+class HourController extends AbstractController
 {
     /**
      * @Route("/hour/edit/{id}")
@@ -35,7 +36,7 @@ class HourController extends Controller
     /**
      * @Route("/hour", name="hour")
      */
-    public function hour(Request $request)
+    public function hour(Request $request, PaginatorInterface $paginator)
     {
         $successMessage = null;
         if($request->query->get('hour')) {
@@ -59,7 +60,6 @@ class HourController extends Controller
             ->getRepository(Hour::class)
             ->findAllHourQuerys($this->getUser()->getId());
 
-        $paginator = $this->get('knp_paginator');
         $hours = $paginator->paginate(
             $query,
             $request->query->get('page', 1),

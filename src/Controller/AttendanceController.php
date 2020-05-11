@@ -4,16 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Abo;
 use App\Entity\Attendance;
-use App\Entity\Bill;
 use App\Entity\Customer;
 use App\Entity\Hour;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
-class AttendanceController extends Controller
+class AttendanceController extends AbstractController
 {
     /**
      * @Route("/attendance", name="attendance")
@@ -27,8 +24,7 @@ class AttendanceController extends Controller
     }
 
     /**
-     * @Route("/api/attendance")
-     * @Method("GET")
+     * @Route("/api/attendance", methods={"GET"})
      */
     public function getAttendance()
     {
@@ -40,8 +36,7 @@ class AttendanceController extends Controller
     }
 
     /**
-     * @Route("/api/attendanceDetails")
-     * @Method("GET")
+     * @Route("/api/attendanceDetails", methods={"GET"})
      */
     public function attendanceDetails()
     {
@@ -53,9 +48,8 @@ class AttendanceController extends Controller
     }
 
     /**
-     * @Route("/api/attendanceCount/{id}", name="attendanceCountById")
-     * @Route("/api/attendanceCount", name="attendanceCount")
-     * @Method("GET")
+     * @Route("/api/attendanceCount/{id}", name="attendanceCountById", methods={"GET"})
+     * @Route("/api/attendanceCount", name="attendanceCount", methods={"GET"})
      */
     public function getAttendanceCount($id = null)
     {
@@ -73,8 +67,7 @@ class AttendanceController extends Controller
     }
 
     /**
-     * @Route("/api/hour")
-     * @Method("GET")
+     * @Route("/api/hour", methods={"GET"})
      */
     public function getHour()
     {

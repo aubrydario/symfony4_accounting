@@ -6,11 +6,12 @@ use App\Entity\Customer;
 use App\Entity\User;
 use App\Form\CustomerFormType;
 use App\Service\SuccessMessage;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class CustomersController extends Controller
+class CustomersController extends AbstractController
 {
     /**
      * @Route("/customers/edit/{id}")
@@ -34,7 +35,7 @@ class CustomersController extends Controller
     /**
      * @Route("/customers", name="customers")
      */
-    public function customers(Request $request) {
+    public function customers(Request $request, PaginatorInterface $paginator) {
         $em = $this->getDoctrine()->getManager();
         $successMessage = null;
         if($request->query->get('edit')) {
@@ -59,7 +60,6 @@ class CustomersController extends Controller
             ->getRepository(Customer::class)
             ->findAllCustomerQuerys($this->getUser()->getId());
 
-        $paginator = $this->get('knp_paginator');
         $customers = $paginator->paginate(
             $query,
             $request->query->get('page', 1),
