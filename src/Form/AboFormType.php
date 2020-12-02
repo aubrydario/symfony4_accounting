@@ -33,7 +33,8 @@ class AboFormType extends AbstractType
                 ]
             ])
             ->add('extra', TextareaType::class, [
-                'label' => 'Zusätzlicher Quittungstext'
+                'label' => 'Zusätzlicher Quittungstext',
+                'required' => false
             ]);
     }
 
