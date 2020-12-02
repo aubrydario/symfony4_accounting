@@ -13,10 +13,14 @@
 
         <div class="table-wrapper">
             <div class="filter-options">
-                {% include 'components/triggerModalButton.html.twig' with {
-                    'dataTarget': 'addModal',
-                    'text': 'Abonnement erstellen'
-                } %}
+                {% if newForm %}
+                    {% include 'components/triggerModalButton.html.twig' with {
+                        'dataTarget': 'addModal',
+                        'text': 'Abonnement erstellen'
+                    } %}
+                {% endif %}
+                <a class="btn" href="/bill/{{ newForm ? 'expired' : '' }}">{{ newForm ? 'Abgelaufene' : 'Aktive' }} Abonnemente</a>
+
             </div>
 
             <table class="table table-striped">
@@ -50,8 +54,10 @@
         <!-- Delete Bill Modal -->
         {% include 'components/deleteModal.html.twig' with {'id': 'deleteBillModal', 'title': 'Abonnement löschen', 'text': 'Wollen Sie dieses Abonnement löschen?'} %}
 
-        <!-- Create Bill Modal -->
-        {% include 'components/createModal.html.twig' with {'title': 'Abonnement erstellen'} %}
+        {% if newForm %}
+            <!-- Create Bill Modal -->
+            {% include 'components/createModal.html.twig' with {'title': 'Abonnement erstellen'} %}
+        {% endif %}
     </div>
 {% endblock %}
 

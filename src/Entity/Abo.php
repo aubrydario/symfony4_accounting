@@ -60,6 +60,11 @@ class Abo
     private $color;
 
     /**
+     * @ORM\Column(name="extra", type="string", length=300, nullable=true)
+     */
+    private $extra;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="abo")
      */
     private $bills;
@@ -187,6 +192,22 @@ class Abo
      */
     public function setColor($color): void {
         $this->color = $color;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param mixed $extra
+     */
+    public function setExtra($extra): void
+    {
+        $this->extra = $extra;
     }
 
     /**

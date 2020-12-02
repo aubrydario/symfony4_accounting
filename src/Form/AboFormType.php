@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Abo;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -30,6 +31,10 @@ class AboFormType extends AbstractType
                 'attr' => [
                     'class' => 'colorpicker'
                 ]
+            ])
+            ->add('extra', TextareaType::class, [
+                'label' => 'Zusätzlicher Quittungstext',
+                'required' => false
             ]);
     }
 

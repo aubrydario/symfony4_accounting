@@ -18,16 +18,25 @@ class BillRepository extends ServiceEntityRepository
      *
      * @return \Doctrine\ORM\Query
      */
-    public function findAllBillQuerys($userId)
+    public function findBillsQuery($userId, $active = true)
     {
-        return $this->createQueryBuilder('b')
+        $qb = $this->createQueryBuilder('b')
             ->select('b.id, b.date', 'b.enddate', 'c.firstname', 'c.surname', 'a.name', 'a.price AS amount')
             ->innerjoin('b.customer', 'c')
             ->innerjoin('b.abo', 'a')
             ->where('c.user = :userId')
-            ->orderBy('b.date', 'asc')
-            ->setParameter(':userId', $userId)
-            ->getQuery();
+            ->orderBy('b.date', 'desc')
+            ->setParameter(':userId', $userId);
+
+        if ($active) {
+            $qb->andWhere('b.enddate >= :today')
+                ->setParameter(':today', date(DATE_ATOM));
+        } else {
+            $qb->andWhere('b.enddate < :today')
+                ->setParameter(':today', date(DATE_ATOM));
+        }
+
+        return $qb->getQuery();
     }
 
     public function findAllBillsAndAbosByUserId($userId)
@@ -59,7 +68,7 @@ class BillRepository extends ServiceEntityRepository
     public function findBillAndAboAndUserAndCustomer($userId, $billId)
     {
         return $this->createQueryBuilder('b')
-            ->select('b.id, b.date', 'b.enddate', 'c.firstname', 'c.surname', 'c.street', 'c.streetnr', 'c.plz', 'c.city', 'a.name', 'a.price')
+            ->select('b.id, b.date', 'b.enddate', 'c.firstname', 'c.surname', 'c.street', 'c.streetnr', 'c.plz', 'c.city', 'a.name', 'a.price', 'a.extra')
             ->innerjoin('b.customer', 'c')
             ->innerjoin('b.abo', 'a')
             ->where('c.user = :userId')
