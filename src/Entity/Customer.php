@@ -366,9 +366,9 @@ class Customer
     }
 
     /**
-     * @param string $memo
+     * @param string|null $memo
      */
-    public function setMemo(string $memo): void
+    public function setMemo(?string $memo): void
     {
         $this->memo = $memo;
     }
