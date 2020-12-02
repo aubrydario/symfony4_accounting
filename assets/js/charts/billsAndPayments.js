@@ -98,17 +98,20 @@ export default function getBillsAndPaymentsChart(user) {
             const itemYear = name === 'bills' ? parseInt(moment(item.date.date).format('YYYY')) : parseInt(moment(item.date).format('YYYY'));
             const itemMonth = name === 'bills' ? parseInt(moment(item.date.date).format('M')) : parseInt(moment(item.date).format('M'));
 
-                if(itemMonth <= thisMonth || itemMonth >= monthBefore) {
-                    let index;
+            if(
+              thisYear === itemYear &&
+              (itemMonth <= thisMonth || itemMonth >= monthBefore)
+            ) {
+                let index;
 
-                    if(itemMonth - monthBefore < 0) {
-                        index = itemMonth + 12 - monthBefore;
-                    } else {
-                        index = itemMonth - monthBefore;
-                    }
-
-                    resultArray[index] += name === 'bills' ? item.price : item.amount;
+                if(itemMonth - monthBefore < 0) {
+                    index = itemMonth + 12 - monthBefore;
+                } else {
+                    index = itemMonth - monthBefore;
                 }
+
+                resultArray[index] += name === 'bills' ? item.price : item.amount;
+            }
         });
 
         return resultArray;
