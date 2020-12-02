@@ -56,6 +56,29 @@ class BillController extends AbstractController
     }
 
     /**
+     * @Route("/bill/expired", name="bill-expired")
+     */
+    public function billExpired(Request $request, PaginatorInterface $paginator)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $this->getDoctrine()
+            ->getRepository(Bill::class)
+            ->findBillsQuery($this->getUser()->getId(), false);
+
+        $bills = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $request->query->get('limit', 20)
+        );
+
+        return $this->render('default/bill.html.twig', [
+            'bills' => $bills,
+            'successMessage' => null,
+            'newForm' => null
+        ]);
+    }
+
+    /**
      * @Route("/bill", name="bill")
      */
     public function billAction(Request $request, PaginatorInterface $paginator)
@@ -95,7 +118,7 @@ class BillController extends AbstractController
 
         $query = $this->getDoctrine()
             ->getRepository(Bill::class)
-            ->findAllBillQuerys($this->getUser()->getId());
+            ->findBillsQuery($this->getUser()->getId());
 
         $bills = $paginator->paginate(
             $query,
