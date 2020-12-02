@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -70,7 +71,11 @@ class CustomerFormType extends AbstractType
                 'label' => 'Austrittsdatum',
                 'widget' => 'single_text',
                 'required' => false
-            ]);
+            ])
+            ->add('memo', TextareaType::class, [
+                'label' => 'Memo',
+                'required' => false
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver) {

@@ -117,6 +117,13 @@ class Customer
     private $enddate;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="memo", type="string", length=512, nullable=true)
+     */
+    private $memo;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer", fetch="EAGER")
      * @ApiSubresource
      */
@@ -348,6 +355,22 @@ class Customer
      */
     public function setEnddate(?\DateTime $enddate): void {
         $this->enddate = $enddate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMemo(): ?string
+    {
+        return $this->memo;
+    }
+
+    /**
+     * @param string $memo
+     */
+    public function setMemo(string $memo): void
+    {
+        $this->memo = $memo;
     }
 
     /**
