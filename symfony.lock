@@ -74,11 +74,17 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
+    },
     "egulias/email-validator": {
         "version": "2.1.4"
     },
     "fig/link-util": {
         "version": "1.0.0"
+    },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
     },
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
@@ -106,6 +112,15 @@
         "files": [
             "./config/packages/knp_snappy.yaml"
         ]
+    },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -209,6 +224,9 @@
     "symfony/dependency-injection": {
         "version": "v4.0.3"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "v4.0.3"
     },
@@ -257,6 +275,9 @@
             "ref": "18f6fdceb63737d991efbb37ae9619a6f6c978c8"
         }
     },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.10"
+    },
     "symfony/http-foundation": {
         "version": "v4.0.3"
     },
@@ -299,6 +320,9 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.11.0"
     },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.22.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
@@ -307,6 +331,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.13.1"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.22.0"
     },
     "symfony/process": {
         "version": "v4.0.3"
